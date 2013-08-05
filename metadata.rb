@@ -76,7 +76,7 @@ attributes          "mesos/master/log_dir",
   :default       => "/var/log/mesos"
 
 attributes          "mesos/slave/master_url",
-  :required      => "required"
+  :required      => "required",
   :recipes       => ["mesos::slave"],
   :display_name  => "master url",
   :description   => "mesos master url. this should  be host:port for non-ZooKeeper based masters, otherwise a zk:// or file://."
@@ -98,7 +98,7 @@ attributes          "mesos/slave/work_dir",
   :description   => "Where to place framework work directories.",
   :default       => "/var/run/mesos"
 
-attributes          "mesos/slave/isolation"
+attributes          "mesos/slave/isolation",
   :recipes       => ["mesos::slave"],
   :display_name  => "Resource isolation mechanism.",
   :description   => "Isolation mechanism, may be one of: process, cgroups",
