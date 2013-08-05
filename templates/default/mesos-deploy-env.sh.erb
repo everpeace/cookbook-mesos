@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# This file contains environment variables that modify how the deploy
+# scripts are run. For example, it can be used to configure SSH
+# options (see below).
+
+
+# Options for SSH.
+export SSH_OPTS="<%= node[:mesos][:ssh_opts] %>"
+
+
+# Use sudo for launching masters and slaves.
+export DEPLOY_WITH_SUDO="<%= node[:mesos][:deploy_with_sudo] %>"

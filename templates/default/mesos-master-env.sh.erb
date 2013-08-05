@@ -1,0 +1,18 @@
+# This file contains environment variables that are passed to mesos-master.
+# To get a description of all options run mesos-master --help; any option
+# supported as a command-line option is also supported as an environment
+# variable.
+
+<% if node[:mesos][:master][:zk] then %>
+export MESOS_zk=<%= node[:mesos][:master][:zk] %>
+<% end %>
+<% if node[:mesos][:master][:ip] then %>
+export MESOS_ip=<%= node[:mesos][:master][:ip] %>
+<% end %>
+<% if node[:mesos][:cluster_name] then %>
+export MESOS_cluster="<%= node[:mesos][:cluster_name] %>"
+<% end %>
+
+# Some options you're likely to want to set:
+export MESOS_log_dir=<%= node[:mesos][:master][:log_dir] %>
+
