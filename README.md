@@ -24,6 +24,10 @@ configure slave configuration files.
 
 * `node[:mesos][:prefix]/var/mesos/deploy/mesos-slave-env.sh`
 
+Usage
+----
+please see [everpeace/vagrant-mesos#standalone-environment](https://github.com/everpeace/vagrant-mesos#standalone-environment)
+
 Attributes
 ----------
 #### mesos::default(mesos::install)
