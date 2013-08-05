@@ -19,10 +19,9 @@ attributes          "mesos/version",
   :display_name  => "Version to be installed.",
   :description   => "branch name or tag name at http://github.com/apache/mesos",
   :default       => "master"
-  :recipes       => "mesos::install"
 
 attributes          "mesos/prefix",
-  :recipes       => ["mesos::install"],
+  :recipes       => ["mesos::install", "mesos::master", "mesos::slave"],
   :display_name  => "Prefix value to be passed to configure script",
   :description   => "prefix value to be passed to configure script",
   :default       => "/usr/local"
@@ -34,13 +33,13 @@ attributes          "mesos/build/skip_test",
   :default       => "true"
 
 attributes          "mesos/ssh_opts",
-  :recipes       => ["mesos::master", "mesos::slave"],
+  :recipes       => ["mesos::master"],
   :display_name  => "ssh options",
   :description   => "passed to be mesos-deploy-env.sh",
   :default       => "-o StrictHostKeyChecking=no -o ConnectTimeout=2"
 
 attributes          "mesos/deploy_with_sudo",
-  :recipes       => ["mesos::master", "mesos::slave"],
+  :recipes       => ["mesos::master"],
   :display_name  => "Flag whether sudo will be used in mesos deploy scripts",
   :description   => "Flag whether sudo will be used in mesos deploy scripts",
   :default       => "1"
