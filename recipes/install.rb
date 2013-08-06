@@ -34,13 +34,16 @@ end
 
 bash "extracting mesos to #{node[:mesos][:home]}" do
   cwd    "#{node[:mesos][:home]}"
-  code   "unzip -o /tmp/mesos-#{version}.zip -d ./"
+  code   <<-EOH
+    unzip -o /tmp/mesos-#{version}.zip -d ./
+    mv mesos-#{version} mesos
+  EOH
   action :run
   not_if { installed==true }
 end
 
 bash "building mesos from source" do
-  cwd   File.join("#{node[:mesos][:home]}", "mesos-#{version}")
+  cwd   File.join("#{node[:mesos][:home]}", "mesos")
   code  <<-EOH
     ./bootstrap
     mkdir -p build
@@ -53,7 +56,7 @@ bash "building mesos from source" do
 end
 
 bash "testing mesos" do
-  cwd    File.join("#{node[:mesos][:home]}", "mesos-#{version}", "build")
+  cwd    File.join("#{node[:mesos][:home]}", "mesos", "build")
   code   "make check"
   action :run
   only_if { installed==false && node[:mesos][:build][:skip_test]==false }

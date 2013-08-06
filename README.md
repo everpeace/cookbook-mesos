@@ -53,7 +53,7 @@ Attributes
   <tr>
   <td><tt>[:mesos][:home]</tt></td>
   <td>String</td>
-  <td>Directory which mesos sources are extracted to.</td>
+  <td>Directory which mesos sources are extracted to(<tt>node[:mesos][:home]/mesos</tt>).</td>
   <td><tt>/tmp</tt></td>
   </tr>
   <tr>
