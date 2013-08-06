@@ -63,7 +63,7 @@ bash "testing mesos" do
 end
 
 bash "install mesos to #{prefix}" do
-  cwd    File.join("#{node[:mesos][:home]}", "mesos-#{version}", "build")
+  cwd    File.join("#{node[:mesos][:home]}", "mesos", "build")
   code   <<-EOH
     make install
     ldconfig
