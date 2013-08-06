@@ -26,6 +26,12 @@ attribute           "mesos/prefix",
   :description   => "prefix value to be passed to configure script",
   :default       => "/usr/local"
 
+attribute           "mesos/home",
+  :recipes       => ["mesos::install"],
+  :display_name  => "mesos home directory",
+  :description   => "directory which mesos sources are extracted to.",
+  :default       => "/tmp/mesos"
+
 attribute           "mesos/build/skip_test",
   :recipes       => ["mesos::install"],
   :display_name  => "Flag whether test will be performed.",

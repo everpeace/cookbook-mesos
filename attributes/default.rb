@@ -1,6 +1,7 @@
 default[:mesos] = {
   :version => "master",
   :prefix  => "/usr/local",
+  :home => "/tmp",
   :cluster_name => "MyCluster",
   :build   => {
     :skip_test => true

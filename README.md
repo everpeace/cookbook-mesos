@@ -51,6 +51,12 @@ Attributes
   <td><tt>/usr/local</tt></td>
   </tr>
   <tr>
+  <td><tt>[:mesos][:home]</tt></td>
+  <td>String</td>
+  <td>Directory which mesos sources are extracted to.</td>
+  <td><tt>/tmp</tt></td>
+  </tr>
+  <tr>
     <td><tt>[:mesos][:build][:skip_test]</tt></td>
     <td>Boolean</td>
     <td>Flag whether test will be performed.</td>
