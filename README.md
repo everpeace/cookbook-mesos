@@ -26,7 +26,7 @@ configure slave configuration files.
 
 Usage
 ----
-please see [everpeace/vagrant-mesos#standalone-environment](https://github.com/everpeace/vagrant-mesos#standalone-environment)
+please see [everpeace/vagrant-mesos](https://github.com/everpeace/vagrant-mesos).
 
 Attributes
 ----------
