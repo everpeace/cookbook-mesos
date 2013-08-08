@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 version = node[:mesos][:version]
-prefix = node['mesos']['prefix']
+prefix = node[:mesos][:prefix]
 download_url = "https://github.com/apache/mesos/archive/#{version}.zip"
 installed = File.exist?(File.join(prefix, "sbin", "mesos-master"))
 
