@@ -26,7 +26,7 @@ include_recipe "build-essential"
 end
 
 
-remote_file "/tmp/mesos-#{version}.zip" do
+remote_file "#{Chef::Config[:file_cache_path]}/mesos-#{version}.zip" do
   source "#{download_url}"
   mode   "0644"
   not_if { installed==true }
@@ -35,7 +35,7 @@ end
 bash "extracting mesos to #{node[:mesos][:home]}" do
   cwd    "#{node[:mesos][:home]}"
   code   <<-EOH
-    unzip -o /tmp/mesos-#{version}.zip -d ./
+    unzip -o #{Chef::Config[:file_cache_path]}/mesos-#{version}.zip -d ./
     mv mesos-#{version} mesos
   EOH
   action :run
