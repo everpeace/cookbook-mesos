@@ -54,7 +54,7 @@ Attributes
   <td><tt>[:mesos][:home]</tt></td>
   <td>String</td>
   <td>Directory which mesos sources are extracted to(<tt>node[:mesos][:home]/mesos</tt>).</td>
-  <td><tt>/tmp</tt></td>
+  <td><tt>/opt</tt></td>
   </tr>
   <tr>
     <td><tt>[:mesos][:build][:skip_test]</tt></td>
@@ -146,7 +146,7 @@ Attributes
     <td>String</td>
     <td>[REQUIRED] mesos master url.This should be ip:port for non-ZooKeeper based masters, otherwise a zk:// </td>
     <td></td>
-  </tr>  
+  </tr>
   <tr>
     <td><tt>[:mesos][:slave][:ip]</tt></td>
     <td>String</td>
@@ -164,13 +164,13 @@ Attributes
     <td>String</td>
     <td>Where to place framework work directories.</td>
     <td><tt>/var/run/mesos</tt></td>
-  </tr>   
+  </tr>
   <tr>
     <td><tt>[:mesos][:slave][:isolation]</tt></td>
     <td>String</td>
     <td>Isolation mechanism, may be one of: process, cgroups</td>
     <td><tt>cgroups</tt></td>
-  </tr>   
+  </tr>
 </table>
 
 

@@ -30,7 +30,7 @@ attribute           "mesos/home",
   :recipes       => ["mesos::install"],
   :display_name  => "mesos home directory",
   :description   => "directory which mesos sources are extracted to.",
-  :default       => "/tmp/mesos"
+  :default       => "/opt"
 
 attribute           "mesos/build/skip_test",
   :recipes       => ["mesos::install"],
