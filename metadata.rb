@@ -6,7 +6,7 @@ description      'Installs/Configures mesos'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '0.1.0'
 supports         'ubuntu'
-recipe           "mesos::install", "install mesos(default recipe)."
+recipe           "mesos::build_from_source", "install mesos(default recipe)."
 recipe           "mesos::master",  "configure the machine as master."
 recipe           "mesos::slave",   "configure the machine as slave."
 
@@ -15,25 +15,25 @@ depends          'python'
 depends          'build-essential'
 
 attribute           "mesos/version",
-  :recipes       => ["mesos::install"],
+  :recipes       => ["mesos::build_from_source"],
   :display_name  => "Version to be installed.",
   :description   => "branch name or tag name at http://github.com/apache/mesos",
   :default       => "master"
 
 attribute           "mesos/prefix",
-  :recipes       => ["mesos::install", "mesos::master", "mesos::slave"],
+  :recipes       => ["mesos::build_from_source", "mesos::master", "mesos::slave"],
   :display_name  => "Prefix value to be passed to configure script",
   :description   => "prefix value to be passed to configure script",
   :default       => "/usr/local"
 
 attribute           "mesos/home",
-  :recipes       => ["mesos::install"],
+  :recipes       => ["mesos::build_from_source"],
   :display_name  => "mesos home directory",
   :description   => "directory which mesos sources are extracted to.",
   :default       => "/opt"
 
 attribute           "mesos/build/skip_test",
-  :recipes       => ["mesos::install"],
+  :recipes       => ["mesos::build_from_source"],
   :display_name  => "Flag whether test will be performed.",
   :description   => "if true, test will be skipped.",
   :default       => "true"

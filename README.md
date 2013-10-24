@@ -8,7 +8,7 @@ only support `ubuntu`
 
 Cookbooks
 ----
-### mesos::default(mesos::install)
+### mesos::default(mesos::build_from_source)
 install mesos(download zip from github, configure, make, make install).
 
 ### mesos::master
@@ -30,7 +30,7 @@ please see [everpeace/vagrant-mesos](https://github.com/everpeace/vagrant-mesos)
 
 Attributes
 ----------
-#### mesos::default(mesos::install)
+#### mesos::default(mesos::build_from_source)
 <table>
   <tr>
     <th>Key</th>
