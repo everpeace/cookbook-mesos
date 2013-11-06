@@ -18,7 +18,7 @@ attribute           "mesos/version",
   :recipes       => ["mesos::build_from_source"],
   :display_name  => "Version to be installed.",
   :description   => "branch name or tag name at http://github.com/apache/mesos",
-  :default       => "master"
+  :default       => "0.15.0-rc3"
 
 attribute           "mesos/prefix",
   :recipes       => ["mesos::build_from_source", "mesos::master", "mesos::slave"],
