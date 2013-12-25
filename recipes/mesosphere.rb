@@ -1,0 +1,48 @@
+#
+# Cookbook Name:: mesos
+# Recipe:: mesosphere
+#
+# Copyright 2013, Shingo Omura
+#
+# All rights reserved - Do Not Redistribute
+#
+version = node[:mesos][:version]
+supported_mesos = ['0.14.0','0.14.1', '0.14.2', '0.15.0-rc4']
+download_url = "http://downloads.mesosphere.io/master/#{node['platform']}/#{node['platform_version']}/mesos_#{version}_amd64.deb"
+
+# TODO(everpeace) platform_version validation
+if !platform?("ubuntu") then
+  Chef::Log.fatal!("#{platform} is not supported on #{cookbook_name} cookbook")
+end
+if !supported_mesos.include?(version) then
+  Chef::Log.fatal!("#{version} is not supported on #{cookbook_name}::#{recipe_name}")
+end
+
+installed = File.exist?("/usr/local/sbin/mesos-master")
+if installed then
+  Chef::Log.info("Mesos is already installed!! Instllation will be skipped.")
+end
+
+apt_package "java7-runtime-headless" do
+  action :install
+  not_if { installed==true }
+end
+
+# workaround for "error while loading shared libraries: libjvm.so: cannot open shared object file: No such file or directory"
+link "/usr/lib/libjvm.so" do
+  to "/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/server/libjvm.so"
+  not_if "test -L /usr/lib/libjvm.so"
+end
+
+remote_file "#{Chef::Config[:file_cache_path]}/mesos_#{version}.deb" do
+  source "#{download_url}"
+  mode   "0644"
+  not_if { installed==true }
+  notifies :install, "dpkg_package[mesos]"
+end
+
+dpkg_package "mesos" do
+  source "#{Chef::Config[:file_cache_path]}/mesos_#{version}.deb"
+  action :install
+  not_if { installed==true }
+end

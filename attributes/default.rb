@@ -1,5 +1,6 @@
 default[:mesos] = {
-  :version => "0.15.0-rc3",
+  :type    => "source",
+  :version => "0.15.0-rc4",
   :prefix  => "/usr/local",
   :home => "/opt",
   :cluster_name => "MyCluster",

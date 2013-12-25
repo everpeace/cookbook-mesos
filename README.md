@@ -1,18 +1,29 @@
 Mesos Cookbook
 ==============
-Insalls and configure Mesos(<http://mesos.apache.org/>) master and slave.
+Install Mesos(<http://mesos.apache.org/>) and configure mesos master and slave.
+
+This cookbook also supports installation from [Mesosphere](http://mesosophere.io) package.
+
+You can choose installation type by `node[:mesos][:type]` variable.
 
 Platform
 ------------
 only support `ubuntu`
 
+Installation Type
+----
+`node[:mesos][:type]` should be `source` or `mesosphere`.
+
 Cookbooks
 ----
-### mesos::default(mesos::build_from_source)
+### mesos::default
+install mesos by `build_from_source` or `mesosphere`.  
+
+###mesos::build_from_source
 install mesos(download zip from github, configure, make, make install).
 
 ### mesos::master
-configure master and cluster deployment configuration files.
+configure master and cluster deployment configuration files. If you choose `mesosphere`, `node[:mesos][:prefix]` would be overridden by `/usr/local` because mesosphere package installs deploy files to the directory.
 
 * `node[:mesos][:prefix]/var/mesos/deploy/masters`
 * `node[:mesos][:prefix]/var/mesos/deploy/slaves`
@@ -20,17 +31,37 @@ configure master and cluster deployment configuration files.
 * `node[:mesos][:prefix]/var/mesos/deploy/mesos-master-env.sh`
 
 ### mesos::slave
-configure slave configuration files.
+configure slave configuration files.  If you choose `mesosphere`, `node[:mesos][:prefix]` would be overridden by `/usr/local` because mesosphere package installs deploy files to the directory.
 
 * `node[:mesos][:prefix]/var/mesos/deploy/mesos-slave-env.sh`
 
 Usage
 ----
-please see [everpeace/vagrant-mesos](https://github.com/everpeace/vagrant-mesos).
+please see bellows
+
+* [everpeace/vagrant-mesos](https://github.com/everpeace/vagrant-mesos)
+* [./sample/source](https://github.com/everpeace/cookbook-mesos/tree/master/sample/source/)
+* [./sample/mesosphere](https://github.com/everpeace/cookbook-mesos/tree/master/sample/mesosphere/)
 
 Attributes
 ----------
-#### mesos::default(mesos::build_from_source)
+#### mesos::default
+<table>
+  <tr>
+    <th>Key</th>
+    <th>Type</th>
+    <th>Description</th>
+    <th>Default</th>
+  </tr>
+  <tr>
+    <td><tt>[:mesos][:type]</tt></td>
+    <td>String</td>
+    <td>installation type(<tt>'source'</tt> or <tt>'mesosphere'</tt>)</td>
+    <td><tt>'source'</tt></td>
+  </tr>
+</table>
+
+#### mesos::build_from_source
 <table>
   <tr>
     <th>Key</th>
@@ -63,6 +94,23 @@ Attributes
     <td><tt>true</tt></td>
   </tr>
 </table>
+
+#### mesos::mesosphere
+<table>
+  <tr>
+    <th>Key</th>
+    <th>Type</th>
+    <th>Description</th>
+    <th>Default</th>
+  </tr>
+  <tr>
+    <td><tt>[:mesos][:version]</tt></td>
+    <td>String</td>
+    <td>Version(branch or tag name at http://github.com/apache/mesos).</td>
+    <td><tt>0.15.0-rc3</tt></td>
+  </tr>
+</table>
+
 ### mesos::master
 <table>
   <tr>
@@ -74,8 +122,8 @@ Attributes
   <tr>
     <td><tt>[:mesos][:prefix]</tt></td>
     <td>String</td>
-    <td>Prefix value to be passed to configure script</td>
-    <td><tt>/usr/local</tt></td>
+    <td>Prefix value to be passed to configure script.  This value will be overridden by <tt>/usr/local</tt> when you choose <tt>mesosphere</tt>.</td>
+    <td><tt>/usr/local</tt><br/></td>
   </tr>
   <tr>
     <td><tt>[:mesos][:ssh_opt]</tt></td>
@@ -138,7 +186,7 @@ Attributes
   <tr>
     <td><tt>[:mesos][:prefix]</tt></td>
     <td>String</td>
-    <td>Prefix value to be passed to configure script</td>
+    <td>Prefix value to be passed to configure script.  This value will be overridden by <tt>/usr/local</tt> when you choose <tt>mesosphere</tt>.</td>
     <td><tt>/usr/local</tt></td>
   </tr>
   <tr>

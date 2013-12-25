@@ -14,11 +14,18 @@ depends          'java'
 depends          'python'
 depends          'build-essential'
 
+attribute           "mesos/type",
+  :recipes       => ["mesos::build_from_source", "mesos::mesosphere", "mesos::master", "mesos::slave"],
+  :display_name  => "installation type",
+  :description   => "Value should be 'source' | 'mesosphere'.",
+  :description   => "instlal type",
+  :default       => "source"
+
 attribute           "mesos/version",
   :recipes       => ["mesos::build_from_source"],
   :display_name  => "Version to be installed.",
   :description   => "branch name or tag name at http://github.com/apache/mesos",
-  :default       => "0.15.0-rc3"
+  :default       => "0.15.0-rc4"
 
 attribute           "mesos/prefix",
   :recipes       => ["mesos::build_from_source", "mesos::master", "mesos::slave"],
