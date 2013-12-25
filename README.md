@@ -1,8 +1,11 @@
 Mesos Cookbook
 ==============
-Install Mesos(<http://mesos.apache.org/>) and configure mesos master and slave.
+Install Mesos(<http://mesos.apache.org/>) and configure mesos master and slave.  This cookbook also supports installation by both bulding from source and with [Mesosphere](http://mesosophere.io) package.  You can switch installation type by `node[:mesos][:type]` variable (`source` or `mesosphere`).
 
-This cookbook also supports installation by both bulding from source and with [Mesosphere](http://mesosophere.io) package.  You can choose installation type by `node[:mesos][:type]` variable (`source` or `mesosphere`).
+[BETA] This cookbook also contains some mesos scheduler framework or executors:
+
+* `mesos::docker-exectuor` (only supports Mesos 0.14.0)
+* `mesos::marathon-framework` (planned.)
 
 Platform
 ------------
@@ -32,6 +35,11 @@ configure master and cluster deployment configuration files. If you choose `meso
 configure slave configuration files.  If you choose `mesosphere`, `node[:mesos][:prefix]` would be overridden by `/usr/local` because mesosphere package installs deploy files to the directory.
 
 * `node[:mesos][:prefix]/var/mesos/deploy/mesos-slave-env.sh`
+
+### mesos::docker-executor
+install [mesos-docker executor](https://github.com/mesosphere/mesos-docker).  currently only Mesos 0.14.0 is supported.
+
+__NOTE__: This cookbook DOES NOT install docker automatically. So, you need to install docker manually. see [./sample/mesosphere/Vagrantfile](https://github.com/everpeace/cookbook-mesos/tree/master/example/mesosphere/Vagrantfile)
 
 Usage
 ----

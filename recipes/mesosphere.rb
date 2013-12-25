@@ -23,15 +23,21 @@ if installed then
   Chef::Log.info("Mesos is already installed!! Instllation will be skipped.")
 end
 
-apt_package "java7-runtime-headless" do
+apt_package "default-jre-headless" do
   action :install
   not_if { installed==true }
 end
 
 # workaround for "error while loading shared libraries: libjvm.so: cannot open shared object file: No such file or directory"
 link "/usr/lib/libjvm.so" do
-  to "/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/server/libjvm.so"
+  to "/usr/lib/jvm/default-java/jre/lib/amd64/server/libjvm.so"
   not_if "test -L /usr/lib/libjvm.so"
+end
+
+['zookeeper', 'zookeeperd', 'zookeeper-bin'].each do |zk|
+  package zk do
+    action :install
+  end
 end
 
 remote_file "#{Chef::Config[:file_cache_path]}/mesos_#{version}.deb" do

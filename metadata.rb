@@ -1,18 +1,22 @@
 name             'mesos'
 maintainer       'Shingo Omura'
 maintainer_email 'everpeace@gmail.com'
-license          'All rights reserved'
+license          'MIT'
 description      'Installs/Configures mesos'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '0.1.0'
-supports         'ubuntu'
-recipe           "mesos::build_from_source", "install mesos(default recipe)."
+supports         'ubuntu', '>= 12.04'
+recipe           "mesos::default", "install mesos."
+recipe           "mesos::mesosphere", "install mesos from mesosphere package."
+recipe           "mesos::build_from_source", "install mesos from source(default recipe)."
 recipe           "mesos::master",  "configure the machine as master."
 recipe           "mesos::slave",   "configure the machine as slave."
+recipe           "mesos::docker-executor", "install mesos-docker executor"
 
 depends          'java'
 depends          'python'
 depends          'build-essential'
+suggests         'docker'
 
 attribute           "mesos/type",
   :recipes       => ["mesos::build_from_source", "mesos::mesosphere", "mesos::master", "mesos::slave"],
