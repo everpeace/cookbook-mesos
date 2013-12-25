@@ -19,4 +19,7 @@ default[:mesos] = {
   },
   :ssh_opts => "-o StrictHostKeyChecking=no -o ConnectTimeout=2",
   :deploy_with_sudo => "1",
+  :mesosphere => {
+    :with_zookeeper => false
+  }
 }

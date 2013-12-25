@@ -64,6 +64,9 @@ Vagrant.configure("2") do |config|
         :slave_ips  => ["localhost"],
         :slave =>{
           :master_url => "#{private_ip}:5050",
+        },
+        :mesosphere => {
+          :with_zookeeper => true
         }
       }
     }

@@ -18,10 +18,13 @@ You have to specify intallation type (`source` or `mesosphere`) by `node[:mesos]
 Cookbooks
 ----
 ### mesos::default
-install mesos by `build_from_source` recipe or `mesosphere` recipe.  
+install mesos by `build_from_source` recipe or `mesosphere` recipe.
 
 ###mesos::build_from_source
 install mesos(download zip from github, configure, make, make install).
+
+### mesos::mesosphere
+install mesos using mesosphere's mesos package.  You can also install zookeeper package by `node[:mesos][:mesosphere][:with_zookeeper]` if required because Mesospher's mesos package doesn't include zookeeper.
 
 ### mesos::master
 configure master and cluster deployment configuration files. If you choose `mesosphere`, `node[:mesos][:prefix]` would be overridden by `/usr/local` because mesosphere package installs deploy files to the directory.
@@ -114,6 +117,12 @@ Attributes
     <td>String</td>
     <td>Version(one of 0.14.0, 0.14.1, 0.14.2, 0.15.0-rc4).</td>
     <td><tt>0.15.0-rc4</tt></td>
+  </tr>
+  <tr>
+    <td><tt>[:mesos][:mesosphere][:with_zookeeper]</tt></td>
+    <td>String</td>
+    <td>switch for installing zookeeper package</td>
+    <td><tt>false</tt></td>
   </tr>
 </table>
 
