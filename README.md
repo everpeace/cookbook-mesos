@@ -2,9 +2,7 @@ Mesos Cookbook
 ==============
 Install Mesos(<http://mesos.apache.org/>) and configure mesos master and slave.
 
-This cookbook also supports installation from [Mesosphere](http://mesosophere.io) package.
-
-You can choose installation type by `node[:mesos][:type]` variable.
+This cookbook also supports installation by both bulding from source and with [Mesosphere](http://mesosophere.io) package.  You can choose installation type by `node[:mesos][:type]` variable (`source` or `mesosphere`).
 
 Platform
 ------------
@@ -12,12 +10,12 @@ only support `ubuntu`
 
 Installation Type
 ----
-`node[:mesos][:type]` should be `source` or `mesosphere`.
+You have to specify intallation type (`source` or `mesosphere`) by `node[:mesos][:type]` variable.
 
 Cookbooks
 ----
 ### mesos::default
-install mesos by `build_from_source` or `mesosphere`.  
+install mesos by `build_from_source` recipe or `mesosphere` recipe.  
 
 ###mesos::build_from_source
 install mesos(download zip from github, configure, make, make install).
@@ -56,8 +54,8 @@ Attributes
   <tr>
     <td><tt>[:mesos][:type]</tt></td>
     <td>String</td>
-    <td>installation type(<tt>'source'</tt> or <tt>'mesosphere'</tt>)</td>
-    <td><tt>'source'</tt></td>
+    <td>installation type(<tt>source</tt> or <tt>mesosphere</tt>)</td>
+    <td><tt>source</tt></td>
   </tr>
 </table>
 
@@ -107,7 +105,7 @@ Attributes
     <td><tt>[:mesos][:version]</tt></td>
     <td>String</td>
     <td>Version(branch or tag name at http://github.com/apache/mesos).</td>
-    <td><tt>0.15.0-rc3</tt></td>
+    <td><tt>0.15.0-rc4</tt></td>
   </tr>
 </table>
 
