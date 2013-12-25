@@ -40,8 +40,8 @@ Usage
 please see bellows
 
 * [everpeace/vagrant-mesos](https://github.com/everpeace/vagrant-mesos)
-* [./sample/source](https://github.com/everpeace/cookbook-mesos/tree/master/sample/source/)
-* [./sample/mesosphere](https://github.com/everpeace/cookbook-mesos/tree/master/sample/mesosphere/)
+* [./sample/source](https://github.com/everpeace/cookbook-mesos/tree/master/example/source/)
+* [./sample/mesosphere](https://github.com/everpeace/cookbook-mesos/tree/master/example/mesosphere/)
 
 Attributes
 ----------

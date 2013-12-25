@@ -58,3 +58,5 @@ target
 # R app
 **/.Rapp.history
 
+.vagrant
+*.lock
