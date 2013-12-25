@@ -71,7 +71,7 @@ Attributes
     <td><tt>[:mesos][:version]</tt></td>
     <td>String</td>
     <td>Version(branch or tag name at http://github.com/apache/mesos).</td>
-    <td><tt>0.15.0-rc3</tt></td>
+    <td><tt>0.15.0-rc4</tt></td>
   </tr>
   <tr>
   <td><tt>[:mesos][:prefix]</tt></td>
@@ -104,7 +104,7 @@ Attributes
   <tr>
     <td><tt>[:mesos][:version]</tt></td>
     <td>String</td>
-    <td>Version(branch or tag name at http://github.com/apache/mesos).</td>
+    <td>Version(one of 0.14.0, 0.14.1, 0.14.2, 0.15.0-rc4).</td>
     <td><tt>0.15.0-rc4</tt></td>
   </tr>
 </table>
