@@ -14,7 +14,6 @@ default[:mesos] = {
   },
   :slave   => {
     :log_dir  => "/var/log/mesos",
-    :work_dir => "/var/run/mesos",
     :isolation=> "cgroups"
   },
   :ssh_opts => "-o StrictHostKeyChecking=no -o ConnectTimeout=2",

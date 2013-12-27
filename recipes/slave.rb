@@ -68,11 +68,42 @@ if node[:mesos][:type] == 'mesosphere' then
     mode 644
     owner "root"
     group "root"
+    variables({
+      :isolation => node[:mesos][:slave][:isolation]
+    })
+  end
+
+  directory File.join("/etc", "mesos-slave") do
+    action :create
+    recursive true
+    mode 755
+    owner "root"
+    group "root"
+  end
+
+  if node[:mesos][:slave][:work_dir] then
+    _code = "echo #{node[:mesos][:slave][:work_dir]} > /etc/mesos-slave/work_dir"
+    bash _code do
+      code _code
+      user "root"
+      group "root"
+      action :run
+    end
+  end
+
+  if node[:mesos][:slave][:ip] then
+    _code = "echo #{node[:mesos][:slave][:ip]} > /etc/mesos-slave/ip"
+    bash _code do
+      user "root"
+      group "root"
+      code _code
+      action :run
+    end
   end
 
   service "mesos-slave" do
     provider Chef::Provider::Service::Upstart
-    action :start
+    action :restart
   end
 end
 

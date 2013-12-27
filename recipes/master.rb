@@ -83,9 +83,37 @@ if node[:mesos][:type] == 'mesosphere' then
     group "root"
   end
 
+  directory File.join("/etc", "mesos-master") do
+    action :create
+    recursive true
+    mode 755
+    owner "root"
+    group "root"
+  end
+
+  if node[:mesos][:master][:ip] then
+    _code = "echo #{node[:mesos][:master][:ip]} > /etc/mesos-master/ip"
+    bash _code do
+      code _code
+      user "root"
+      group "root"
+      action :run
+    end
+  end
+
+  if node[:mesos][:cluster_name] then
+    _code = "echo #{node[:mesos][:cluster_name]} > /etc/mesos-master/cluster"
+    bash _code do
+      code _code
+      user "root"
+      group "root"
+      action :run
+    end
+  end
+
   service "mesos-master" do
     provider Chef::Provider::Service::Upstart
-    action :start
+    action :restart
   end
 end
 

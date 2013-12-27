@@ -118,8 +118,7 @@ attribute           "mesos/slave/log_dir",
 attribute           "mesos/slave/work_dir",
   :recipes       => ["mesos::slave"],
   :display_name  => "work_dir for slave.",
-  :description   => "Where to place framework work directories.",
-  :default       => "/var/run/mesos"
+  :description   => "Where to place framework work directories."
 
 attribute           "mesos/slave/isolation",
   :recipes       => ["mesos::slave"],

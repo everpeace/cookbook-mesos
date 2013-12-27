@@ -42,7 +42,7 @@ if node['mesos']['mesosphere']['with_zookeeper'] then
    end
    service "zookeeper" do
       provider Chef::Provider::Service::Upstart
-      action :start
+      action :restart
    end
  end
 

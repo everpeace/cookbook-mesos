@@ -51,7 +51,7 @@ if you choose installation type `mesosphere`,  this recipe also confiures upstar
 * `/etc/defaults/mesos`
 * `/etc/defaults/mesos-slave`
 
-### mesos::docker-executor
+### [BETA] mesos::docker-executor
 install [mesos-docker executor](https://github.com/mesosphere/mesos-docker).  currently only Mesos 0.14.0 is supported.
 
 __NOTE__: This cookbook DOES NOT install docker automatically. So, you need to install docker manually. see [./sample/mesosphere/Vagrantfile](https://github.com/everpeace/cookbook-mesos/tree/master/example/mesosphere/Vagrantfile)
@@ -133,7 +133,7 @@ Attributes
   <tr>
     <td><tt>[:mesos][:mesosphere][:with_zookeeper]</tt></td>
     <td>String</td>
-    <td>switch for installing zookeeper package</td>
+    <td>flag for installing zookeeper package</td>
     <td><tt>false</tt></td>
   </tr>
 </table>
@@ -149,49 +149,50 @@ Attributes
   <tr>
     <td><tt>[:mesos][:prefix]</tt></td>
     <td>String</td>
-    <td>Prefix value to be passed to configure script.  This value will be overridden by <tt>/usr/local</tt> when you choose <tt>mesosphere</tt>.</td>
+    <td> Prefix value to be passed to configure script.  This value will be overridden by <tt>/usr/local</tt> when you choose <tt>mesosphere</tt>.</td>
     <td><tt>/usr/local</tt><br/></td>
   </tr>
   <tr>
     <td><tt>[:mesos][:ssh_opt]</tt></td>
     <td>String</td>
-    <td>ssh options to be used in mesos-[start|stop]-cluster</td>
+    <td>ssh options to be used in <tt>mesos-[start|stop]-cluster</tt></td>
     <td><tt>-o StrictHostKeyChecking=no <br/> -o ConnectTimeout=2</tt></td>
   </tr>
   <tr>
     <td><tt>[:mesos][:deploy_with_sudo]</tt></td>
     <td>String</td>
-    <td>Flag whether sudo will be used in mesos-[start|stop]-cluster</td>
+    <td>Flag whether sudo will be used in <tt>mesos-[start|stop]-cluster</tt></td>
     <td><tt>1</tt></td>
   </tr>
   <tr>
     <td><tt>[:mesos][:cluster_name]</tt></td>
     <td>String</td>
-    <td>Human readable name for the cluster, displayed at webui</td>
+    <td>Human readable name for the cluster, displayed at webui. </td>
     <td><tt>MyCluster</tt></td>
+    <td><tt>source</tt></td>
   </tr>
   <tr>
     <td><tt>[:mesos][:master][:zk]</tt></td>
     <td>String</td>
     <td>ZooKeeper URL (used for leader election amongst masters)</td>
-    <td>(optional)</td>
+    <td>(optional) in case of <tt>source</tt><br/>(required) in case of <tt>mesosphere</tt></td>
   </tr>
   <tr>
     <td><tt>[:mesos][:mater_ips]</tt></td>
     <td>Array of String</td>
-    <td>IP list of masters used in mesos-[start|stop]-cluster</td>
+    <td>IP list of masters used in <tt>mesos-[start|stop]-cluster</tt></td>
     <td>[ ]</td>
   </tr>
   <tr>
     <td><tt>[:mesos][:slave_ips]</tt></td>
     <td>Array of String</td>
-    <td>IP list of slaves used in mesos-[start|stop]-cluster</td>
+    <td>IP list of slaves used in <tt>mesos-[start|stop]-cluster</tt></td>
     <td>[ ]</td>
   </tr>
   <tr>
     <td><tt>[:mesos][:master][:ip]</tt></td>
     <td>String</td>
-    <td>IP address to listen on</td>
+    <td>IP address to listen on.</td>
     <td></td>
   </tr>
   <tr>
@@ -219,7 +220,7 @@ Attributes
   <tr>
     <td><tt>[:mesos][:slave][:master_url]</tt></td>
     <td>String</td>
-    <td>[REQUIRED] mesos master url.This should be ip:port for non-ZooKeeper based masters, otherwise a zk:// </td>
+    <td>[REQUIRED] mesos master url.This should be ip:port for non-ZooKeeper based masters, otherwise a zk:// . when <tt>mesosphere</tt>, you should set zk:// address. </td>
     <td></td>
   </tr>
   <tr>
@@ -237,13 +238,13 @@ Attributes
   <tr>
     <td><tt>[:mesos][:slave][:work_dir]</tt></td>
     <td>String</td>
-    <td>Where to place framework work directories.</td>
-    <td><tt>/var/run/mesos</tt></td>
+    <td>Where to place framework work directories. </td>
+    <td></tt></td>
   </tr>
   <tr>
     <td><tt>[:mesos][:slave][:isolation]</tt></td>
     <td>String</td>
-    <td>Isolation mechanism, may be one of: process, cgroups</td>
+    <td>Isolation mechanism, may be one of: process, cgroups.</td>
     <td><tt>cgroups</tt></td>
   </tr>
 </table>
