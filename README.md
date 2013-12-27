@@ -21,7 +21,7 @@ Cookbooks
 install mesos by `build_from_source` recipe or `mesosphere` recipe.
 
 ###mesos::build_from_source
-install mesos(download zip from github, configure, make, make install).
+install mesos(download zip from [github](https://github.com/apache/mesos), configure, make, make install).
 
 ### mesos::mesosphere
 install mesos using mesosphere's mesos package.  You can also install zookeeper package by `node[:mesos][:mesosphere][:with_zookeeper]` if required because Mesospher's mesos package doesn't include zookeeper.
@@ -94,7 +94,7 @@ Attributes
     <td><tt>[:mesos][:version]</tt></td>
     <td>String</td>
     <td>Version(branch or tag name at http://github.com/apache/mesos).</td>
-    <td><tt>0.15.0-rc4</tt></td>
+    <td><tt>0.15.0-rc5</tt></td>
   </tr>
   <tr>
   <td><tt>[:mesos][:prefix]</tt></td>
@@ -127,7 +127,7 @@ Attributes
   <tr>
     <td><tt>[:mesos][:version]</tt></td>
     <td>String</td>
-    <td>Version(one of 0.14.0, 0.14.1, 0.14.2, 0.15.0-rc4).</td>
+    <td>Version(one of 0.14.0, 0.14.1, 0.14.2, 0.15.0-rc4, 0.15.0-rc5).</td>
     <td><tt>0.15.0-rc4</tt></td>
   </tr>
   <tr>
