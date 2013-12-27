@@ -31,7 +31,7 @@ attribute           "mesos/version",
   :description   => "branch name or tag name at http://github.com/apache/mesos",
   :default       => "0.15.0-rc4"
 
-attribute           "mesos/mesosphere/with_zookeeper"
+attribute           "mesos/mesosphere/with_zookeeper",
   :recipes       => ["mesos::mesosphere"],
   :display_name  => "switch for installing zookeeper packages",
   :description   => "if true, zookeeper packages will be installed with mesosphere's mesos package",

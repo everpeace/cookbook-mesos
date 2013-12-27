@@ -34,11 +34,17 @@ link "/usr/lib/libjvm.so" do
   not_if "test -L /usr/lib/libjvm.so"
 end
 
-['zookeeper', 'zookeeperd', 'zookeeper-bin'].each do |zk|
-  package zk do
-    action :install
-  end
-end
+if node['mesos']['mesosphere']['with_zookeeper'] then
+  ['zookeeper', 'zookeeperd', 'zookeeper-bin'].each do |zk|
+    package zk do
+      action :install
+    end
+   end
+   service "zookeeper" do
+      provider Chef::Provider::Service::Upstart
+      action :start
+   end
+ end
 
 remote_file "#{Chef::Config[:file_cache_path]}/mesos_#{version}.deb" do
   source "#{download_url}"

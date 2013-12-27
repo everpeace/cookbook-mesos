@@ -41,4 +41,39 @@ template File.join(deploy_dir, "mesos-slave-env.sh") do
   group "root"
 end
 
+# configuration files for upstart scripts by mesosphere package.
+if node[:mesos][:type] == 'mesosphere' then
+  template File.join("/etc", "mesos", "zk") do
+    source "etc-mesos-zk.erb"
+    mode 0644
+    owner "root"
+    group "root"
+    variables({
+      :zk => node[:mesos][:slave][:master_url]
+    })
+  end
+
+  template File.join("/etc", "default", "mesos") do
+    source "etc-default-mesos.erb"
+    mode 644
+    owner "root"
+    group "root"
+    variables({
+      :log_dir => node[:mesos][:slave][:log_dir]
+    })
+  end
+
+  template File.join("/etc", "default", "mesos-slave") do
+    source "etc-default-mesos-slave.erb"
+    mode 644
+    owner "root"
+    group "root"
+  end
+
+  service "mesos-slave" do
+    provider Chef::Provider::Service::Upstart
+    action :start
+  end
+end
+
 

@@ -34,10 +34,22 @@ configure master and cluster deployment configuration files. If you choose `meso
 * `node[:mesos][:prefix]/var/mesos/deploy/mesos-deploy-env.sh`
 * `node[:mesos][:prefix]/var/mesos/deploy/mesos-master-env.sh`
 
+if you choose installation type `mesosphere`,  this recipe also confiures upstart conf files which are installed by mesosphere mesos package.
+
+* `/etc/mesos/zk`
+* `/etc/defaults/mesos`
+* `/etc/defaults/mesos-master`
+
 ### mesos::slave
 configure slave configuration files.  If you choose `mesosphere`, `node[:mesos][:prefix]` would be overridden by `/usr/local` because mesosphere package installs deploy files to the directory.
 
 * `node[:mesos][:prefix]/var/mesos/deploy/mesos-slave-env.sh`
+
+if you choose installation type `mesosphere`,  this recipe also confiures upstart conf files which are installed by mesosphere mesos package.
+
+* `/etc/mesos/zk`
+* `/etc/defaults/mesos`
+* `/etc/defaults/mesos-slave`
 
 ### mesos::docker-executor
 install [mesos-docker executor](https://github.com/mesosphere/mesos-docker).  currently only Mesos 0.14.0 is supported.
