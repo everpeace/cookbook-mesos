@@ -128,7 +128,7 @@ Attributes
     <td><tt>[:mesos][:version]</tt></td>
     <td>String</td>
     <td>Version(one of 0.14.0, 0.14.1, 0.14.2, 0.15.0-rc4, 0.15.0-rc5).</td>
-    <td><tt>0.15.0-rc4</tt></td>
+    <td><tt>0.15.0-rc5</tt></td>
   </tr>
   <tr>
     <td><tt>[:mesos][:mesosphere][:with_zookeeper]</tt></td>
