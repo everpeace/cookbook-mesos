@@ -215,9 +215,9 @@ Attributes
     <td>[ ]</td>
   </tr>
   <tr>
-    <td><tt>[:mesos][:master][:&lt;option_name&gt]</tt></td>
+    <td><tt>[:mesos][:master][:&lt;option_name&gt;]</tt></td>
     <td>String</td>
-    <td>Command line option for <tt>mesos-master</tt>. see the output of <tt>mesos-master --help</tt> for available options.</td>
+    <td>You can set arbitral command line option for <tt>mesos-master</tt>. see the output of <tt>mesos-master --help</tt> for available options.</td>
     <td></td>
   </tr>
 </table>
@@ -243,9 +243,9 @@ Attributes
     <td></td>
   </tr>
   <tr>
-    <td><tt>[:mesos][:slave][:&lt;option_name&gt]</tt></td>
+    <td><tt>[:mesos][:slave][:&lt;option_name&gt;]</tt></td>
     <td>String</td>
-    <td>Command line option for <tt>mesos-slave</tt>. see the output of <tt>mesos-slave --help</tt> for available options.</td>
+    <td>You can set arbitral command line option for <tt>mesos-slave</tt>. see the output of <tt>mesos-slave --help</tt> for available options.</td>
     <td></td>
   </tr>
 </table>
