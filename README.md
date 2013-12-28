@@ -54,7 +54,7 @@ Then `mesos-master` will be invoked with these options like this.
 
     mesos-master --zk=zk://localhost:2181/mesos --port=5050 --log_dir=/var/log/mesos --cluster=MyCluster
 
-See the output of `mesos-master --help` for available options.
+See See [here](http://mesos.apache.org/documentation/latest/configuration/) for available options or the output of of `mesos-master --help`.
 
 ### mesos::slave
 configure slave configuration files.  If you choose `mesosphere`, `node[:mesos][:prefix]` would be overridden by `/usr/local` because mesosphere package installs deploy files to the directory.
@@ -81,7 +81,7 @@ Then `mesos-slave` will be invoked with these options like this.
 
     mesos-slave --master=zk://localhost:2181/mesos --log_dir=/var/log/mesos --isolation=cgroups --work_dir=/var/run/work
 
-See the output of `mesos-slave --help` for available options.
+See [here](http://mesos.apache.org/documentation/latest/configuration/) for available options or the output of `mesos-slave --help`.
 
 ### [BETA] mesos::docker-executor
 install [mesos-docker executor](https://github.com/mesosphere/mesos-docker).  currently only Mesos 0.14.0 is supported.
@@ -217,7 +217,7 @@ Attributes
   <tr>
     <td><tt>[:mesos][:master][:&lt;option_name&gt;]</tt></td>
     <td>String</td>
-    <td>You can set arbitral command line option for <tt>mesos-master</tt>. see the output of <tt>mesos-master --help</tt> for available options.</td>
+    <td>You can set arbitral command line option for <tt>mesos-master</tt>. See [here](http://mesos.apache.org/documentation/latest/configuration/) for available options or the output of `mesos-master --help`.</td>
     <td></td>
   </tr>
 </table>
@@ -245,7 +245,7 @@ Attributes
   <tr>
     <td><tt>[:mesos][:slave][:&lt;option_name&gt;]</tt></td>
     <td>String</td>
-    <td>You can set arbitral command line option for <tt>mesos-slave</tt>. see the output of <tt>mesos-slave --help</tt> for available options.</td>
+    <td>You can set arbitral command line option for <tt>mesos-slave</tt>. See [here](http://mesos.apache.org/documentation/latest/configuration/) for available options or the output of `mesos-slave --help`.</td>
     <td></td>
   </tr>
 </table>
