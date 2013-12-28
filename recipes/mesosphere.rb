@@ -48,7 +48,7 @@ if node['mesos']['mesosphere']['with_zookeeper'] then
 
 remote_file "#{Chef::Config[:file_cache_path]}/mesos_#{version}.deb" do
   source "#{download_url}"
-  mode   "0644"
+  mode   0644
   not_if { installed==true }
   notifies :install, "dpkg_package[mesos]"
 end

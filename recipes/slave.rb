@@ -27,16 +27,30 @@ if !installed then
   end
 end
 
+# for backword compatibility
+if node[:mesos][:slave][:master_url] then
+  if !node[:mesos][:slave][:master] then
+    Chef::Log.info("node[:mesos][:slave][:master_url] is obsolute. use node[:mesos][:slave][:master] instead.")
+    node.default[:mesos][:slave][:master] = node[:mesos][:slave][:master_url]
+  else
+    Chef::Log.info("node[:mesos][:slave][:master_url] is obsolute. node[:mesos][:slave][:master_url] will be ignored because you have node[:mesos][:slave][:master].")
+  end
+end
+
+if ! node[:mesos][:slave][:master] then
+  Chef::Log.fatal!("node[:mesos][:slave][:master] is required to configure mesos-slave.")
+end
+
 template File.join(deploy_dir, "mesos-deploy-env.sh") do
   source "mesos-deploy-env.sh.erb"
-  mode 644
+  mode 0644
   owner "root"
   group "root"
 end
 
 template File.join(deploy_dir, "mesos-slave-env.sh") do
   source "mesos-slave-env.sh.erb"
-  mode 644
+  mode 0644
   owner "root"
   group "root"
 end
@@ -49,13 +63,13 @@ if node[:mesos][:type] == 'mesosphere' then
     owner "root"
     group "root"
     variables({
-      :zk => node[:mesos][:slave][:master_url]
+      :zk => node[:mesos][:slave][:master]
     })
   end
 
   template File.join("/etc", "default", "mesos") do
     source "etc-default-mesos.erb"
-    mode 644
+    mode 0644
     owner "root"
     group "root"
     variables({
@@ -65,7 +79,7 @@ if node[:mesos][:type] == 'mesosphere' then
 
   template File.join("/etc", "default", "mesos-slave") do
     source "etc-default-mesos-slave.erb"
-    mode 644
+    mode 0644
     owner "root"
     group "root"
     variables({
@@ -76,32 +90,33 @@ if node[:mesos][:type] == 'mesosphere' then
   directory File.join("/etc", "mesos-slave") do
     action :create
     recursive true
-    mode 755
+    mode 0755
     owner "root"
     group "root"
   end
 
-  if node[:mesos][:slave][:work_dir] then
-    _code = "echo #{node[:mesos][:slave][:work_dir]} > /etc/mesos-slave/work_dir"
-    bash _code do
-      code _code
-      user "root"
-      group "root"
-      action :run
+  bash "cleanup /etc/mesos-slave/" do
+    code "rm -rf /etc/mesos-slave/*"
+    user "root"
+    group "root"
+    action :run
+  end
+
+  if node[:mesos][:slave] then
+    node[:mesos][:slave].each do |key, val|
+      if ! ['master_url', 'master', 'isolation', 'log_dir'].include?(key) then
+        _code = "echo #{val} > /etc/mesos-slave/#{key}"
+        bash _code do
+          code _code
+          user "root"
+          group "root"
+          action :run
+        end
+      end
     end
   end
 
-  if node[:mesos][:slave][:ip] then
-    _code = "echo #{node[:mesos][:slave][:ip]} > /etc/mesos-slave/ip"
-    bash _code do
-      user "root"
-      group "root"
-      code _code
-      action :run
-    end
-  end
-
-  service "mesos-slave" do
+ service "mesos-slave" do
     provider Chef::Provider::Service::Upstart
     action :restart
   end

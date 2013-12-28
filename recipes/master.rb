@@ -26,30 +26,41 @@ if !installed then
   end
 end
 
+# for backword compatibility
+if node[:mesos][:cluster_name] then
+  if !node[:mesos][:master][:cluster] then
+    Chef::Log.info("node[:mesos][:cluster_name] is obsolute. use node[:mesos][:master][:cluster] instead.")
+    node.default[:mesos][:master][:cluster] = node[:mesos][:cluster_name]
+  else
+    Chef::Log.info("node[:mesos][:cluster_name] is obsolute. node[:mesos][:cluster_name] will be ignored because you have node[:mesos][:master][:cluster].")
+  end
+end
+
+
 template File.join(deploy_dir, "masters") do
   source "masters.erb"
-  mode 644
+  mode 0644
   owner "root"
   group "root"
 end
 
 template File.join(deploy_dir, "slaves") do
   source "slaves.erb"
-  mode 644
+  mode 0644
   owner "root"
   group "root"
 end
 
 template File.join(deploy_dir, "mesos-deploy-env.sh") do
   source "mesos-deploy-env.sh.erb"
-  mode 644
+  mode 0644
   owner "root"
   group "root"
 end
 
 template File.join(prefix, "var", "mesos", "deploy", "mesos-master-env.sh") do
   source "mesos-master-env.sh.erb"
-  mode 644
+  mode 0644
   owner "root"
   group "root"
 end
@@ -68,7 +79,7 @@ if node[:mesos][:type] == 'mesosphere' then
 
   template File.join("/etc", "default", "mesos") do
     source "etc-default-mesos.erb"
-    mode 644
+    mode 0644
     owner "root"
     group "root"
     variables({
@@ -78,36 +89,40 @@ if node[:mesos][:type] == 'mesosphere' then
 
   template File.join("/etc", "default", "mesos-master") do
     source "etc-default-mesos-master.erb"
-    mode 644
+    mode 0644
     owner "root"
     group "root"
+    variables({
+      :port => node[:mesos][:master][:port]
+    })
   end
 
   directory File.join("/etc", "mesos-master") do
     action :create
     recursive true
-    mode 755
+    mode 0755
     owner "root"
     group "root"
   end
 
-  if node[:mesos][:master][:ip] then
-    _code = "echo #{node[:mesos][:master][:ip]} > /etc/mesos-master/ip"
-    bash _code do
-      code _code
-      user "root"
-      group "root"
-      action :run
-    end
+  bash "cleanup /etc/mesos-master/" do
+    code "rm -rf /etc/mesos-master/*"
+    user "root"
+    group "root"
+    action :run
   end
 
-  if node[:mesos][:cluster_name] then
-    _code = "echo #{node[:mesos][:cluster_name]} > /etc/mesos-master/cluster"
-    bash _code do
-      code _code
-      user "root"
-      group "root"
-      action :run
+  if node[:mesos][:master] then
+    node[:mesos][:master].each do |key, val|
+      if ! ['zk', 'log_dir', 'port'].include?(key) then
+        _code = "echo #{val} > /etc/mesos-master/#{key}"
+        bash _code do
+          code _code
+          user "root"
+          group "root"
+          action :run
+        end
+      end
     end
   end
 

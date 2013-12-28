@@ -8,14 +8,9 @@
 # The mesos master URL to contact. Should be host:port for
 # non-ZooKeeper based masters, otherwise a zk:// or file:// URL.
 
-<% if node[:mesos][:slave][:master_url] then %>
-export MESOS_master=<%= node[:mesos][:slave][:master_url] %>
-<% end %>
-<% if node[:mesos][:slave][:ip] then %>
-export MESOS_ip=<%= node[:mesos][:slave][:ip] %>
+<% if node[:mesos][:slave] %>
+  <% node[:mesos][:slave].each do |key, val| %>
+export MESOS_<%= key %>=<%= val %>
+  <% end %>
 <% end %>
 
-# Other options you're likely to want to set:
-export MESOS_log_dir=<%= node[:mesos][:slave][:log_dir] %>
-export MESOS_work_dir=<%= node[:mesos][:slave][:work_dir] %>
-export MESOS_isolation=<%= node[:mesos][:slave][:isolation] %>

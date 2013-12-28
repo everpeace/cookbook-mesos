@@ -70,12 +70,7 @@ attribute           "mesos/deploy_with_sudo",
 attribute           "mesos/cluster_name",
   :recipes       => ["mesos::master"],
   :display_name  => "cluster name",
-  :description   => "Human readable name for the cluster, displayed at webui"
-
-attribute           "mesos/master/zk",
-  :recipes       => ["mesos::master"],
-  :display_name  => "zookeeper url",
-  :description   => "ZooKeeper URL (used for leader election amongst masters)"
+  :description   => "[OBSOLUTE] Human readable name for the cluster, displayed at webui"
 
 attribute           "mesos/master_ips",
   :recipes       => ["mesos::master"],
@@ -87,43 +82,9 @@ attribute           "mesos/slave_ips",
   :display_name  => "IP list of slaves",
   :description   => "used in mesos-start/stop-cluster scripts."
 
-attribute           "mesos/master/ip",
-  :recipes       => ["mesos::master"],
-  :display_name  => "mater listen ip.",
-  :description   => "IP address to listen on"
-
-attribute           "mesos/master/log_dir",
-  :recipes       => ["mesos::master"],
-  :display_name  => "log_dir for master.",
-  :description   => "Location to put log files.",
-  :default       => "/var/log/mesos"
-
 attribute           "mesos/slave/master_url",
   :required      => "required",
   :recipes       => ["mesos::slave"],
   :display_name  => "master url",
-  :description   => "mesos master url. this should  be host:port for non-ZooKeeper based masters, otherwise a zk:// or file://."
-
-attribute           "mesos/slave/ip",
-  :recipes       => ["mesos::slave"],
-  :display_name  => "slave listen ip.",
-  :description   => "IP address to listen on"
-
-attribute           "mesos/slave/log_dir",
-  :recipes       => ["mesos::slave"],
-  :display_name  => "log_dir for slave.",
-  :description   => "Location to put log files.",
-  :default       => "/var/log/mesos"
-
-attribute           "mesos/slave/work_dir",
-  :recipes       => ["mesos::slave"],
-  :display_name  => "work_dir for slave.",
-  :description   => "Where to place framework work directories."
-
-attribute           "mesos/slave/isolation",
-  :recipes       => ["mesos::slave"],
-  :display_name  => "Resource isolation mechanism.",
-  :description   => "Isolation mechanism, may be one of: process, cgroups",
-  :default       => "cgroups"
-
+  :description   => "[OBSOLUTE] Use mesos/slave/master.  mesos master url. this should  be host:port for non-ZooKeeper based masters, otherwise a zk:// or file://."
 

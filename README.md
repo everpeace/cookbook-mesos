@@ -15,7 +15,7 @@ Installation Type
 ----
 You have to specify intallation type (`source` or `mesosphere`) by `node[:mesos][:type]` variable.
 
-Cookbooks
+Recipies
 ----
 ### mesos::default
 install mesos by `build_from_source` recipe or `mesosphere` recipe.
@@ -40,6 +40,22 @@ if you choose installation type `mesosphere`,  this recipe also confiures upstar
 * `/etc/defaults/mesos`
 * `/etc/defaults/mesos-master`
 
+##### How to configure `mesos-master`
+You can configure `mesos-master` command line options by `node[:mesos][:master]` object.  If you have a configuration below,
+
+    node[:mesos][:master] == {
+      :port    => "5050",
+      :log_dir => "/var/log/mesos",
+      :zk      => "zk://localhost:2181/mesos",
+      :cluster => "MyCluster"
+    }
+
+Then `mesos-master` will be invoked with these options like this.
+
+    mesos-master --zk=zk://localhost:2181/mesos --port=5050 --log_dir=/var/log/mesos --cluster=MyCluster
+
+See the output of `mesos-master --help` for available options.
+
 ### mesos::slave
 configure slave configuration files.  If you choose `mesosphere`, `node[:mesos][:prefix]` would be overridden by `/usr/local` because mesosphere package installs deploy files to the directory.
 
@@ -50,6 +66,22 @@ if you choose installation type `mesosphere`,  this recipe also confiures upstar
 * `/etc/mesos/zk`
 * `/etc/defaults/mesos`
 * `/etc/defaults/mesos-slave`
+
+##### How to configure `mesos-slave`
+You can configure `mesos-slave` command line options by `node[:mesos][:slave]` object.  If you have a configuration below,
+
+    node[:mesos][:slave] == {
+      :master    => "zk://localhost:2181/mesos",
+      :log_dir   => "/var/log/mesos",
+      :isolation => "cgroups",
+      :work_dir  => "/var/run/work"
+    }
+
+Then `mesos-slave` will be invoked with these options like this.
+
+    mesos-slave --master=zk://localhost:2181/mesos --log_dir=/var/log/mesos --isolation=cgroups --work_dir=/var/run/work
+
+See the output of `mesos-slave --help` for available options.
 
 ### [BETA] mesos::docker-executor
 install [mesos-docker executor](https://github.com/mesosphere/mesos-docker).  currently only Mesos 0.14.0 is supported.
@@ -167,15 +199,8 @@ Attributes
   <tr>
     <td><tt>[:mesos][:cluster_name]</tt></td>
     <td>String</td>
-    <td>Human readable name for the cluster, displayed at webui. </td>
+    <td>[OBSOLUTE] Human readable name for the cluster, displayed at webui. </td>
     <td><tt>MyCluster</tt></td>
-    <td><tt>source</tt></td>
-  </tr>
-  <tr>
-    <td><tt>[:mesos][:master][:zk]</tt></td>
-    <td>String</td>
-    <td>ZooKeeper URL (used for leader election amongst masters)</td>
-    <td>(optional) in case of <tt>source</tt><br/>(required) in case of <tt>mesosphere</tt></td>
   </tr>
   <tr>
     <td><tt>[:mesos][:mater_ips]</tt></td>
@@ -190,16 +215,10 @@ Attributes
     <td>[ ]</td>
   </tr>
   <tr>
-    <td><tt>[:mesos][:master][:ip]</tt></td>
+    <td><tt>[:mesos][:master][:&lt;option_name&gt]</tt></td>
     <td>String</td>
-    <td>IP address to listen on.</td>
+    <td>Command line option for <tt>mesos-master</tt>. see the output of <tt>mesos-master --help</tt> for available options.</td>
     <td></td>
-  </tr>
-  <tr>
-    <td><tt>[:mesos][:master][:log_dir]</tt></td>
-    <td>String</td>
-    <td>Location to put log files.</td>
-    <td><tt>/var/log/mesos</tt></td>
   </tr>
 </table>
 
@@ -218,34 +237,16 @@ Attributes
     <td><tt>/usr/local</tt></td>
   </tr>
   <tr>
-    <td><tt>[:mesos][:slave][:master_url]</tt></td>
+    <td><tt>[:mesos][:slave][:master]</tt></td>
     <td>String</td>
     <td>[REQUIRED] mesos master url.This should be ip:port for non-ZooKeeper based masters, otherwise a zk:// . when <tt>mesosphere</tt>, you should set zk:// address. </td>
     <td></td>
   </tr>
   <tr>
-    <td><tt>[:mesos][:slave][:ip]</tt></td>
+    <td><tt>[:mesos][:slave][:&lt;option_name&gt]</tt></td>
     <td>String</td>
-    <td>IP address to listen on</td>
+    <td>Command line option for <tt>mesos-slave</tt>. see the output of <tt>mesos-slave --help</tt> for available options.</td>
     <td></td>
-  </tr>
-  <tr>
-    <td><tt>[:mesos][:slave][:log_dir]</tt></td>
-    <td>String</td>
-    <td>Location to put log files.</td>
-    <td><tt>/var/log/mesos</tt></td>
-  </tr>
-  <tr>
-    <td><tt>[:mesos][:slave][:work_dir]</tt></td>
-    <td>String</td>
-    <td>Where to place framework work directories. </td>
-    <td></tt></td>
-  </tr>
-  <tr>
-    <td><tt>[:mesos][:slave][:isolation]</tt></td>
-    <td>String</td>
-    <td>Isolation mechanism, may be one of: process, cgroups.</td>
-    <td><tt>cgroups</tt></td>
   </tr>
 </table>
 

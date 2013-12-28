@@ -40,7 +40,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provision :chef_solo do |chef|
-    chef.log_level = :debug
+    # chef.log_level = :debug
     chef.add_recipe "mesos"
     chef.add_recipe "mesos::master"
     chef.add_recipe "mesos::slave"
@@ -56,18 +56,25 @@ Vagrant.configure("2") do |config|
     chef.json = {
       :mesos => {
         :type         => "mesosphere",
-        :cluster_name => "MyCluster",
-        :master_ips => ["localhost"],
-        :slave_ips  => ["localhost"],
-        :master => {
-          :zk => "zk://localhost:2181/mesos"
-        },
-        :slave =>{
-          :master_url => "zk://localhost:2181/mesos"
-        },
         :mesosphere => {
           :with_zookeeper => true
-        }
+        },
+        # command line options for mesos-master
+        :master => {
+          :zk => "zk://localhost:2181/mesos",
+          :log_dir => "/var/log/mesos",
+          :cluster => "MyCluster"
+        },
+        # command line options for mesos-slave
+        :slave =>{
+          :master => "zk://localhost:2181/mesos",
+          :isolation => "cgroups",
+          :log_dir => "/var/log/mesos",
+          :work_dir => "/var/run/work"
+        },
+        # below ip lists are for meoss-[start|stop]-cluster.sh
+        :master_ips => ["localhost"],
+        :slave_ips  => ["localhost"]
       },
       :maven => {
         :version => "3",
