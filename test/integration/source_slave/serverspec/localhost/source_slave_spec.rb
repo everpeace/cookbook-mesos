@@ -44,4 +44,18 @@ describe 'mesos::slave' do
       expect(slave_env_file.content).to match /^export MESOS_isolation=cgroups$/
     end
   end
+
+  describe 'attempting to run mesos-slave' do
+    let :slave_command do
+      command 'mesos-slave --master=127.0.0.1'
+    end
+
+    it 'attempts to start' do
+      expect(slave_command).to return_stderr /Starting Mesos slave/
+    end
+
+    it 'complains about not being able to connect to a master' do
+      expect(slave_command).to return_stderr /Failed to create a master detector/
+    end
+  end
 end
