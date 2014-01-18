@@ -1,8 +1,6 @@
 # encoding: utf-8
 
-require 'spec_helper'
-
-describe 'mesos::default' do
+shared_examples_for 'an installation from source' do
   it 'downloads mesos package to Chef cache path' do
     expect(file('/tmp/kitchen/cache/mesos-0.15.0.zip')).to be_a_file
   end
