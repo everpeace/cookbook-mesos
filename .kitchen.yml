@@ -46,3 +46,11 @@ suites:
           zk: test-master
         master_ips: ['10.0.0.1', '10.0.0.2', '10.0.0.3']
         slave_ips:  ['11.0.0.1', '11.0.0.2', '11.0.0.3']
+  - name: source_slave
+    run_list:
+      - recipe[mesos::slave]
+    attributes:
+      mesos:
+        type: source
+        slave:
+          master: test-master
