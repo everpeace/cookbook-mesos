@@ -18,9 +18,11 @@ platforms:
         jdk_version: 7
 
 suites:
-  - name: default
+  - name: mesosphere_slave
     run_list:
-      - recipe[mesos::default]
+      - recipe[mesos::slave]
     attributes:
-      java:
-        jdk_version: 7
+      mesos:
+        type: mesosphere
+        slave:
+          master: test-master

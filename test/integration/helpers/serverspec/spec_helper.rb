@@ -5,3 +5,5 @@ require 'pathname'
 
 include Serverspec::Helper::Exec
 include Serverspec::Helper::DetectOS
+
+require 'mesosphere_installation'

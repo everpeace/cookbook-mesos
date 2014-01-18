@@ -23,6 +23,10 @@ if installed then
   Chef::Log.info("Mesos is already installed!! Instllation will be skipped.")
 end
 
+# Needed for installing mesos using dpkg on Ubuntu 12.04,
+# and perhaps Ubuntu 13.04 as well (not tested though)
+package 'libcurl3'
+
 apt_package "default-jre-headless" do
   action :install
   not_if { installed==true }

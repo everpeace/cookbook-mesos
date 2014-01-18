@@ -38,7 +38,7 @@ if node[:mesos][:slave][:master_url] then
 end
 
 if ! node[:mesos][:slave][:master] then
-  Chef::Log.fatal!("node[:mesos][:slave][:master] is required to configure mesos-slave.")
+  Chef::Application.fatal!("node[:mesos][:slave][:master] is required to configure mesos-slave.")
 end
 
 template File.join(deploy_dir, "mesos-deploy-env.sh") do
@@ -121,5 +121,3 @@ if node[:mesos][:type] == 'mesosphere' then
     action :restart
   end
 end
-
-
