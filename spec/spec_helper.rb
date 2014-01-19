@@ -14,8 +14,14 @@ RSpec.configure do |config|
 
   # Omit warnings from output
   config.log_level = :fatal
+
+  config.before(:suite) do
+    ChefSpec::Coverage.filters << File.join(config.cookbook_path, 'mesos')
+  end
 end
 
 require 'support/source_installation'
 require 'support/mesosphere_installation'
 require 'support/setup_context'
+
+at_exit { ChefSpec::Coverage.report! }
