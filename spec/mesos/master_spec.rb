@@ -6,20 +6,53 @@ describe 'mesos::master' do
   include_context 'setup context'
 
   shared_examples_for 'a master recipe' do
-    it 'creates masters file in deploy directory' do
-      expect(chef_run).to create_template '/usr/local/var/mesos/deploy/masters'
+    describe 'masters file' do
+      it 'creates it in deploy directory' do
+        expect(chef_run).to create_template '/usr/local/var/mesos/deploy/masters'
+      end
+
+      it 'contains configured master IPs' do
+        expect(chef_run).to render_file('/usr/local/var/mesos/deploy/masters')
+          .with_content(/^#{Regexp.escape('10.0.0.1')}$/)
+      end
     end
 
-    it 'creates slaves file in deploy directory' do
-      expect(chef_run).to create_template '/usr/local/var/mesos/deploy/slaves'
+    describe 'slaves file' do
+      it 'creates it in deploy directory' do
+        expect(chef_run).to create_template '/usr/local/var/mesos/deploy/slaves'
+      end
+
+      it 'contains configured slave IPs' do
+        expect(chef_run).to render_file('/usr/local/var/mesos/deploy/slaves')
+          .with_content(/^#{Regexp.escape('11.0.0.1')}$/)
+      end
     end
 
-    it 'creates deploy env template' do
-      expect(chef_run).to create_template '/usr/local/var/mesos/deploy/mesos-deploy-env.sh'
+    describe 'deploy env file' do
+      it 'creates it' do
+        expect(chef_run).to create_template '/usr/local/var/mesos/deploy/mesos-deploy-env.sh'
+      end
+
+      it 'contains SSH_OPTS variable' do
+        expect(chef_run).to render_file('/usr/local/var/mesos/deploy/mesos-deploy-env.sh')
+          .with_content(/^export SSH_OPTS="#{Regexp.escape('-o StrictHostKeyChecking=no -o ConnectTimeout=2')}"$/)
+      end
+
+      it 'contains DEPLOY_WITH_SUDO variable' do
+        expect(chef_run).to render_file('/usr/local/var/mesos/deploy/mesos-deploy-env.sh')
+          .with_content(/^export DEPLOY_WITH_SUDO="1"$/)
+      end
     end
 
-    it 'creates mesos master env template' do
-      expect(chef_run).to create_template '/usr/local/var/mesos/deploy/mesos-master-env.sh'
+    describe 'master env file' do
+      it 'creates it' do
+        expect(chef_run).to create_template '/usr/local/var/mesos/deploy/mesos-master-env.sh'
+      end
+
+      it 'contains each key-value pair from node[:mesos][:master]' do
+        expect(chef_run).to render_file('/usr/local/var/mesos/deploy/mesos-master-env.sh')
+          .with_content(/^export MESOS_fake_key=fake_value$/)
+      end
     end
   end
 
@@ -29,6 +62,9 @@ describe 'mesos::master' do
         node.set[:mesos][:type] = 'mesosphere'
         node.set[:mesos][:master][:zk] = 'zk-string'
         node.set[:mesos][:mesosphere][:with_zookeeper] = true
+        node.set[:mesos][:master_ips] = %w[10.0.0.1]
+        node.set[:mesos][:slave_ips] = %w[11.0.0.1]
+        node.set[:mesos][:master][:fake_key] = 'fake_value'
       end.converge(described_recipe)
     end
 
@@ -97,6 +133,9 @@ describe 'mesos::master' do
       ChefSpec::Runner.new do |node|
         node.set[:mesos][:type] = 'source'
         node.set[:mesos][:mesosphere][:with_zookeeper] = true
+        node.set[:mesos][:master_ips] = %w[10.0.0.1]
+        node.set[:mesos][:slave_ips] = %w[11.0.0.1]
+        node.set[:mesos][:master][:fake_key] = 'fake_value'
       end.converge(described_recipe)
     end
 

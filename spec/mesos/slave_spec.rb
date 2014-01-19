@@ -6,12 +6,31 @@ describe 'mesos::slave' do
   include_context 'setup context'
 
   shared_examples_for 'a slave recipe' do
-    it 'creates deploy env template' do
-      expect(chef_run).to create_template '/usr/local/var/mesos/deploy/mesos-deploy-env.sh'
+    describe 'deploy env file' do
+      it 'creates it' do
+        expect(chef_run).to create_template '/usr/local/var/mesos/deploy/mesos-deploy-env.sh'
+      end
+
+      it 'contains SSH_OPTS variable' do
+        expect(chef_run).to render_file('/usr/local/var/mesos/deploy/mesos-deploy-env.sh')
+          .with_content(/^export SSH_OPTS="#{Regexp.escape('-o StrictHostKeyChecking=no -o ConnectTimeout=2')}"$/)
+      end
+
+      it 'contains DEPLOY_WITH_SUDO variable' do
+        expect(chef_run).to render_file('/usr/local/var/mesos/deploy/mesos-deploy-env.sh')
+          .with_content(/^export DEPLOY_WITH_SUDO="1"$/)
+      end
     end
 
-    it 'creates mesos slave env template' do
-      expect(chef_run).to create_template '/usr/local/var/mesos/deploy/mesos-slave-env.sh'
+    describe 'slave env file' do
+      it 'creates it' do
+        expect(chef_run).to create_template '/usr/local/var/mesos/deploy/mesos-slave-env.sh'
+      end
+
+      it 'contains each key-value pair from node[:mesos][:master]' do
+        expect(chef_run).to render_file('/usr/local/var/mesos/deploy/mesos-slave-env.sh')
+          .with_content(/^export MESOS_slave_key=slave_value$/)
+      end
     end
   end
 
@@ -21,6 +40,7 @@ describe 'mesos::slave' do
         node.set[:mesos][:type] = 'mesosphere'
         node.set[:mesos][:slave][:master] = 'test-master'
         node.set[:mesos][:mesosphere][:with_zookeeper] = true
+        node.set[:mesos][:slave][:slave_key] = 'slave_value'
       end.converge(described_recipe)
     end
 
@@ -75,6 +95,7 @@ describe 'mesos::slave' do
       ChefSpec::Runner.new do |node|
         node.set[:mesos][:type] = 'source'
         node.set[:mesos][:slave][:master] = 'test-master'
+        node.set[:mesos][:slave][:slave_key] = 'slave_value'
       end.converge(described_recipe)
     end
 
