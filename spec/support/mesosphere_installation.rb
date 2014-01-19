@@ -57,6 +57,10 @@ shared_examples_for 'an installation from mesosphere' do
     expect(mesos_deb).to notify('dpkg_package[mesos]').to(:install).delayed
   end
 
+  it 'also runs `install` action using dpkg' do
+    expect(chef_run).to install_dpkg_package 'mesos'
+  end
+
   it 'creates /etc/default/mesos' do
     expect(chef_run).to create_template '/etc/default/mesos'
   end
