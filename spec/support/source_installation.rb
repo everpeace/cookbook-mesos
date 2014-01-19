@@ -1,13 +1,6 @@
 # encoding: utf-8
 
 shared_examples_for 'an installation from source' do
-  before do
-    # From java::default recipe
-    stub_command("update-alternatives --display java | grep '/usr/lib/jvm/java-6-openjdk-amd64/jre/bin/java - priority 1061'")
-    # From python::default recipe
-    stub_command("/usr/bin/python -c 'import setuptools'")
-  end
-
   it 'includes build-essential recipe' do
     expect(chef_run).to include_recipe 'build-essential'
   end
