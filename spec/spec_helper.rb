@@ -15,3 +15,6 @@ RSpec.configure do |config|
   # Omit warnings from output
   config.log_level = :fatal
 end
+
+require 'support/source_installation'
+require 'support/mesosphere_installation'
