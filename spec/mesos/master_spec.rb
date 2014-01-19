@@ -3,17 +3,19 @@
 require 'spec_helper'
 
 describe 'mesos::master' do
-  let :chef_run do
-    ChefSpec::Runner.new do |node|
-      node.set[:mesos][:type] = 'mesosphere'
-      node.set[:mesos][:mesosphere][:with_zookeeper] = true
-    end.converge(described_recipe)
-  end
-
   context 'when installed from mesosphere' do
+    let :chef_run do
+      ChefSpec::Runner.new do |node|
+        node.set[:mesos][:type] = 'mesosphere'
+        node.set[:mesos][:mesosphere][:with_zookeeper] = true
+      end.converge(described_recipe)
+    end
+
     before do
       File.stub(:exist?).and_call_original
       File.stub(:exist?).with('/usr/local/sbin/mesos-master').and_return(false)
+      File.stub(:exists?).and_call_original
+      File.stub(:exists?).with('/usr/local/sbin/mesos-master').and_return(false)
 
       stub_command("test -L /usr/lib/libjvm.so")
     end
@@ -75,19 +77,19 @@ describe 'mesos::master' do
     end
 
     it 'creates masters file in deploy directory' do
-      expect(chef_run).to create_template 'usr/local/var/mesos/deploy/masters'
+      expect(chef_run).to create_template '/usr/local/var/mesos/deploy/masters'
     end
 
     it 'creates slaves file in deploy directory' do
-      expect(chef_run).to create_template 'usr/local/var/mesos/deploy/slaves'
+      expect(chef_run).to create_template '/usr/local/var/mesos/deploy/slaves'
     end
 
     it 'creates deploy env template' do
-      expect(chef_run).to create_template 'usr/local/var/mesos/deploy/mesos-deploy-env.sh'
+      expect(chef_run).to create_template '/usr/local/var/mesos/deploy/mesos-deploy-env.sh'
     end
 
     it 'creates mesos master env template' do
-      expect(chef_run).to create_template 'usr/local/var/mesos/deploy/mesos-master-env.sh'
+      expect(chef_run).to create_template '/usr/local/var/mesos/deploy/mesos-master-env.sh'
     end
 
     it 'creates /etc/mesos/zk' do
