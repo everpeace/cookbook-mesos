@@ -11,14 +11,17 @@ You can switch installation type using the `node[:mesos][:type]` attribute (`sou
 
 Platform
 ------------
+
 only support `ubuntu`
 
 Installation Type
-----
+-----------------
+
 You have to specify intallation type (`source` or `mesosphere`) by `node[:mesos][:type]` variable.
 
 Recipies
-----
+--------
+
 ### mesos::default
 install mesos by `build_from_source` recipe or `mesosphere` recipe.
 
