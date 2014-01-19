@@ -47,6 +47,10 @@ shared_examples_for 'an installation from source' do
     expect(chef_run).to run_bash('building mesos from source').with_code(/make/)
   end
 
+  it 'runs mesos tests' do
+    expect(chef_run).to run_bash('testing mesos')
+  end
+
   it 'installs mesos to prefix location' do
     expect(chef_run).to run_bash('install mesos to /usr/local').with_cwd('/opt/mesos/build')
     expect(chef_run).to run_bash('install mesos to /usr/local').with_code(/make install/)

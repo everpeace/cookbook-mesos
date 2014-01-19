@@ -138,6 +138,7 @@ describe 'mesos::master' do
         node.set[:mesos][:master_ips] = %w[10.0.0.1]
         node.set[:mesos][:slave_ips] = %w[11.0.0.1]
         node.set[:mesos][:master][:fake_key] = 'fake_value'
+        node.set[:mesos][:build][:skip_test] = false
       end.converge(described_recipe)
     end
 

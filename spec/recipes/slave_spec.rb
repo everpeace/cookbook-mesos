@@ -99,6 +99,7 @@ describe 'mesos::slave' do
         node.set[:mesos][:type] = 'source'
         node.set[:mesos][:slave][:master] = 'test-master'
         node.set[:mesos][:slave][:slave_key] = 'slave_value'
+        node.set[:mesos][:build][:skip_test] = false
       end.converge(described_recipe)
     end
 
