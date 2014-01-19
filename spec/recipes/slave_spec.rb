@@ -82,7 +82,10 @@ describe 'mesos::slave' do
     end
 
     context 'configuration options in /etc/mesos-slave' do
-      pending
+      it 'echos each key-value pair in node[:mesos][:slave]' do
+        expect(chef_run).to run_bash('echo /tmp/mesos > /etc/mesos-slave/work_dir')
+        expect(chef_run).to run_bash('echo slave_value > /etc/mesos-slave/slave_key')
+      end
     end
 
     it 'restarts mesos-slave service' do

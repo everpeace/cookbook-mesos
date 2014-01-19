@@ -120,7 +120,9 @@ describe 'mesos::master' do
     end
 
     describe 'configuration options in /etc/mesos-master' do
-      pending
+      it 'echos each key-value pair in node[:mesos][:master]' do
+        expect(chef_run).to run_bash('echo fake_value > /etc/mesos-master/fake_key')
+      end
     end
 
     it 'restart mesos-master service' do
