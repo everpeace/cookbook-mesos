@@ -27,14 +27,6 @@ describe 'mesos::slave' do
     it_behaves_like 'an installation from mesosphere'
     it_behaves_like 'a slave recipe'
 
-    it 'creates /etc/mesos/zk' do
-      expect(chef_run).to create_template '/etc/mesos/zk'
-    end
-
-    it 'creates /etc/default/mesos' do
-      expect(chef_run).to create_template '/etc/default/mesos'
-    end
-
     it 'creates /etc/default/mesos-slave' do
       expect(chef_run).to create_template '/etc/default/mesos-slave'
     end
