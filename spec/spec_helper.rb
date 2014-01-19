@@ -11,6 +11,7 @@ RSpec.configure do |config|
 
   # Default platform version
   config.version = '12.04'
-end
 
-at_exit { ChefSpec::Coverage.report! }
+  # Omit warnings from output
+  config.log_level = :fatal
+end
