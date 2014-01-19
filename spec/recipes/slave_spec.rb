@@ -47,7 +47,7 @@ describe 'mesos::slave' do
     it_behaves_like 'an installation from mesosphere'
     it_behaves_like 'a slave recipe'
 
-    context '/etc/mesos/zk' do
+    describe '/etc/mesos/zk' do
       it 'creates it' do
         expect(chef_run).to create_template '/etc/mesos/zk'
       end
@@ -81,7 +81,7 @@ describe 'mesos::slave' do
       expect(chef_run).to run_bash('cleanup /etc/mesos-slave/')
     end
 
-    context 'configuration options in /etc/mesos-slave' do
+    describe 'configuration options in /etc/mesos-slave' do
       it 'echos each key-value pair in node[:mesos][:slave]' do
         expect(chef_run).to run_bash('echo /tmp/mesos > /etc/mesos-slave/work_dir')
         expect(chef_run).to run_bash('echo slave_value > /etc/mesos-slave/slave_key')

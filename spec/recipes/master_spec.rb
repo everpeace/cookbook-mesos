@@ -71,7 +71,7 @@ describe 'mesos::master' do
     it_behaves_like 'an installation from mesosphere'
     it_behaves_like 'a master recipe'
 
-    context '/etc/mesos/zk' do
+    describe '/etc/mesos/zk' do
       it 'creates it' do
         expect(chef_run).to create_template '/etc/mesos/zk'
       end
@@ -81,7 +81,7 @@ describe 'mesos::master' do
       end
     end
 
-    context '/etc/default/mesos' do
+    describe '/etc/default/mesos' do
       it 'creates it' do
         expect(chef_run).to create_template('/etc/default/mesos')
       end
@@ -95,7 +95,7 @@ describe 'mesos::master' do
       end
     end
 
-    context '/etc/default/mesos-master' do
+    describe '/etc/default/mesos-master' do
       it 'creates it' do
         expect(chef_run).to create_template '/etc/default/mesos-master'
       end
