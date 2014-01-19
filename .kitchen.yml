@@ -1,0 +1,56 @@
+---
+driver:
+  name: vagrant
+  customize:
+    memory: 1024
+    cpus: 2
+    ioapic: 'on'
+
+provisioner:
+  name: chef_solo
+
+platforms:
+  - name: ubuntu-12.04
+    run_list:
+      - recipe[apt]
+    attributes:
+      java:
+        jdk_version: 7
+
+suites:
+  - name: mesosphere_slave
+    run_list:
+      - recipe[mesos::slave]
+    attributes:
+      mesos:
+        type: mesosphere
+        slave:
+          master: test-master
+  - name: mesosphere_master
+    run_list:
+      - recipe[mesos::master]
+    attributes:
+      mesos:
+        type: mesosphere
+        master:
+          zk: test-master
+        master_ips: ['10.0.0.1', '10.0.0.2', '10.0.0.3']
+        slave_ips:  ['11.0.0.1', '11.0.0.2', '11.0.0.3']
+  - name: source_master
+    run_list:
+      - recipe[mesos::master]
+    attributes:
+      mesos:
+        type: source
+        master:
+          zk: test-master
+        master_ips: ['10.0.0.1', '10.0.0.2', '10.0.0.3']
+        slave_ips:  ['11.0.0.1', '11.0.0.2', '11.0.0.3']
+  - name: source_slave
+    run_list:
+      - recipe[mesos::slave]
+    attributes:
+      mesos:
+        type: source
+        slave:
+          master: test-master

@@ -60,3 +60,5 @@ target
 
 .vagrant
 *.lock
+.kitchen/
+.kitchen.local.yml
