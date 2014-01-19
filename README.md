@@ -23,30 +23,33 @@ Recipies
 --------
 
 ### mesos::default
-install mesos by `build_from_source` recipe or `mesosphere` recipe.
+Install mesos by `build_from_source` recipe or `mesosphere` recipe.
 
-###mesos::build_from_source
-install mesos(download zip from [github](https://github.com/apache/mesos), configure, make, make install).
+### mesos::build\_from\_source
+Install mesos(download zip from [github](https://github.com/apache/mesos), configure, make, make install).
 
 ### mesos::mesosphere
-install mesos using mesosphere's mesos package.  You can also install zookeeper package by `node[:mesos][:mesosphere][:with_zookeeper]` if required because Mesospher's mesos package doesn't include zookeeper.
+Install mesos using mesosphere's mesos package.
+You can also install zookeeper package by `node[:mesos][:mesosphere][:with_zookeeper]` if required because Mesosphere's mesos package doesn't include zookeeper.
 
 ### mesos::master
-configure master and cluster deployment configuration files and start `mesos-master`. If you choose `mesosphere`, `node[:mesos][:prefix]` would be overridden by `/usr/local` because mesosphere package installs deploy files to the directory.
+Configure master and cluster deployment configuration files, and start
+`mesos-master`.
+If you choose `mesosphere`, `node[:mesos][:prefix]` will be overridden to `/usr/local`, because mesosphere package installs deploy files to that directory.
 
 * `node[:mesos][:prefix]/var/mesos/deploy/masters`
 * `node[:mesos][:prefix]/var/mesos/deploy/slaves`
 * `node[:mesos][:prefix]/var/mesos/deploy/mesos-deploy-env.sh`
 * `node[:mesos][:prefix]/var/mesos/deploy/mesos-master-env.sh`
 
-if you choose installation type `mesosphere`,  this recipe also confiures upstart conf files which are installed by mesosphere mesos package.
+If you choose installation type `mesosphere`,  this recipe also configures upstart configuration files which are installed by the package:
 
 * `/etc/mesos/zk`
 * `/etc/defaults/mesos`
 * `/etc/defaults/mesos-master`
 
 ##### How to configure `mesos-master`
-You can configure `mesos-master` command line options by `node[:mesos][:master]` object.  If you have a configuration below,
+You can configure `mesos-master` command line options by `node[:mesos][:master]` object.  If you have a configuration as shown below:
 
     node[:mesos][:master] == {
       :port    => "5050",
@@ -55,25 +58,27 @@ You can configure `mesos-master` command line options by `node[:mesos][:master]`
       :cluster => "MyCluster"
     }
 
-Then `mesos-master` will be invoked with these options like this.
+Then `mesos-master` will be invoked with command line options like this:
 
     mesos-master --zk=zk://localhost:2181/mesos --port=5050 --log_dir=/var/log/mesos --cluster=MyCluster
 
-See See [here](http://mesos.apache.org/documentation/latest/configuration/) for available options or the output of of `mesos-master --help`.
+See [here](http://mesos.apache.org/documentation/latest/configuration/) for available options or the output of `mesos-master --help`.
 
 ### mesos::slave
-configure slave configuration files and start `mesos-slave`.  If you choose `mesosphere`, `node[:mesos][:prefix]` would be overridden by `/usr/local` because mesosphere package installs deploy files to the directory.
+Configure slave configuration files, and start `mesos-slave`.
+If you choose `mesosphere`, `node[:mesos][:prefix]` will be overridden to `/usr/local`, because the `mesosphere` package installs deploy files to that directory.
 
 * `node[:mesos][:prefix]/var/mesos/deploy/mesos-slave-env.sh`
 
-if you choose installation type `mesosphere`,  this recipe also confiures upstart conf files which are installed by mesosphere mesos package.
+If you choose installation type `mesosphere`,  this recipe also configures upstart configuration files which are installed by `mesosphere` mesos package.
 
 * `/etc/mesos/zk`
 * `/etc/defaults/mesos`
 * `/etc/defaults/mesos-slave`
 
 ##### How to configure `mesos-slave`
-You can configure `mesos-slave` command line options by `node[:mesos][:slave]` object.  If you have a configuration below,
+You can configure `mesos-slave` command line options by `node[:mesos][:slave]` hash.
+If you have a configuration as shown below:
 
     node[:mesos][:slave] == {
       :master    => "zk://localhost:2181/mesos",
@@ -82,20 +87,22 @@ You can configure `mesos-slave` command line options by `node[:mesos][:slave]` o
       :work_dir  => "/var/run/work"
     }
 
-Then `mesos-slave` will be invoked with these options like this.
+Then `mesos-slave` will be invoked with command line options like this:
 
     mesos-slave --master=zk://localhost:2181/mesos --log_dir=/var/log/mesos --isolation=cgroups --work_dir=/var/run/work
 
 See [here](http://mesos.apache.org/documentation/latest/configuration/) for available options or the output of `mesos-slave --help`.
 
 ### [BETA] mesos::docker-executor
-install [mesos-docker executor](https://github.com/mesosphere/mesos-docker).  currently only Mesos 0.14.0 is supported.
+install [mesos-docker executor](https://github.com/mesosphere/mesos-docker).
+Currently only Mesos 0.14.0 is supported.
 
-__NOTE__: This cookbook DOES NOT install docker automatically. So, you need to install docker manually. see [./sample/mesosphere/Vagrantfile](https://github.com/everpeace/cookbook-mesos/tree/master/example/mesosphere/Vagrantfile)
+__NOTE__: This cookbook DOES NOT install `docker` automatically.
+So, you need to install docker manually. see [./sample/mesosphere/Vagrantfile](https://github.com/everpeace/cookbook-mesos/tree/master/example/mesosphere/Vagrantfile)
 
 Usage
 ----
-please see bellows
+Please see below:
 
 * [everpeace/vagrant-mesos](https://github.com/everpeace/vagrant-mesos)
 * [./exsample/source](https://github.com/everpeace/cookbook-mesos/tree/master/example/source/)
