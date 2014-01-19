@@ -27,6 +27,7 @@ describe 'mesos::master' do
     let :chef_run do
       ChefSpec::Runner.new do |node|
         node.set[:mesos][:type] = 'mesosphere'
+        node.set[:mesos][:master][:zk] = 'zk-string'
         node.set[:mesos][:mesosphere][:with_zookeeper] = true
       end.converge(described_recipe)
     end
@@ -34,8 +35,44 @@ describe 'mesos::master' do
     it_behaves_like 'an installation from mesosphere'
     it_behaves_like 'a master recipe'
 
-    it 'creates /etc/default/mesos-master' do
-      expect(chef_run).to create_template '/etc/default/mesos-master'
+    context '/etc/mesos/zk' do
+      it 'creates it' do
+        expect(chef_run).to create_template '/etc/mesos/zk'
+      end
+
+      it 'contains configured zk string' do
+        expect(chef_run).to render_file('/etc/mesos/zk').with_content(/^zk-string$/)
+      end
+    end
+
+    context '/etc/default/mesos' do
+      it 'creates it' do
+        expect(chef_run).to create_template('/etc/default/mesos')
+      end
+
+      it 'contains LOGS variable' do
+        expect(chef_run).to render_file('/etc/default/mesos').with_content(/^LOGS=\/var\/log\/mesos$/)
+      end
+
+      it 'contains ULIMIT variable' do
+        expect(chef_run).to render_file('/etc/default/mesos').with_content(/^ULIMIT="-n 8192"$/)
+      end
+    end
+
+    context '/etc/default/mesos-master' do
+      it 'creates it' do
+        expect(chef_run).to create_template '/etc/default/mesos-master'
+      end
+
+      it 'contains PORT variable' do
+        expect(chef_run).to render_file('/etc/default/mesos-master')
+          .with_content(/^PORT=5050$/)
+      end
+
+      it 'contains ZK variable' do
+        expect(chef_run).to render_file('/etc/default/mesos-master')
+          .with_content(/^ZK=`cat \/etc\/mesos\/zk`$/)
+      end
     end
 
     it 'creates /etc/mesos-master' do

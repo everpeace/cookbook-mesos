@@ -1,6 +1,10 @@
 # encoding: utf-8
 
 shared_examples_for 'an installation from mesosphere' do
+  let :mesos_deb do
+    chef_run.remote_file(File.join(Chef::Config[:file_cache_path], 'mesos_0.15.0.deb'))
+  end
+
   it 'installs default-jre-headless' do
     expect(chef_run).to install_apt_package 'default-jre-headless'
   end
@@ -45,20 +49,12 @@ shared_examples_for 'an installation from mesosphere' do
     end
   end
 
-  let :mesos_deb do
-    chef_run.remote_file(File.join(Chef::Config[:file_cache_path], 'mesos_0.15.0.deb'))
-  end
-
   it 'downloads mesos deb' do
     expect(chef_run).to create_remote_file File.join(Chef::Config[:file_cache_path], 'mesos_0.15.0.deb')
   end
 
   it 'notifies installation of mesos package using dpkg' do
     expect(mesos_deb).to notify('dpkg_package[mesos]').to(:install).delayed
-  end
-
-  it 'creates /etc/mesos/zk' do
-    expect(chef_run).to create_template '/etc/mesos/zk'
   end
 
   it 'creates /etc/default/mesos' do

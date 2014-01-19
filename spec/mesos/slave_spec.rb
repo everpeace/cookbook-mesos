@@ -27,8 +27,30 @@ describe 'mesos::slave' do
     it_behaves_like 'an installation from mesosphere'
     it_behaves_like 'a slave recipe'
 
-    it 'creates /etc/default/mesos-slave' do
-      expect(chef_run).to create_template '/etc/default/mesos-slave'
+    context '/etc/mesos/zk' do
+      it 'creates it' do
+        expect(chef_run).to create_template '/etc/mesos/zk'
+      end
+
+      it 'contains configured zk string' do
+        expect(chef_run).to render_file('/etc/mesos/zk').with_content(/^test-master$/)
+      end
+    end
+
+    describe '/etc/default/mesos-slave' do
+      it 'creates it' do
+        expect(chef_run).to create_template '/etc/default/mesos-slave'
+      end
+
+      it 'contains MASTER variable' do
+        expect(chef_run).to render_file('/etc/default/mesos-slave')
+          .with_content(/^MASTER=`cat \/etc\/mesos\/zk`$/)
+      end
+
+      it 'contains ISOLATION variable' do
+        expect(chef_run).to render_file('/etc/default/mesos-slave')
+          .with_content(/^ISOLATION=cgroups$/)
+      end
     end
 
     it 'creates /etc/mesos-slave' do
