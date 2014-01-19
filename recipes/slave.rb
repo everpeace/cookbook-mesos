@@ -13,7 +13,7 @@ elsif node[:mesos][:type] == 'mesosphere' then
   prefix = File.join("/usr", "local")
   Chef::Log.info("node[:mesos][:prefix] is ignored. prefix will be set with /usr/local .")
 else
-  Chef::Log.fatal!("node['mesos']['type'] should be 'source' or 'mesosphere'.")
+  Chef::Application.fatal!("node['mesos']['type'] should be 'source' or 'mesosphere'.")
 end
 
 deploy_dir = File.join(prefix, "var", "mesos", "deploy")

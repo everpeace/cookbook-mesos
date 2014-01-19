@@ -12,10 +12,10 @@ download_url = "http://downloads.mesosphere.io/master/#{node['platform']}/#{node
 
 # TODO(everpeace) platform_version validation
 if !platform?("ubuntu") then
-  Chef::Log.fatal!("#{platform} is not supported on #{cookbook_name} cookbook")
+  Chef::Application.fatal!("#{platform} is not supported on #{cookbook_name} cookbook")
 end
 if !supported_mesos.include?(version) then
-  Chef::Log.fatal!("#{version} is not supported on #{cookbook_name}::#{recipe_name}")
+  Chef::Application.fatal!("#{version} is not supported on #{cookbook_name}::#{recipe_name}")
 end
 
 installed = File.exist?("/usr/local/sbin/mesos-master")
