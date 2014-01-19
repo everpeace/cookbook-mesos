@@ -27,7 +27,7 @@ describe 'mesos::slave' do
         expect(chef_run).to create_template '/usr/local/var/mesos/deploy/mesos-slave-env.sh'
       end
 
-      it 'contains each key-value pair from node[:mesos][:master]' do
+      it 'contains each key-value pair from node[:mesos][:slave]' do
         expect(chef_run).to render_file('/usr/local/var/mesos/deploy/mesos-slave-env.sh')
           .with_content(/^export MESOS_slave_key=slave_value$/)
       end
