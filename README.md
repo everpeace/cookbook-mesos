@@ -253,16 +253,12 @@ Attributes
 Testing
 -------
 
-There are a couple of suites using `test-kitchen` in place, which tests both
-source and mesosphere installations (as well as master and slave recipes).
+There are a couple of test suites
 
-They are currently a bit too tightly coupled with the actual recipes, which
-stems from the fact that they were created after the recipes were created and
-the main motivation of even creating them is for regression testing when adding
-support for other platforms.
+* `chefspec` for unit tests
+* `test-kitchen` with `serverspec` for integration tests (using `vagrant`)
 
-Next steps concerning the tight coupling is to move some of the tests to unit
-tests and refactor the integration tests to be more resilient to changes.
+in place, which tests both source and mesosphere installations (as well as master and slave recipes).
 
 Contributing
 ------------
