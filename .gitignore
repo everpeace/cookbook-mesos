@@ -62,3 +62,5 @@ target
 *.lock
 .kitchen/
 .kitchen.local.yml
+!Gemfile.lock
+.coverage

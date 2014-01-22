@@ -12,6 +12,5 @@ if node['mesos']['type'] == 'source' then
 elsif node['mesos']['type'] == 'mesosphere' then
   include_recipe "mesos::mesosphere"
 else
-  Chef::Log.fatal!("node['mesos']['type'] should be 'source' or 'mesosphere'.")
+  Chef::Application.fatal!("node['mesos']['type'] should be 'source' or 'mesosphere'.")
 end
-

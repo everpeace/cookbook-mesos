@@ -7,4 +7,5 @@ group :test do
   gem 'test-kitchen'
   gem 'kitchen-vagrant'
   gem 'busser-serverspec'
+  gem 'chefspec'
 end
