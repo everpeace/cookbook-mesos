@@ -1,4 +1,4 @@
-Mesos Cookbook
+Mesos Cookbook [![Build Status](https://travis-ci.org/everpeace/cookbook-mesos.png?branch=master)](https://travis-ci.org/everpeace/cookbook-mesos)
 ==============
 Install Mesos(<http://mesos.apache.org/>) and configure mesos master and slave.  This cookbook also supports installation by both bulding from source and with [Mesosphere](http://mesosphere.io) package.  You can switch installation type by `node[:mesos][:type]` variable (`source` or `mesosphere`).
 
