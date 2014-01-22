@@ -270,12 +270,8 @@ Contributing
 5. Run the tests, ensuring they all pass
 6. Submit a Pull Request using Github
 
-License and Authors
+License
 -------------------
-* Author:: Shingo Omura everpeace@gmail.com
-
-Copyright:: 2009-2013 Shingo Omura, All rights reserved.
-
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
