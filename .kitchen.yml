@@ -2,7 +2,7 @@
 driver:
   name: vagrant
   customize:
-    memory: 1024
+    memory: 2048
     cpus: 2
     ioapic: 'on'
 
