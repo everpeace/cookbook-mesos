@@ -18,7 +18,7 @@ describe 'mesos::master' do
       end
 
       it 'contains configured zk string' do
-        expect(zk_file.content).to match /^test-master$/
+        expect(zk_file.content).to match /^zk:\/\/localhost:2181\/mesos$/
       end
     end
 
@@ -69,17 +69,8 @@ describe 'mesos::master' do
     end
   end
 
-  describe 'starting mesos-master' do
-    let :log_file do
-      file '/var/log/mesos/mesos-master.INFO'
-    end
-
-    before do
-      backend.run_command 'service mesos-master restart'
-    end
-
-    it 'logs messages about starting' do
-      expect(log_file.content).to match /Starting Mesos master/
-    end
+  describe service('mesos-master') do
+    it { should be_enabled }
+    it { should be_running }
   end
 end

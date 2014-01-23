@@ -18,7 +18,7 @@ describe 'mesos::slave' do
       end
 
       it 'contains configured master' do
-        expect(zk_file.content).to match /^test-master$/
+        expect(zk_file.content).to match /^zk:\/\/localhost:2181\/mesos$/
       end
     end
 
@@ -79,11 +79,9 @@ describe 'mesos::slave' do
     end
   end
 
-  context 'running mesos-slave' do
-    # init script swallows all output and none is actually written
-    # to the log file, so it's kinda hard to verify anything.
-    # Perhaps a simple `which` test case would do for now? Just to
-    # make sure that the necessary bin scripts are in place.
-    pending 'need to be able to actually start a slave box'
+  describe service('mesos-slave') do
+    it { should be_enabled }
+    # service mesos-master is required in order which the below was passed.
+    it { should be_running }
   end
 end
