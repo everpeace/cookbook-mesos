@@ -26,12 +26,16 @@ suites:
         type: mesosphere
         slave:
           master: test-master
+        mesosphere:
+          with_zookeeper: true
   - name: mesosphere_master
     run_list:
       - recipe[mesos::master]
     attributes:
       mesos:
         type: mesosphere
+        mesosphere:
+          with_zookeeper: true
         master:
           zk: test-master
         master_ips: ['10.0.0.1', '10.0.0.2', '10.0.0.3']

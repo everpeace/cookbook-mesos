@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-shared_examples_for 'an installation from mesosphere' do
+shared_examples_for 'an installation from mesosphere' do |opt|
   it 'installs default-jre-headless' do
     expect(package('default-jre-headless')).to be_installed
   end
@@ -15,8 +15,18 @@ shared_examples_for 'an installation from mesosphere' do
     end
   end
 
-  context 'with zookeeper' do
-    pending
+  if(opt[:with_zookeeper])
+    context 'with zookeeper' do
+      it 'installs zookeeper, zookeeperd, zookeeper-bin' do
+        ['zookeeper', 'zookeeperd', 'zookeeper-bin'].each do |zk|
+          expect(package(zk)).to be_installed
+        end
+      end
+
+      describe service('zookeeper') do
+        it { should be_running }
+      end
+    end
   end
 
   it 'downloads mesos package to Chef cache path' do

@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'mesos::master' do
-  it_behaves_like 'an installation from mesosphere'
+  it_behaves_like 'an installation from mesosphere', {:with_zookeeper => true}
 
   it_behaves_like 'a configuration of a master node'
 
