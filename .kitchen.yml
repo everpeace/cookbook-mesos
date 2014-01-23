@@ -18,6 +18,18 @@ platforms:
         jdk_version: 7
 
 suites:
+  - name: mesosphere_master
+    run_list:
+      - recipe[mesos::master]
+    attributes:
+      mesos:
+        type: mesosphere
+        mesosphere:
+          with_zookeeper: true
+        master:
+          zk: 'zk://localhost:2181/mesos'
+        master_ips: ['10.0.0.1', '10.0.0.2', '10.0.0.3']
+        slave_ips:  ['11.0.0.1', '11.0.0.2', '11.0.0.3']
   - name: mesosphere_slave
     run_list:
       # master recipe is only for asserting mesos-slave healthy startup.
@@ -33,18 +45,6 @@ suites:
         slave_ips:  ['11.0.0.1', '11.0.0.2', '11.0.0.3']
         mesosphere:
           with_zookeeper: true
-  - name: mesosphere_master
-    run_list:
-      - recipe[mesos::master]
-    attributes:
-      mesos:
-        type: mesosphere
-        mesosphere:
-          with_zookeeper: true
-        master:
-          zk: 'zk://localhost:2181/mesos'
-        master_ips: ['10.0.0.1', '10.0.0.2', '10.0.0.3']
-        slave_ips:  ['11.0.0.1', '11.0.0.2', '11.0.0.3']
   - name: source_master
     run_list:
       - recipe[mesos::master]
