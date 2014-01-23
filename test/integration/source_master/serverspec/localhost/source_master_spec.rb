@@ -15,12 +15,12 @@ describe 'mesos::master' do
     before do
       # This is such a hack, but hey, it makes it
       # possible to actually verify something.
-      backend.run_command 'mesos-master --log_dir=/var/log/mesos > /dev/null 2>&1 & sleep 1 && killall mesos-master'
+      backend.run_command 'mesos-master --log_dir=/var/log/mesos --ip=127.0.0.1 > /dev/null 2>&1 & sleep 1 && killall mesos-master'
     end
 
     it 'logs messages about starting' do
       expect(log_file.content).to match /Starting Mesos master/
-      expect(log_file.content).to match /Master started on 127.0.1.1:5050/
+      expect(log_file.content).to match /Master started on 127.0.0.1:5050/
     end
 
     it 'logs message about electing itself as master' do

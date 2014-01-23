@@ -51,15 +51,18 @@ suites:
     attributes:
       mesos:
         type: source
-        master:
-          zk: test-master
         master_ips: ['10.0.0.1', '10.0.0.2', '10.0.0.3']
         slave_ips:  ['11.0.0.1', '11.0.0.2', '11.0.0.3']
   - name: source_slave
     run_list:
+      # master recipe is only for asserting mesos-slave healthy startup.
+      - recipe[mesos::master]
       - recipe[mesos::slave]
     attributes:
       mesos:
         type: source
         slave:
-          master: test-master
+          master: localhost
+        # these keys below are only for master configurations.
+        master_ips: ['10.0.0.1', '10.0.0.2', '10.0.0.3']
+        slave_ips:  ['11.0.0.1', '11.0.0.2', '11.0.0.3']
