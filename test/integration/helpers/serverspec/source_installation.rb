@@ -1,17 +1,6 @@
 # encoding: utf-8
 
 shared_examples_for 'an installation from source' do
-  it 'downloads mesos package to Chef cache path' do
-    expect(file('/tmp/kitchen/cache/mesos-0.15.0.zip')).to be_a_file
-  end
-
-  it 'creates mesos home' do
-    expect(file('/opt/mesos')).to be_a_directory
-  end
-
-  it 'extracts contents of mesos package to mesos home path' do
-    expect(Dir.glob('/opt/mesos/*')).not_to be_empty
-  end
 
   context 'installation into /usr/local' do
     shared_examples_for 'an install directory' do

@@ -29,10 +29,6 @@ shared_examples_for 'an installation from mesosphere' do |opt|
     end
   end
 
-  it 'downloads mesos package to Chef cache path' do
-    expect(file('/tmp/kitchen/cache/mesos_0.15.0.deb')).to be_a_file
-  end
-
   it 'installs mesos package' do
     expect(package('mesos')).to be_installed
   end
