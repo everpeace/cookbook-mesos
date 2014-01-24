@@ -7,17 +7,22 @@ describe 'mesos::slave' do
 
   it_behaves_like 'a configuration of a slave node'
 
-  describe 'attempting to run mesos-slave' do
-    let :slave_command do
-      command 'mesos-slave --master=127.0.0.1'
+  describe 'running mesos-slave' do
+    let :log_file do
+      file '/var/log/mesos/mesos-slave.INFO'
     end
 
-    it 'attempts to start' do
-      expect(slave_command).to return_stderr /Starting Mesos slave/
+    before do
+      # This is such a hack, but hey, it makes it
+      # possible to actually verify something.
+      backend.run_command 'mesos-master --log_dir=/var/log/mesos --ip=127.0.0.1 > /dev/null 2>&1 &'
+      backend.run_command 'mesos-slave --master=127.0.0.1:5050 --log_dir=/var/log/mesos > /dev/null 2>&1 &'
+      backend.run_command 'sleep 1 && killall mesos-master && killall mesos-slave'
     end
 
-    it 'complains about not being able to connect to a master' do
-      expect(slave_command).to return_stderr /Failed to create a master detector/
+    it 'logs messages about starting and being regstered to master' do
+      expect(log_file.content).to match /Starting Mesos slave/
+      expect(log_file.content).to match /Registered with master/
     end
   end
 end
