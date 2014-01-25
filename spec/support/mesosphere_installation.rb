@@ -13,6 +13,10 @@ shared_examples_for 'an installation from mesosphere' do
     expect(chef_run).to install_package 'libcurl3'
   end
 
+  it 'installs unzip' do
+    expect(chef_run).to install_package 'unzip'
+  end
+
   describe 'workaround symlink for libjvm.so' do
     context 'when /usr/lib/libjvm.so is already a symlink' do
       before do
