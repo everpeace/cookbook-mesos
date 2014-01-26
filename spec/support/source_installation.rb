@@ -49,4 +49,71 @@ shared_examples_for 'an installation from source' do
     expect(chef_run).to run_bash('install mesos to /usr/local').with_code(/make install/)
     expect(chef_run).to run_bash('install mesos to /usr/local').with_code(/ldconfig/)
   end
+
+  describe 'mesos-master upstart script' do
+    it 'installs it to /etc/init' do
+      expect(chef_run).to create_template '/etc/init/mesos-master.conf'
+    end
+
+    it 'describe service name "mesos master"' do
+      expect(chef_run).to render_file('/etc/init/mesos-master.conf')
+        .with_content(/^description "mesos master"$/)
+    end
+
+    it 'contains "start on stopped rc with runlevel 2,3,4,5"' do
+      expect(chef_run).to render_file('/etc/init/mesos-master.conf')
+        .with_content(/^start on stopped rc RUNLEVEL=\[2345\]$/)
+    end
+
+    it 'contains "respawn"' do
+      expect(chef_run).to render_file('/etc/init/mesos-master.conf')
+        .with_content(/^respawn/)
+    end
+
+    it 'contains "/usr/local" as prefix' do
+      expect(chef_run).to render_file('/etc/init/mesos-master.conf')
+        .with_content(/^  prefix=\/usr\/local$/)
+    end
+
+    it 'contains "master" as role' do
+      expect(chef_run).to render_file('/etc/init/mesos-master.conf')
+        .with_content(/^  role=master /)
+    end
+  end
+
+  describe 'mesos-slave upstart script' do
+    it 'installs it to /etc/init' do
+      expect(chef_run).to create_template '/etc/init/mesos-slave.conf'
+    end
+
+    it 'describe service name "mesos slaver"' do
+      expect(chef_run).to render_file('/etc/init/mesos-slave.conf')
+        .with_content(/^description "mesos slave"$/)
+    end
+
+    it 'contains start on stopped rc with runlevel 2,3,4,5' do
+      expect(chef_run).to render_file('/etc/init/mesos-slave.conf')
+        .with_content(/^start on stopped rc RUNLEVEL=\[2345\]$/)
+    end
+
+    it 'contains respawn' do
+      expect(chef_run).to render_file('/etc/init/mesos-slave.conf')
+        .with_content(/^respawn$/)
+    end
+
+    it 'contains "/usr/local" as prefix' do
+      expect(chef_run).to render_file('/etc/init/mesos-slave.conf')
+        .with_content(/^  prefix=\/usr\/local$/)
+    end
+
+    it 'contains "slave" as role' do
+      expect(chef_run).to render_file('/etc/init/mesos-slave.conf')
+        .with_content(/^  role=slave /)
+    end
+  end
+
+  it 'reload init configuration' do
+    expect(chef_run).to run_bash('reload upstart configuration').with_code(/initctl reload-configuration/)
+    expect(chef_run).to run_bash('reload upstart configuration').with_user('root')
+  end
 end

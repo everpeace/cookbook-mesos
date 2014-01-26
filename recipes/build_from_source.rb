@@ -74,3 +74,23 @@ bash "install mesos to #{prefix}" do
   not_if { installed==true }
 end
 
+template "/etc/init/mesos-master.conf" do
+  source "upstart.conf.for.buld_from_source.erb"
+  variables(:master_or_slave => "master")
+  mode 0644
+  owner "root"
+  group "root"
+end
+
+template "/etc/init/mesos-slave.conf" do
+  source "upstart.conf.for.buld_from_source.erb"
+  variables(:master_or_slave => "slave")
+  mode 0644
+  owner "root"
+  group "root"
+end
+
+bash "reload upstart configuration" do
+  user 'root'
+  code 'initctl reload-configuration'
+end
