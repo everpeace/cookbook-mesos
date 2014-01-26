@@ -40,4 +40,10 @@ shared_examples_for 'a configuration of a slave node' do
       expect(slave_env_file.content).to match /^export MESOS_isolation=cgroups$/
     end
   end
+
+  describe service('mesos-slave') do
+    it { should be_enabled }
+    # service mesos-master is required in order which the below was passed.
+    it { should be_running }
+  end
 end

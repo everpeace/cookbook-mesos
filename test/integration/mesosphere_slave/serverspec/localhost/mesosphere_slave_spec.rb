@@ -78,10 +78,4 @@ describe 'mesos::slave' do
       end
     end
   end
-
-  describe service('mesos-slave') do
-    it { should be_enabled }
-    # service mesos-master is required in order which the below was passed.
-    it { should be_running }
-  end
 end

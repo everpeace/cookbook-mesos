@@ -115,9 +115,9 @@ if node[:mesos][:type] == 'mesosphere' then
       end
     end
   end
+end
 
- service "mesos-slave" do
-    provider Chef::Provider::Service::Upstart
-    action :restart
-  end
+service "mesos-slave" do
+  provider Chef::Provider::Service::Upstart
+  action :restart
 end
