@@ -136,19 +136,15 @@ shared_examples_for 'an installation from source' do
     end
 
     let :expected_confs do
-      ['mesos-master.conf','mesos-slave.conf'].map{ |conf| "/etc/init/#{conf}"}
+      ['mesos-master.conf','mesos-slave.conf'].map { |conf| "/etc/init/#{conf}" }
     end
 
     it 'exists' do
-      expected_confs.each { |conf| expect(conf_files).to include(conf)}
+      expected_confs.each { |conf| expect(conf_files).to include(conf) }
     end
 
     it 'is owned by root' do
       expected_confs.each { |conf| expect(file(conf)).to be_owned_by('root') }
-    end
-
-    it 'is managed by root group' do
-      expected_confs.each { |conf| expect(file(conf)).to be_grouped_into('root') }
     end
 
     it 'is managed by root group' do

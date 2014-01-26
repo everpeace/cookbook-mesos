@@ -1,4 +1,4 @@
-description "mesos <%= @master_or_slave %>"
+description "mesos <%= @role %>"
 
 # This is as simple as possible to ensure compatibility with
 # Ubuntu, Debian, CentOS, and RHEL distros. See:
@@ -8,10 +8,10 @@ respawn
 
 # the script below comes from ${exec_prefix}/sbin/mesos-daemon.sh
 #   mesos-daemon.sh is not suitable
-#   because it uses 'nohup' for spawning mesos-<%= @master_or_slave %>
+#   because it uses 'nohup' for spawning mesos-<%= @role %>
 script
   prefix=<%= node[:mesos][:prefix] %>
-  role=<%= @master_or_slave %> # 'master' or 'slave'
+  role=<%= @role %> # 'master' or 'slave'
   exec_prefix=${prefix}
   deploy_dir=${prefix}/var/mesos/deploy
   # Increase the default number of open file descriptors.

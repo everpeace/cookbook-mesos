@@ -76,7 +76,7 @@ end
 
 template "/etc/init/mesos-master.conf" do
   source "upstart.conf.for.buld_from_source.erb"
-  variables(:master_or_slave => "master")
+  variables(:role => "master")
   mode 0644
   owner "root"
   group "root"
@@ -84,7 +84,7 @@ end
 
 template "/etc/init/mesos-slave.conf" do
   source "upstart.conf.for.buld_from_source.erb"
-  variables(:master_or_slave => "slave")
+  variables(:role => "slave")
   mode 0644
   owner "root"
   group "root"
