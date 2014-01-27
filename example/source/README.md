@@ -22,14 +22,4 @@ Usage
 
     $ vagrant up
 
-### Mesos cluster in single node.
-just hit below command.
-
-    $ vagrant ssh -c 'mesos-start-cluster.sh'
-
 If everything went well, you can see mesos web UI on: <http://localhost:5050>
-
-when stop, just hit
-    
-    $ vagrant ssh -c 'mesos-stop-cluster.sh'
-    
