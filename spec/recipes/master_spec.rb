@@ -54,6 +54,10 @@ describe 'mesos::master' do
           .with_content(/^export MESOS_fake_key=fake_value$/)
       end
     end
+
+    it 'restart mesos-master service' do
+      expect(chef_run).to restart_service('mesos-master')
+    end
   end
 
   context 'when installed from mesosphere' do
@@ -123,10 +127,6 @@ describe 'mesos::master' do
       it 'echos each key-value pair in node[:mesos][:master]' do
         expect(chef_run).to run_bash('echo fake_value > /etc/mesos-master/fake_key')
       end
-    end
-
-    it 'restart mesos-master service' do
-      expect(chef_run).to restart_service('mesos-master')
     end
   end
 

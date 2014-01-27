@@ -1,0 +1,21 @@
+description "mesos <%= @role %>"
+
+# This is as simple as possible to ensure compatibility with
+# Ubuntu, Debian, CentOS, and RHEL distros. See:
+# http://upstart.ubuntu.com/cookbook/#standard-idioms
+start on stopped rc RUNLEVEL=[2345]
+respawn
+
+# the script below comes from ${exec_prefix}/sbin/mesos-daemon.sh
+#   mesos-daemon.sh is not suitable
+#   because it uses 'nohup' for spawning mesos-<%= @role %>
+script
+  prefix=<%= node[:mesos][:prefix] %>
+  role=<%= @role %> # 'master' or 'slave'
+  exec_prefix=${prefix}
+  deploy_dir=${prefix}/var/mesos/deploy
+  # Increase the default number of open file descriptors.
+  ulimit -n 8192
+  test -e ${deploy_dir}/mesos-${role}-env.sh && . ${deploy_dir}/mesos-${role}-env.sh
+  ${exec_prefix}/sbin/mesos-${role} </dev/null >/dev/null 2>&1
+end script

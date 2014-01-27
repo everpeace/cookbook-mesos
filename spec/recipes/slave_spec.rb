@@ -32,6 +32,10 @@ describe 'mesos::slave' do
           .with_content(/^export MESOS_slave_key=slave_value$/)
       end
     end
+
+    it 'restarts mesos-slave service' do
+      expect(chef_run).to restart_service 'mesos-slave'
+    end
   end
 
   context 'when installed from mesosphere' do
@@ -86,10 +90,6 @@ describe 'mesos::slave' do
         expect(chef_run).to run_bash('echo /tmp/mesos > /etc/mesos-slave/work_dir')
         expect(chef_run).to run_bash('echo slave_value > /etc/mesos-slave/slave_key')
       end
-    end
-
-    it 'restarts mesos-slave service' do
-      expect(chef_run).to restart_service 'mesos-slave'
     end
   end
 

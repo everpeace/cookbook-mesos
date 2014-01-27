@@ -68,4 +68,9 @@ shared_examples_for 'a configuration of a master node' do
       expect(master_env_file.content).to match /^export MESOS_port=5050$/
     end
   end
+
+  describe service('mesos-master') do
+    it { should be_enabled }
+    it { should be_running }
+  end
 end

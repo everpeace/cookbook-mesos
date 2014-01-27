@@ -68,9 +68,4 @@ describe 'mesos::master' do
       end
     end
   end
-
-  describe service('mesos-master') do
-    it { should be_enabled }
-    it { should be_running }
-  end
 end
