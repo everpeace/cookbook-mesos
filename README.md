@@ -22,7 +22,7 @@ You have to specify intallation type (`source` or `mesosphere`) by `node[:mesos]
 ### mesos::default
 
 Install mesos using `build_from_source` recipe or `mesosphere` recipe, depending
-on what `node[:mesos][:type]` is set to (`source` or `mesosphere`).
+on what the `node[:mesos][:type]` attribute is set to (`source` or `mesosphere`).
 
 ### mesos::build\_from\_source
 
@@ -30,7 +30,7 @@ Install mesos (download zip from [github](https://github.com/apache/mesos), conf
 
 ### mesos::mesosphere
 
-Install mesos using mesosphere's mesos package.
+Install mesos using Mesosphere's mesos package.
 You can also install zookeeper package by `node[:mesos][:mesosphere][:with_zookeeper]` if required because Mesosphere's mesos package doesn't include zookeeper.
 
 ### mesos::master
@@ -43,7 +43,7 @@ Configure master and cluster deployment configuration files, and start
 * `node[:mesos][:prefix]/var/mesos/deploy/mesos-deploy-env.sh`
 * `node[:mesos][:prefix]/var/mesos/deploy/mesos-master-env.sh`
 
-If you choose `mesosphere` as `node[:mesos][:type`, the `node[:mesos][:prefix]` attribute
+If you choose `mesosphere` as `node[:mesos][:type]`, the `node[:mesos][:prefix]` attribute
 will be overridden to `/usr/local`, which is because the packages from Mesosphere
 installs mesos into that directory.
 
@@ -82,7 +82,7 @@ Configure slave configuration files, and start `mesos-slave`.
 
 * `node[:mesos][:prefix]/var/mesos/deploy/mesos-slave-env.sh`
 
-If you choose `mesosphere` as `node[:mesos][:type`, the `node[:mesos][:prefix]` attribute
+If you choose `mesosphere` as `node[:mesos][:type]`, the `node[:mesos][:prefix]` attribute
 will be overridden to `/usr/local`, which is because the package from Mesosphere
 installs mesos into that directory by default.
 
