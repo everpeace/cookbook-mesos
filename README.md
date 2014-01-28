@@ -53,7 +53,7 @@ If you choose installation type `mesosphere`,  this recipe also configures upsta
 
 You can configure `mesos-master` command line options by `node[:mesos][:master]` object.  If you have a configuration as shown below:
 
-    node[:mesos][:master] == {
+    node[:mesos][:master] = {
       :port    => "5050",
       :log_dir => "/var/log/mesos",
       :zk      => "zk://localhost:2181/mesos",
@@ -84,7 +84,7 @@ If you choose installation type `mesosphere`,  this recipe also configures upsta
 You can configure `mesos-slave` command line options by `node[:mesos][:slave]` hash.
 If you have a configuration as shown below:
 
-    node[:mesos][:slave] == {
+    node[:mesos][:slave] = {
       :master    => "zk://localhost:2181/mesos",
       :log_dir   => "/var/log/mesos",
       :isolation => "cgroups",
