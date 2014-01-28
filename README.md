@@ -15,9 +15,11 @@ Currently only supports `ubuntu`.
 
 ## Installation Type
 
-You have to specify intallation type (`source` or `mesosphere`) by `node[:mesos][:type]` variable.
+You have to specify intallation type (`source` or `mesosphere`) by setting `node[:mesos][:type]` variable.
 
-## Recipies
+Currently this cookbook defaults to build mesos from source, i.e.
+`node[:mesos][:type]` is set to `source`.
+
 ## Recipes
 
 ### mesos::default
