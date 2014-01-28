@@ -1,5 +1,4 @@
-Mesos Cookbook [![Build Status](https://travis-ci.org/everpeace/cookbook-mesos.png?branch=master)](https://travis-ci.org/everpeace/cookbook-mesos)
-==============
+# Mesos Cookbook [![Build Status](https://travis-ci.org/everpeace/cookbook-mesos.png?branch=master)](https://travis-ci.org/everpeace/cookbook-mesos)
 
 Install Mesos (<http://mesos.apache.org/>) and configure mesos master and slave.
 This cookbook also supports installation by both bulding from source and with [Mesosphere](http://mesosphere.io) package.
@@ -10,18 +9,15 @@ You can switch installation type using the `node[:mesos][:type]` attribute (`sou
 * `mesos::docker-exectuor` (only supports Mesos 0.14.0)
 * `mesos::marathon-framework` (planned.)
 
-Platform
-------------
+## Platform
 
 Currently only supports `ubuntu`.
 
-Installation Type
------------------
+## Installation Type
 
 You have to specify intallation type (`source` or `mesosphere`) by `node[:mesos][:type]` variable.
 
-Recipies
---------
+## Recipies
 
 ### mesos::default
 
@@ -53,7 +49,7 @@ If you choose installation type `mesosphere`,  this recipe also configures upsta
 * `/etc/defaults/mesos`
 * `/etc/defaults/mesos-master`
 
-##### How to configure `mesos-master`
+#### How to configure `mesos-master`
 
 You can configure `mesos-master` command line options by `node[:mesos][:master]` object.  If you have a configuration as shown below:
 
@@ -83,7 +79,7 @@ If you choose installation type `mesosphere`,  this recipe also configures upsta
 * `/etc/defaults/mesos`
 * `/etc/defaults/mesos-slave`
 
-##### How to configure `mesos-slave`
+#### How to configure `mesos-slave`
 
 You can configure `mesos-slave` command line options by `node[:mesos][:slave]` hash.
 If you have a configuration as shown below:
@@ -110,17 +106,18 @@ __NOTE__: This cookbook DOES NOT install `docker` automatically.
 So, you need to install docker manually.
 See [./sample/mesosphere/Vagrantfile](https://github.com/everpeace/cookbook-mesos/tree/master/example/mesosphere/Vagrantfile)
 
-Usage
-----
+## Usage
+
 Please see below:
 
 * [everpeace/vagrant-mesos](https://github.com/everpeace/vagrant-mesos)
 * [./exsample/source](https://github.com/everpeace/cookbook-mesos/tree/master/example/source/)
 * [./exsample/mesosphere](https://github.com/everpeace/cookbook-mesos/tree/master/example/mesosphere/)
 
-Attributes
-----------
-#### mesos::default
+## Attributes
+
+### mesos::default
+
 <table>
   <tr>
     <th>Key</th>
@@ -136,7 +133,8 @@ Attributes
   </tr>
 </table>
 
-#### mesos::build_from_source
+### mesos::build\_from\_source
+
 <table>
   <tr>
     <th>Key</th>
@@ -170,7 +168,8 @@ Attributes
   </tr>
 </table>
 
-#### mesos::mesosphere
+### mesos::mesosphere
+
 <table>
   <tr>
     <th>Key</th>
@@ -193,6 +192,7 @@ Attributes
 </table>
 
 ### mesos::master
+
 <table>
   <tr>
     <th>Key</th>
@@ -245,6 +245,7 @@ Attributes
 </table>
 
 ### mesos::slave
+
 <table>
   <tr>
     <th>Key</th>
@@ -272,8 +273,7 @@ Attributes
   </tr>
 </table>
 
-Testing
--------
+## Testing
 
 There are a couple of test suites
 
@@ -282,8 +282,7 @@ There are a couple of test suites
 
 in place, which tests both source and mesosphere installations (as well as master and slave recipes).
 
-Contributing
-------------
+## Contributing
 
 1. Fork the repository on Github
 2. Create a named feature branch (like `add_component_x`)
@@ -292,8 +291,8 @@ Contributing
 5. Run the tests, ensuring they all pass
 6. Submit a Pull Request using Github
 
-License
--------------------
+## License
+
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
