@@ -21,7 +21,8 @@ You have to specify intallation type (`source` or `mesosphere`) by `node[:mesos]
 
 ### mesos::default
 
-Install mesos by `build_from_source` recipe or `mesosphere` recipe.
+Install mesos using `build_from_source` recipe or `mesosphere` recipe, depending
+on what `node[:mesos][:type]` is set to (`source` or `mesosphere`).
 
 ### mesos::build\_from\_source
 
