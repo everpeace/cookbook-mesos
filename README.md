@@ -119,8 +119,8 @@ See [./sample/mesosphere/Vagrantfile](https://github.com/everpeace/cookbook-meso
 Please see below:
 
 * [everpeace/vagrant-mesos](https://github.com/everpeace/vagrant-mesos)
-* [./exsample/source](https://github.com/everpeace/cookbook-mesos/tree/master/example/source/)
-* [./exsample/mesosphere](https://github.com/everpeace/cookbook-mesos/tree/master/example/mesosphere/)
+* [./example/source](https://github.com/everpeace/cookbook-mesos/tree/master/example/source/)
+* [./example/mesosphere](https://github.com/everpeace/cookbook-mesos/tree/master/example/mesosphere/)
 
 ## Attributes
 
