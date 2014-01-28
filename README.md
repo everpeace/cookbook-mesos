@@ -37,14 +37,17 @@ You can also install zookeeper package by `node[:mesos][:mesosphere][:with_zooke
 
 Configure master and cluster deployment configuration files, and start
 `mesos-master`.
-If you choose `mesosphere`, `node[:mesos][:prefix]` will be overridden to `/usr/local`, because mesosphere package installs deploy files to that directory.
 
 * `node[:mesos][:prefix]/var/mesos/deploy/masters`
 * `node[:mesos][:prefix]/var/mesos/deploy/slaves`
 * `node[:mesos][:prefix]/var/mesos/deploy/mesos-deploy-env.sh`
 * `node[:mesos][:prefix]/var/mesos/deploy/mesos-master-env.sh`
 
-If you choose installation type `mesosphere`,  this recipe also configures upstart configuration files which are installed by the package:
+If you choose `mesosphere` as `node[:mesos][:type`, the `node[:mesos][:prefix]` attribute
+will be overridden to `/usr/local`, which is because the packages from Mesosphere
+installs mesos into that directory.
+
+Furthermore, this recipe will also configure upstart configuration files.
 
 * `/etc/mesos/zk`
 * `/etc/defaults/mesos`
@@ -52,7 +55,9 @@ If you choose installation type `mesosphere`,  this recipe also configures upsta
 
 #### How to configure `mesos-master`
 
-You can configure `mesos-master` command line options by `node[:mesos][:master]` object.  If you have a configuration as shown below:
+You can configure `mesos-master` command line options using the `node[:mesos][:master]` attribute.
+
+If you have a configuration as shown below:
 
 ```
 node[:mesos][:master] = {
@@ -74,11 +79,14 @@ See [here](http://mesos.apache.org/documentation/latest/configuration/) for avai
 ### mesos::slave
 
 Configure slave configuration files, and start `mesos-slave`.
-If you choose `mesosphere`, `node[:mesos][:prefix]` will be overridden to `/usr/local`, because the `mesosphere` package installs deploy files to that directory.
 
 * `node[:mesos][:prefix]/var/mesos/deploy/mesos-slave-env.sh`
 
-If you choose installation type `mesosphere`,  this recipe also configures upstart configuration files which are installed by `mesosphere` mesos package.
+If you choose `mesosphere` as `node[:mesos][:type`, the `node[:mesos][:prefix]` attribute
+will be overridden to `/usr/local`, which is because the package from Mesosphere
+installs mesos into that directory by default.
+
+Furthermore, this recipe also configures upstart configuration files.
 
 * `/etc/mesos/zk`
 * `/etc/defaults/mesos`
