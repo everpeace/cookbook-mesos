@@ -53,16 +53,20 @@ If you choose installation type `mesosphere`,  this recipe also configures upsta
 
 You can configure `mesos-master` command line options by `node[:mesos][:master]` object.  If you have a configuration as shown below:
 
-    node[:mesos][:master] = {
-      :port    => "5050",
-      :log_dir => "/var/log/mesos",
-      :zk      => "zk://localhost:2181/mesos",
-      :cluster => "MyCluster"
-    }
+```
+node[:mesos][:master] = {
+  :port    => "5050",
+  :log_dir => "/var/log/mesos",
+  :zk      => "zk://localhost:2181/mesos",
+  :cluster => "MyCluster"
+}
+```
 
 Then `mesos-master` will be invoked with command line options like this:
 
-    mesos-master --zk=zk://localhost:2181/mesos --port=5050 --log_dir=/var/log/mesos --cluster=MyCluster
+```
+mesos-master --zk=zk://localhost:2181/mesos --port=5050 --log_dir=/var/log/mesos --cluster=MyCluster
+```
 
 See [here](http://mesos.apache.org/documentation/latest/configuration/) for available options or the output of `mesos-master --help`.
 
@@ -84,16 +88,20 @@ If you choose installation type `mesosphere`,  this recipe also configures upsta
 You can configure `mesos-slave` command line options by `node[:mesos][:slave]` hash.
 If you have a configuration as shown below:
 
-    node[:mesos][:slave] = {
-      :master    => "zk://localhost:2181/mesos",
-      :log_dir   => "/var/log/mesos",
-      :isolation => "cgroups",
-      :work_dir  => "/var/run/work"
-    }
+```
+node[:mesos][:slave] = {
+  :master    => "zk://localhost:2181/mesos",
+  :log_dir   => "/var/log/mesos",
+  :isolation => "cgroups",
+  :work_dir  => "/var/run/work"
+}
+```
 
 Then `mesos-slave` will be invoked with command line options like this:
 
-    mesos-slave --master=zk://localhost:2181/mesos --log_dir=/var/log/mesos --isolation=cgroups --work_dir=/var/run/work
+```
+mesos-slave --master=zk://localhost:2181/mesos --log_dir=/var/log/mesos --isolation=cgroups --work_dir=/var/run/work
+```
 
 See [here](http://mesos.apache.org/documentation/latest/configuration/) for available options or the output of `mesos-slave --help`.
 
