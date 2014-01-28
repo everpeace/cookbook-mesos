@@ -27,7 +27,7 @@ install mesos(download zip from [github](https://github.com/apache/mesos), confi
 install mesos using mesosphere's mesos package.  You can also install zookeeper package by `node[:mesos][:mesosphere][:with_zookeeper]` if required because Mesospher's mesos package doesn't include zookeeper.
 
 ### mesos::master
-configure master and cluster deployment configuration files. If you choose `mesosphere`, `node[:mesos][:prefix]` would be overridden by `/usr/local` because mesosphere package installs deploy files to the directory.
+configure master and cluster deployment configuration files and start `mesos-master`. If you choose `mesosphere`, `node[:mesos][:prefix]` would be overridden by `/usr/local` because mesosphere package installs deploy files to the directory.
 
 * `node[:mesos][:prefix]/var/mesos/deploy/masters`
 * `node[:mesos][:prefix]/var/mesos/deploy/slaves`
@@ -57,7 +57,7 @@ Then `mesos-master` will be invoked with these options like this.
 See See [here](http://mesos.apache.org/documentation/latest/configuration/) for available options or the output of of `mesos-master --help`.
 
 ### mesos::slave
-configure slave configuration files.  If you choose `mesosphere`, `node[:mesos][:prefix]` would be overridden by `/usr/local` because mesosphere package installs deploy files to the directory.
+configure slave configuration files and start `mesos-slave`.  If you choose `mesosphere`, `node[:mesos][:prefix]` would be overridden by `/usr/local` because mesosphere package installs deploy files to the directory.
 
 * `node[:mesos][:prefix]/var/mesos/deploy/mesos-slave-env.sh`
 
