@@ -18,6 +18,7 @@ Currently only supports `ubuntu`.
 You have to specify intallation type (`source` or `mesosphere`) by `node[:mesos][:type]` variable.
 
 ## Recipies
+## Recipes
 
 ### mesos::default
 
@@ -44,7 +45,7 @@ Configure master and cluster deployment configuration files, and start
 * `node[:mesos][:prefix]/var/mesos/deploy/mesos-master-env.sh`
 
 If you choose `mesosphere` as `node[:mesos][:type]`, the `node[:mesos][:prefix]` attribute
-will be overridden to `/usr/local`, which is because the packages from Mesosphere
+will be overridden to `/usr/local`, which is because the package from Mesosphere
 installs mesos into that directory.
 
 Furthermore, this recipe will also configure upstart configuration files.
