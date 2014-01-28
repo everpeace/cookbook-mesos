@@ -121,7 +121,7 @@ Currently only Mesos 0.14.0 is supported.
 
 __NOTE__: This cookbook DOES NOT install `docker` automatically.
 So, you need to install docker manually.
-See [./sample/mesosphere/Vagrantfile](https://github.com/everpeace/cookbook-mesos/tree/master/example/mesosphere/Vagrantfile)
+See [./example/mesosphere/Vagrantfile](https://github.com/everpeace/cookbook-mesos/tree/master/example/mesosphere/Vagrantfile)
 
 ## Usage
 
@@ -238,7 +238,7 @@ Please see below:
   <tr>
     <td><tt>[:mesos][:cluster_name]</tt></td>
     <td>String</td>
-    <td>[OBSOLUTE] Human readable name for the cluster, displayed at webui. </td>
+    <td>[OBSOLETE] Human readable name for the cluster, displayed at webui. </td>
     <td><tt>MyCluster</tt></td>
   </tr>
   <tr>
@@ -256,7 +256,7 @@ Please see below:
   <tr>
     <td><tt>[:mesos][:master][:&lt;option_name&gt;]</tt></td>
     <td>String</td>
-    <td>You can set arbitral command line option for <tt>mesos-master</tt>. See [here](http://mesos.apache.org/documentation/latest/configuration/) for available options or the output of `mesos-master --help`.</td>
+    <td>You can set arbitrary command line option for <tt>mesos-master</tt>. See [here](http://mesos.apache.org/documentation/latest/configuration/) for available options or the output of `mesos-master --help`.</td>
     <td></td>
   </tr>
 </table>
@@ -285,7 +285,7 @@ Please see below:
   <tr>
     <td><tt>[:mesos][:slave][:&lt;option_name&gt;]</tt></td>
     <td>String</td>
-    <td>You can set arbitral command line option for <tt>mesos-slave</tt>. See [here](http://mesos.apache.org/documentation/latest/configuration/) for available options or the output of `mesos-slave --help`.</td>
+    <td>You can set arbitrary command line option for <tt>mesos-slave</tt>. See [here](http://mesos.apache.org/documentation/latest/configuration/) for available options or the output of `mesos-slave --help`.</td>
     <td></td>
   </tr>
 </table>
