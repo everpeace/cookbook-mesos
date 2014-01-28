@@ -1,5 +1,6 @@
 Mesos Cookbook [![Build Status](https://travis-ci.org/everpeace/cookbook-mesos.png?branch=master)](https://travis-ci.org/everpeace/cookbook-mesos)
 ==============
+
 Install Mesos (<http://mesos.apache.org/>) and configure mesos master and slave.
 This cookbook also supports installation by both bulding from source and with [Mesosphere](http://mesosphere.io) package.
 You can switch installation type using the `node[:mesos][:type]` attribute (`source` or `mesosphere`).
@@ -12,7 +13,7 @@ You can switch installation type using the `node[:mesos][:type]` attribute (`sou
 Platform
 ------------
 
-only support `ubuntu`
+Currently only supports `ubuntu`.
 
 Installation Type
 -----------------
@@ -23,16 +24,20 @@ Recipies
 --------
 
 ### mesos::default
+
 Install mesos by `build_from_source` recipe or `mesosphere` recipe.
 
 ### mesos::build\_from\_source
+
 Install mesos(download zip from [github](https://github.com/apache/mesos), configure, make, make install).
 
 ### mesos::mesosphere
+
 Install mesos using mesosphere's mesos package.
 You can also install zookeeper package by `node[:mesos][:mesosphere][:with_zookeeper]` if required because Mesosphere's mesos package doesn't include zookeeper.
 
 ### mesos::master
+
 Configure master and cluster deployment configuration files, and start
 `mesos-master`.
 If you choose `mesosphere`, `node[:mesos][:prefix]` will be overridden to `/usr/local`, because mesosphere package installs deploy files to that directory.
@@ -49,6 +54,7 @@ If you choose installation type `mesosphere`,  this recipe also configures upsta
 * `/etc/defaults/mesos-master`
 
 ##### How to configure `mesos-master`
+
 You can configure `mesos-master` command line options by `node[:mesos][:master]` object.  If you have a configuration as shown below:
 
     node[:mesos][:master] == {
@@ -65,6 +71,7 @@ Then `mesos-master` will be invoked with command line options like this:
 See [here](http://mesos.apache.org/documentation/latest/configuration/) for available options or the output of `mesos-master --help`.
 
 ### mesos::slave
+
 Configure slave configuration files, and start `mesos-slave`.
 If you choose `mesosphere`, `node[:mesos][:prefix]` will be overridden to `/usr/local`, because the `mesosphere` package installs deploy files to that directory.
 
@@ -77,6 +84,7 @@ If you choose installation type `mesosphere`,  this recipe also configures upsta
 * `/etc/defaults/mesos-slave`
 
 ##### How to configure `mesos-slave`
+
 You can configure `mesos-slave` command line options by `node[:mesos][:slave]` hash.
 If you have a configuration as shown below:
 
@@ -94,11 +102,13 @@ Then `mesos-slave` will be invoked with command line options like this:
 See [here](http://mesos.apache.org/documentation/latest/configuration/) for available options or the output of `mesos-slave --help`.
 
 ### [BETA] mesos::docker-executor
-install [mesos-docker executor](https://github.com/mesosphere/mesos-docker).
+
+Install [mesos-docker executor](https://github.com/mesosphere/mesos-docker).
 Currently only Mesos 0.14.0 is supported.
 
 __NOTE__: This cookbook DOES NOT install `docker` automatically.
-So, you need to install docker manually. see [./sample/mesosphere/Vagrantfile](https://github.com/everpeace/cookbook-mesos/tree/master/example/mesosphere/Vagrantfile)
+So, you need to install docker manually.
+See [./sample/mesosphere/Vagrantfile](https://github.com/everpeace/cookbook-mesos/tree/master/example/mesosphere/Vagrantfile)
 
 Usage
 ----
@@ -267,8 +277,8 @@ Testing
 
 There are a couple of test suites
 
-* `chefspec` for unit tests
-* `test-kitchen` with `serverspec` for integration tests (using `vagrant`)
+* `chefspec` for unit tests.
+* `test-kitchen` with `serverspec` for integration tests (using `vagrant`).
 
 in place, which tests both source and mesosphere installations (as well as master and slave recipes).
 
