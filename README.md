@@ -7,7 +7,7 @@ You can switch installation type using the `node[:mesos][:type]` attribute (`sou
 [BETA] This cookbook also contains some mesos scheduler framework or executors:
 
 * `mesos::docker-exectuor` (only supports Mesos 0.14.0)
-* `mesos::marathon-framework` (planned.)
+* `mesos::marathon-framework` (planned)
 
 ## Platform
 
@@ -25,7 +25,7 @@ Install mesos by `build_from_source` recipe or `mesosphere` recipe.
 
 ### mesos::build\_from\_source
 
-Install mesos(download zip from [github](https://github.com/apache/mesos), configure, make, make install).
+Install mesos (download zip from [github](https://github.com/apache/mesos), configure, make, make install).
 
 ### mesos::mesosphere
 
