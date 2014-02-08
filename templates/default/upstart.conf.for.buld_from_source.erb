@@ -3,7 +3,7 @@ description "mesos <%= @role %>"
 # This is as simple as possible to ensure compatibility with
 # Ubuntu, Debian, CentOS, and RHEL distros. See:
 # http://upstart.ubuntu.com/cookbook/#standard-idioms
-start on stopped rc RUNLEVEL=[2345]
+<%= @init_state %> on stopped rc RUNLEVEL=[2345]
 respawn
 
 # the script below comes from ${exec_prefix}/sbin/mesos-daemon.sh

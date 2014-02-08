@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-shared_examples_for 'an installation from mesosphere' do
+shared_examples_for 'an installation from mesosphere' do |opt|
   let :mesos_deb do
     chef_run.remote_file(File.join(Chef::Config[:file_cache_path], 'mesos_0.15.0.deb'))
   end
@@ -67,5 +67,62 @@ shared_examples_for 'an installation from mesosphere' do
 
   it 'creates /etc/default/mesos' do
     expect(chef_run).to create_template '/etc/default/mesos'
+  end
+
+  describe 'mesos-master upstart script' do
+    it 'installs it to /etc/init' do
+      expect(chef_run).to create_template '/etc/init/mesos-master.conf'
+    end
+
+    it 'describe service name "mesos master"' do
+      expect(chef_run).to render_file('/etc/init/mesos-master.conf')
+        .with_content(/^description "mesos master"$/)
+    end
+
+    it "contains \"#{opt[:init_master_state]} on stopped rc with runlevel 2,3,4,5\"" do
+      expect(chef_run).to render_file('/etc/init/mesos-master.conf')
+        .with_content(/^#{opt[:init_master_state]} on stopped rc RUNLEVEL=\[2345\]$/)
+    end
+
+    it 'contains "respawn"' do
+      expect(chef_run).to render_file('/etc/init/mesos-master.conf')
+        .with_content(/^respawn/)
+    end
+
+    it 'contains "exec /usr/bin/mesos-init-wrapper master"' do
+      expect(chef_run).to render_file('/etc/init/mesos-master.conf')
+        .with_content(/^exec \/usr\/bin\/mesos-init-wrapper master$/)
+    end
+  end
+
+  describe 'mesos-slave upstart script' do
+    it 'installs it to /etc/init' do
+      expect(chef_run).to create_template '/etc/init/mesos-slave.conf'
+    end
+
+    it 'describe service name "mesos slaver"' do
+      expect(chef_run).to render_file('/etc/init/mesos-slave.conf')
+        .with_content(/^description "mesos slave"$/)
+    end
+
+    it "contains #{opt[:init_slave_state]} on stopped rc with runlevel 2,3,4,5" do
+      expect(chef_run).to render_file('/etc/init/mesos-slave.conf')
+        .with_content(/^#{opt[:init_slave_state]} on stopped rc RUNLEVEL=\[2345\]$/)
+    end
+
+    it 'contains respawn' do
+      expect(chef_run).to render_file('/etc/init/mesos-slave.conf')
+        .with_content(/^respawn$/)
+    end
+
+    it 'contains "exec /usr/bin/mesos-init-wrapper slave"' do
+      expect(chef_run).to render_file('/etc/init/mesos-slave.conf')
+        .with_content(/^exec \/usr\/bin\/mesos-init-wrapper slave$/)
+    end
+  end
+
+  it 'reload init configuration' do
+    expect(chef_run).to run_bash('reload upstart configuration').with_code(/initctl reload-configuration/)
+    expect(chef_run).to run_bash('reload upstart configuration').with_user('root')
   end
 end

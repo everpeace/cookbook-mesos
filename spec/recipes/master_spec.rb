@@ -55,6 +55,11 @@ describe 'mesos::master' do
       end
     end
 
+    it 'reload init configuration' do
+      expect(chef_run).to run_bash('reload upstart configuration').with_code(/initctl reload-configuration/)
+      expect(chef_run).to run_bash('reload upstart configuration').with_user('root')
+    end
+
     it 'restart mesos-master service' do
       expect(chef_run).to restart_service('mesos-master')
     end
@@ -72,7 +77,7 @@ describe 'mesos::master' do
       end.converge(described_recipe)
     end
 
-    it_behaves_like 'an installation from mesosphere'
+    it_behaves_like 'an installation from mesosphere', :init_master_state=>"start", :init_slave_state=>"stop"
     it_behaves_like 'a master recipe'
 
     describe '/etc/mesos/zk' do
@@ -142,7 +147,7 @@ describe 'mesos::master' do
       end.converge(described_recipe)
     end
 
-    it_behaves_like 'an installation from source'
+    it_behaves_like 'an installation from source', :init_master_state => "start", :init_slave_state =>"stop"
     it_behaves_like 'a master recipe'
   end
 end
