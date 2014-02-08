@@ -55,6 +55,17 @@ template File.join(deploy_dir, "mesos-slave-env.sh") do
   group "root"
 end
 
+# configuration files for upstart scripts by build_from_source installation
+if node[:mesos][:type] == 'source' then
+  template "/etc/init/mesos-slave.conf" do
+    source "upstart.conf.for.buld_from_source.erb"
+    variables(:init_state => "start", :role => "slave")
+    mode 0644
+    owner "root"
+    group "root"
+  end
+end
+
 # configuration files for upstart scripts by mesosphere package.
 if node[:mesos][:type] == 'mesosphere' then
   template File.join("/etc", "mesos", "zk") do
@@ -115,6 +126,11 @@ if node[:mesos][:type] == 'mesosphere' then
       end
     end
   end
+end
+
+bash "reload upstart configuration" do
+  user 'root'
+  code 'initctl reload-configuration'
 end
 
 service "mesos-slave" do

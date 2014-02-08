@@ -74,9 +74,10 @@ bash "install mesos to #{prefix}" do
   not_if { installed==true }
 end
 
+# configuration files for upstart scripts by build_from_source installation
 template "/etc/init/mesos-master.conf" do
   source "upstart.conf.for.buld_from_source.erb"
-  variables(:role => "master")
+  variables(:init_state => "stop", :role => "master")
   mode 0644
   owner "root"
   group "root"
@@ -84,7 +85,7 @@ end
 
 template "/etc/init/mesos-slave.conf" do
   source "upstart.conf.for.buld_from_source.erb"
-  variables(:role => "slave")
+  variables(:init_state => "stop", :role => "slave")
   mode 0644
   owner "root"
   group "root"

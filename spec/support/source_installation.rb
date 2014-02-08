@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-shared_examples_for 'an installation from source' do
+shared_examples_for 'an installation from source' do |opt|
   it 'includes build-essential recipe' do
     expect(chef_run).to include_recipe 'build-essential'
   end
@@ -60,9 +60,9 @@ shared_examples_for 'an installation from source' do
         .with_content(/^description "mesos master"$/)
     end
 
-    it 'contains "start on stopped rc with runlevel 2,3,4,5"' do
+    it "contains \"#{opt[:init_master_state]} on stopped rc with runlevel 2,3,4,5\"" do
       expect(chef_run).to render_file('/etc/init/mesos-master.conf')
-        .with_content(/^start on stopped rc RUNLEVEL=\[2345\]$/)
+        .with_content(/^#{opt[:init_master_state]} on stopped rc RUNLEVEL=\[2345\]$/)
     end
 
     it 'contains "respawn"' do
@@ -91,9 +91,9 @@ shared_examples_for 'an installation from source' do
         .with_content(/^description "mesos slave"$/)
     end
 
-    it 'contains start on stopped rc with runlevel 2,3,4,5' do
+    it "contains #{opt[:init_slave_state]} on stopped rc with runlevel 2,3,4,5" do
       expect(chef_run).to render_file('/etc/init/mesos-slave.conf')
-        .with_content(/^start on stopped rc RUNLEVEL=\[2345\]$/)
+        .with_content(/^#{opt[:init_slave_state]} on stopped rc RUNLEVEL=\[2345\]$/)
     end
 
     it 'contains respawn' do
