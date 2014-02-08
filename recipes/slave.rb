@@ -68,6 +68,14 @@ end
 
 # configuration files for upstart scripts by mesosphere package.
 if node[:mesos][:type] == 'mesosphere' then
+  template "/etc/init/mesos-slave.conf" do
+    source "upstart.conf.for.mesosphere.erb"
+    variables(:init_state => "start", :role => "slave")
+    mode 0644
+    owner "root"
+    group "root"
+  end
+
   template File.join("/etc", "mesos", "zk") do
     source "etc-mesos-zk.erb"
     mode 0644

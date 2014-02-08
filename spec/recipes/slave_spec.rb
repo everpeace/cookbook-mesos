@@ -53,7 +53,7 @@ describe 'mesos::slave' do
       end.converge(described_recipe)
     end
 
-    it_behaves_like 'an installation from mesosphere'
+    it_behaves_like 'an installation from mesosphere',:init_master_state=>"stop", :init_slave_state=>"start"
     it_behaves_like 'a slave recipe'
 
     describe '/etc/mesos/zk' do
