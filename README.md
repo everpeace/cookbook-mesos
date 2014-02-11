@@ -166,7 +166,7 @@ Please see below:
     <td><tt>[:mesos][:version]</tt></td>
     <td>String</td>
     <td>Version(branch or tag name at http://github.com/apache/mesos).</td>
-    <td><tt>0.15.0</tt></td>
+    <td><tt>0.16.0</tt></td>
   </tr>
   <tr>
   <td><tt>[:mesos][:prefix]</tt></td>
@@ -200,8 +200,8 @@ Please see below:
   <tr>
     <td><tt>[:mesos][:version]</tt></td>
     <td>String</td>
-    <td>Version(one of 0.14.0, 0.14.1, 0.14.2, 0.15.0-rc4, 0.15.0-rc5, 0.15.0, 0.16.0-rc2, 0.16.0-rc3).</td>
-    <td><tt>0.15.0</tt></td>
+    <td>Version(one of 0.14.0, 0.14.1, 0.14.2, 0.15.0-rc4, 0.15.0-rc5, 0.15.0, 0.16.0-rc2, 0.16.0-rc3, 0.16.0-rc4, 0.16.0-rc5,, 0.16.0, 0.17.0-rc1).</td>
+    <td><tt>0.16.0</tt></td>
   </tr>
   <tr>
     <td><tt>[:mesos][:mesosphere][:with_zookeeper]</tt></td>

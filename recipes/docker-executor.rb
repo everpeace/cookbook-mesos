@@ -8,12 +8,12 @@
 #
 
 version = node[:mesos][:version]
-if version != '0.14.0' then
-  Chef::Application.fatal("#{recipe_name} recipe currently supports only Mesos 0.14.0.")
+if ! version =~ /^0\.14/ then
+  Chef::Application.fatal("#{recipe_name} recipe currently supports only Mesos 0.14.*.")
 end
 
 # this doesn't work. so we have to install docker manually outside. I can't figure out why.
-# include_recipe "docker"
+include_recipe "docker"
 
 package "python-setuptools" do
   action :install

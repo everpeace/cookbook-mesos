@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 version = node[:mesos][:version]
-supported_mesos = ['0.14.0','0.14.1', '0.14.2', '0.15.0-rc4', '0.15.0-rc5', '0.15.0', '0.16.0-rc2', '0.16.0-rc3']
+supported_mesos = ['0.14.0','0.14.1', '0.14.2', '0.15.0-rc4', '0.15.0-rc5', '0.15.0', '0.16.0-rc2', '0.16.0-rc3', '0.16.0-rc4', '0.16.0-rc5', '0.16.0', '0.17.0-rc1']
 download_url = "http://downloads.mesosphere.io/master/#{node['platform']}/#{node['platform_version']}/mesos_#{version}_amd64.deb"
 
 # TODO(everpeace) platform_version validation
