@@ -9,7 +9,7 @@
 
 version = node[:mesos][:version]
 egg_name = "mesos_#{version}_amd64"
-if version =~ /^0\.14/ then
+if version =~ /^0\.14\.0/ then
   egg_name = "mesos-#{version}-py2.7-linux-x86_64"
 end
 
