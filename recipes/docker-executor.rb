@@ -29,7 +29,7 @@ end
 
 execute "install-mesos-python-binding" do
   command "easy_install #{Chef::Config[:file_cache_path]}/#{egg_name}.egg"
-  not_if { ::File.exists?('/usr/local/lib/python2.7/dist-packages/mesos.egg') }
+  not_if { ::File.exists?("/usr/local/lib/python2.7/dist-packages/#{egg_name}.egg") }
 end
 
 directory '/var/lib/mesos/executors' do
