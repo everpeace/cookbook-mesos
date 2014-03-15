@@ -6,7 +6,7 @@ You can switch installation type using the `node[:mesos][:type]` attribute (`sou
 
 [BETA] This cookbook also contains some mesos scheduler framework or executors:
 
-* `mesos::docker-exectuor` (only supports Mesos 0.14.0)
+* `mesos::docker-exectuor` (see [example](https://github.com/everpeace/cookbook-mesos/blob/master/example/mesosphere/Vagrantfile) for how to use)
 * `mesos::marathon-framework` (planned)
 
 ## Platform
