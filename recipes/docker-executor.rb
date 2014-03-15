@@ -8,8 +8,9 @@
 #
 
 version = node[:mesos][:version]
-if ! version =~ /^0\.14/ then
-  Chef::Application.fatal("#{recipe_name} recipe currently supports only Mesos 0.14.*.")
+egg_name = "mesos_#{version}_amd64"
+if version =~ /^0\.14/ then
+  egg_name = "mesos-#{version}-py2.7-linux-x86_64"
 end
 
 # this doesn't work. so we have to install docker manually outside. I can't figure out why.
@@ -19,16 +20,16 @@ package "python-setuptools" do
   action :install
 end
 
-remote_file "#{Chef::Config[:file_cache_path]}/mesos-0.14.0-py2.7-linux-x86_64.egg" do
-  source "http://downloads.mesosphere.io/master/ubuntu/13.04/mesos-0.14.0-py2.7-linux-x86_64.egg"
+remote_file "#{Chef::Config[:file_cache_path]}/#{egg_name}.egg" do
+  source "http://downloads.mesosphere.io/master/ubuntu/13.04/#{egg_name}.egg"
   mode   "0755"
-  not_if { File.exists?("#{Chef::Config[:file_cache_path]}/mesos-0.14.0-py2.7-linux-x86_64.egg")==true }
+  not_if { File.exists?("#{Chef::Config[:file_cache_path]}/#{egg_name}.egg")==true }
   notifies :run,  "execute[install-mesos-python-binding]"
 end
 
 execute "install-mesos-python-binding" do
-  command "easy_install #{Chef::Config[:file_cache_path]}/mesos-0.14.0-py2.7-linux-x86_64.egg"
-  not_if { ::File.exists?('/usr/local/lib/python2.7/dist-packages/mesos.egg') }
+  command "easy_install #{Chef::Config[:file_cache_path]}/#{egg_name}.egg"
+  not_if { ::File.exists?("/usr/local/lib/python2.7/dist-packages/#{egg_name}.egg") }
 end
 
 directory '/var/lib/mesos/executors' do
