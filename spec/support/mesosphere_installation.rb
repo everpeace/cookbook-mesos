@@ -2,7 +2,7 @@
 
 shared_examples_for 'an installation from mesosphere' do |opt|
   let :mesos_deb do
-    chef_run.remote_file(File.join(Chef::Config[:file_cache_path], 'mesos_0.17.0.deb'))
+    chef_run.remote_file(File.join(Chef::Config[:file_cache_path], 'mesos_0.18.0.deb'))
   end
 
   it 'installs default-jre-headless' do
@@ -54,7 +54,7 @@ shared_examples_for 'an installation from mesosphere' do |opt|
   end
 
   it 'downloads mesos deb' do
-    expect(chef_run).to create_remote_file File.join(Chef::Config[:file_cache_path], 'mesos_0.17.0.deb')
+    expect(chef_run).to create_remote_file File.join(Chef::Config[:file_cache_path], 'mesos_0.18.0.deb')
   end
 
   it 'notifies installation of mesos package using dpkg' do
