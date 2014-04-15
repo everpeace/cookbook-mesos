@@ -13,6 +13,8 @@ You can switch installation type using the `node[:mesos][:type]` attribute (`sou
 
 Currently only supports `ubuntu`.
 
+If you would use `cgroups` isolator, version 13.04 is highly recommended.
+
 ## Installation Type
 
 You have to specify intallation type (`source` or `mesosphere`) by setting `node[:mesos][:type]` variable.
