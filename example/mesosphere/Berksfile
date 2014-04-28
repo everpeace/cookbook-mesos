@@ -1,6 +1,6 @@
 site :opscode
 
-cookbook 'ark', github: "eanrollings/ark"
+cookbook 'ark', github: "opscode-cookbooks/ark"
 cookbook 'maven', github: "opscode-cookbooks/maven"
 cookbook "mesos", path: "../../"
 cookbook 'docker', github: "bflad/chef-docker"
