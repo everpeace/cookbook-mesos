@@ -7,7 +7,17 @@
 # All rights reserved - Do Not Redistribute
 #
 version = node[:mesos][:version]
-download_url = "http://downloads.mesosphere.io/master/#{node['platform']}/#{node['platform_version']}/mesos_#{version}_amd64.deb"
+
+# For now we need to use the latest 13.x based deb
+# package until a trusty mesos deb is available
+# from the mesosphere site.
+if node['platform_version'] == '14.04'
+  platform_version = '13.10'
+else
+  platform_version = node['platform_version']
+end
+
+download_url = "http://downloads.mesosphere.io/master/#{node['platform']}/#{platform_version}/mesos_#{version}_amd64.deb"
 
 # TODO(everpeace) platform_version validation
 if !platform?("ubuntu") then
