@@ -78,7 +78,7 @@ describe 'mesos::slave' do
 
       it 'contains ISOLATION variable' do
         expect(chef_run).to render_file('/etc/default/mesos-slave')
-          .with_content(/^ISOLATION=cgroups$/)
+          .with_content(/^ISOLATION=cgroups\/cpu,cgroups\/mem$/)
       end
     end
 

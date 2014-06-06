@@ -22,4 +22,4 @@ Usage
 
     $ vagrant up
 
-If everything went well, you can see mesos web UI on: <http://localhost:5050>
+If everything went well, you can see mesos web UI on: <http://192.168.33.10:5050>

@@ -26,7 +26,7 @@ shared_examples_for 'an installation from source' do |opt|
   end
 
   it 'downloads mesos zip' do
-    expect(chef_run).to create_remote_file(File.join(Chef::Config[:file_cache_path], 'mesos-0.18.0.zip'))
+    expect(chef_run).to create_remote_file(File.join(Chef::Config[:file_cache_path], 'mesos-0.18.2.zip'))
   end
 
   it 'runs bash script for extracting mesos to home location' do

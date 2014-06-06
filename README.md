@@ -106,7 +106,7 @@ If you have a configuration as shown below:
 node[:mesos][:slave] = {
   :master    => "zk://localhost:2181/mesos",
   :log_dir   => "/var/log/mesos",
-  :isolation => "cgroups",
+  :isolation => "cgroups/cpu,cgroups/mem",
   :work_dir  => "/var/run/work"
 }
 ```
@@ -114,7 +114,7 @@ node[:mesos][:slave] = {
 Then `mesos-slave` will be invoked with command line options like this:
 
 ```
-mesos-slave --master=zk://localhost:2181/mesos --log_dir=/var/log/mesos --isolation=cgroups --work_dir=/var/run/work
+mesos-slave --master=zk://localhost:2181/mesos --log_dir=/var/log/mesos --isolation=cgroups/cpu,cgroups/mem --work_dir=/var/run/work
 ```
 
 See [here](http://mesos.apache.org/documentation/latest/configuration/) for available options or the output of `mesos-slave --help`.
@@ -168,7 +168,7 @@ Please see below:
     <td><tt>[:mesos][:version]</tt></td>
     <td>String</td>
     <td>Version(branch or tag name at http://github.com/apache/mesos).</td>
-    <td><tt>0.18.0</tt></td>
+    <td><tt>0.18.2</tt></td>
   </tr>
   <tr>
   <td><tt>[:mesos][:prefix]</tt></td>
@@ -203,7 +203,7 @@ Please see below:
     <td><tt>[:mesos][:version]</tt></td>
     <td>String</td>
     <td>Version.(see http://mesosphere.io/downloads/)</td>
-    <td><tt>0.18.0</tt></td>
+    <td><tt>0.18.2</tt></td>
   </tr>
   <tr>
     <td><tt>[:mesos][:mesosphere][:with_zookeeper]</tt></td>

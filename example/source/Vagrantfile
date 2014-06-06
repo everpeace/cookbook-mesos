@@ -39,7 +39,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision :chef_solo do |chef|
 #    chef.log_level = :debug
     chef.add_recipe "apt"
-#    chef.add_recipe "maven"
+    chef.add_recipe "maven"
     chef.add_recipe "mesos"
     chef.add_recipe "mesos::master"
     chef.add_recipe "mesos::slave"
@@ -67,8 +67,12 @@ Vagrant.configure("2") do |config|
         :home         => "/home/vagrant",
         :master_ips => ["localhost"],
         :slave_ips  => ["localhost"],
-        :slave =>{
+        :slave => {
           :master_url => "#{private_ip}:5050",
+          :isolation => "process"
+        },
+        :master => {
+          :ip => "#{private_ip}"
         }
       }
     }

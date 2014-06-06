@@ -60,7 +60,6 @@ Vagrant.configure("2") do |config|
     chef.json = {
       :mesos => {
         :type         => "mesosphere",
-        :version      => "0.14.2",
         :mesosphere => {
           :with_zookeeper => true
         },
