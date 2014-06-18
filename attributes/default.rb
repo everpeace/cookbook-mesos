@@ -3,7 +3,7 @@ default[:mesos] = {
   :mesosphere => {
     :with_zookeeper => false
   },
-  :version => "0.18.2",
+  :version => "0.19.0",
   :prefix  => "/usr/local",
   :home => "/opt",
   :build   => {
@@ -13,6 +13,7 @@ default[:mesos] = {
   :slave_ips  => [],
   :master  => {
     :log_dir  => "/var/log/mesos",
+    :work_dir => "/tmp/mesos",
     :port     => "5050"
   },
   :slave   => {

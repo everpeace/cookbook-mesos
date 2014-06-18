@@ -3,8 +3,8 @@
 # vagrant plugins required:
 # vagrant-berkshelf, vagrant-omnibus, vagrant-hosts, vagrant-cachier
 Vagrant.configure("2") do |config|
-  config.vm.box = "Official Ubuntu 12.04 daily Cloud Image amd64 (No Guest Additions)"
-  config.vm.box_url = "http://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box"
+  config.vm.box = "Official Ubuntu 13.04 daily Cloud Image amd64 (No Guest Additions)"
+  config.vm.box_url = "https://cloud-images.ubuntu.com/vagrant/raring/current/raring-server-cloudimg-amd64-vagrant-disk1.box"
 
   # enable plugins
   config.berkshelf.enabled = true

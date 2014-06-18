@@ -8,9 +8,17 @@
 #
 
 version = node[:mesos][:version]
-egg_name = "mesos_#{version}_amd64"
-if version =~ /^0\.14\.0/ then
+platform_version = node['platform_version']
+
+# tricks for "0.19.0" only.
+if version == "0.19.0" then
+  version = "0.19.0_rc2"
+end
+
+if version >= "0.18.2"
   egg_name = "mesos-#{version}-py2.7-linux-x86_64"
+else
+  egg_name = "mesos_#{version}-amd64"
 end
 
 # this doesn't work. so we have to install docker manually outside. I can't figure out why.
@@ -21,7 +29,7 @@ package "python-setuptools" do
 end
 
 remote_file "#{Chef::Config[:file_cache_path]}/#{egg_name}.egg" do
-  source "http://downloads.mesosphere.io/master/ubuntu/13.04/#{egg_name}.egg"
+  source "http://downloads.mesosphere.io/master/ubuntu/#{platform_version}/#{egg_name}.egg"
   mode   "0755"
   not_if { File.exists?("#{Chef::Config[:file_cache_path]}/#{egg_name}.egg")==true }
   notifies :run,  "execute[install-mesos-python-binding]"
@@ -45,4 +53,3 @@ remote_file "/var/lib/mesos/executors/docker" do
   mode "0755"
   not_if { File.exists?("/var/lib/mesos/executor/docker")==true }
 end
-
