@@ -36,10 +36,11 @@ Vagrant.configure("2") do |config|
         s.args = "/home/vagrant vagrant"
   end
 
+  # mesos-master doesn't create its work_dir.
+  config.vm.provision :shell, :inline => "mkdir -p /tmp/mesos"
+
   config.vm.provision :chef_solo do |chef|
 #    chef.log_level = :debug
-    chef.add_recipe "apt"
-    chef.add_recipe "maven"
     chef.add_recipe "mesos"
     chef.add_recipe "mesos::master"
     chef.add_recipe "mesos::slave"
@@ -72,7 +73,8 @@ Vagrant.configure("2") do |config|
           :isolation => "process"
         },
         :master => {
-          :ip => "#{private_ip}"
+          :ip => "#{private_ip}",
+          :quorum => "1"
         }
       }
     }
