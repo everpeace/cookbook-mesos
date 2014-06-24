@@ -53,15 +53,11 @@ describe 'mesos::master' do
         expect(chef_run).to render_file('/usr/local/var/mesos/deploy/mesos-master-env.sh')
           .with_content(/^export MESOS_fake_key=fake_value$/)
       end
-    end
-
-    it 'reload init configuration' do
-      expect(chef_run).to run_bash('reload upstart configuration').with_code(/initctl reload-configuration/)
-      expect(chef_run).to run_bash('reload upstart configuration').with_user('root')
-    end
-
-    it 'restart mesos-master service' do
-      expect(chef_run).to restart_service('mesos-master')
+      it 'notifies serviece[mesos-master] to reaload configurations and restart' do
+        conf = chef_run.template('/usr/local/var/mesos/deploy/mesos-master-env.sh')
+        expect(conf).to notify('service[mesos-master]').to(:reload).delayed
+        expect(conf).to notify('service[mesos-master]').to(:restart).delayed
+      end
     end
   end
 
@@ -130,6 +126,7 @@ describe 'mesos::master' do
 
     describe 'configuration options in /etc/mesos-master' do
       it 'echos each key-value pair in node[:mesos][:master]' do
+        expect(chef_run).to run_bash('echo /tmp/mesos > /etc/mesos-master/work_dir')
         expect(chef_run).to run_bash('echo fake_value > /etc/mesos-master/fake_key')
       end
     end

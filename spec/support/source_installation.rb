@@ -79,6 +79,11 @@ shared_examples_for 'an installation from source' do |opt|
       expect(chef_run).to render_file('/etc/init/mesos-master.conf')
         .with_content(/^  role=master /)
     end
+
+    it 'notifies serviece[mesos-master] to reload service configuration' do
+      conf = chef_run.template('/etc/init/mesos-master.conf')
+      expect(conf).to notify('service[mesos-master]').to(:reload).delayed
+    end
   end
 
   describe 'mesos-slave upstart script' do
@@ -110,10 +115,10 @@ shared_examples_for 'an installation from source' do |opt|
       expect(chef_run).to render_file('/etc/init/mesos-slave.conf')
         .with_content(/^  role=slave /)
     end
-  end
 
-  it 'reload init configuration' do
-    expect(chef_run).to run_bash('reload upstart configuration').with_code(/initctl reload-configuration/)
-    expect(chef_run).to run_bash('reload upstart configuration').with_user('root')
+    it 'notifies serviece[mesos-slave] to reload service configuration' do
+      conf = chef_run.template('/etc/init/mesos-slave.conf')
+      expect(conf).to notify('service[mesos-slave]').to(:reload).delayed
+    end
   end
 end
