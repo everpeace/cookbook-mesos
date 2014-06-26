@@ -53,7 +53,7 @@ describe 'mesos::master' do
         expect(chef_run).to render_file('/usr/local/var/mesos/deploy/mesos-master-env.sh')
           .with_content(/^export MESOS_fake_key=fake_value$/)
       end
-      it 'notifies serviece[mesos-master] to reaload configurations and restart' do
+      it 'notifies service[mesos-master] to reload configurations and restart' do
         conf = chef_run.template('/usr/local/var/mesos/deploy/mesos-master-env.sh')
         expect(conf).to notify('service[mesos-master]').to(:reload).delayed
         expect(conf).to notify('service[mesos-master]').to(:restart).delayed

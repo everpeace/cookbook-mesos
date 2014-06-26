@@ -94,7 +94,7 @@ shared_examples_for 'an installation from mesosphere' do |opt|
         .with_content(/^exec \/usr\/bin\/mesos-init-wrapper master$/)
     end
 
-    it 'notifies serviece[mesos-master] to reload service configuration' do
+    it 'notifies service[mesos-master] to reload service configuration' do
       conf = chef_run.template('/etc/init/mesos-master.conf')
       expect(conf).to notify('service[mesos-master]').to(:reload).delayed
     end
@@ -125,7 +125,7 @@ shared_examples_for 'an installation from mesosphere' do |opt|
         .with_content(/^exec \/usr\/bin\/mesos-init-wrapper slave$/)
     end
 
-    it 'notifies serviece[mesos-slave] to reload service configuration' do
+    it 'notifies service[mesos-slave] to reload service configuration' do
       conf = chef_run.template('/etc/init/mesos-slave.conf')
       expect(conf).to notify('service[mesos-slave]').to(:reload).delayed
     end

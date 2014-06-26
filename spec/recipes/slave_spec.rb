@@ -31,7 +31,7 @@ describe 'mesos::slave' do
         expect(chef_run).to render_file('/usr/local/var/mesos/deploy/mesos-slave-env.sh')
           .with_content(/^export MESOS_slave_key=slave_value$/)
       end
-      it 'notifies serviece[mesos-slave] to reaload configurations and restart' do
+      it 'notifies service[mesos-slave] to reload configurations and restart' do
         conf = chef_run.template('/usr/local/var/mesos/deploy/mesos-slave-env.sh')
         expect(conf).to notify('service[mesos-slave]').to(:reload).delayed
         expect(conf).to notify('service[mesos-slave]').to(:restart).delayed
