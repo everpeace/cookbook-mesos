@@ -63,6 +63,8 @@ template File.join(prefix, "var", "mesos", "deploy", "mesos-master-env.sh") do
   mode 0644
   owner "root"
   group "root"
+  notifies :reload,  "service[mesos-master]", :delayed
+  notifies :restart, "service[mesos-master]", :delayed
 end
 
 # configuration files for upstart scripts by build_from_source installation
@@ -78,6 +80,8 @@ end
 
 # configuration files for upstart scripts by mesosphere package.
 if node[:mesos][:type] == 'mesosphere' then
+  # these template resources don't notify service resource because
+  # changes of configuration can be detected in mesos-master-env.sh
   template "/etc/init/mesos-master.conf" do
     source "upstart.conf.for.mesosphere.erb"
     variables(:init_state => "start", :role => "master")
@@ -144,15 +148,5 @@ if node[:mesos][:type] == 'mesosphere' then
       end
     end
   end
-end
-
-bash "reload upstart configuration" do
-  user 'root'
-  code 'initctl reload-configuration'
-end
-
-service "mesos-master" do
-  provider Chef::Provider::Service::Upstart
-  action :restart
 end
 

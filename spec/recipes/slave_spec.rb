@@ -31,15 +31,11 @@ describe 'mesos::slave' do
         expect(chef_run).to render_file('/usr/local/var/mesos/deploy/mesos-slave-env.sh')
           .with_content(/^export MESOS_slave_key=slave_value$/)
       end
-    end
-
-    it 'reload init configuration' do
-      expect(chef_run).to run_bash('reload upstart configuration').with_code(/initctl reload-configuration/)
-      expect(chef_run).to run_bash('reload upstart configuration').with_user('root')
-    end
-
-    it 'restarts mesos-slave service' do
-      expect(chef_run).to restart_service 'mesos-slave'
+      it 'notifies service[mesos-slave] to reload configurations and restart' do
+        conf = chef_run.template('/usr/local/var/mesos/deploy/mesos-slave-env.sh')
+        expect(conf).to notify('service[mesos-slave]').to(:reload).delayed
+        expect(conf).to notify('service[mesos-slave]').to(:restart).delayed
+      end
     end
   end
 

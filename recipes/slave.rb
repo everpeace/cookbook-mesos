@@ -53,6 +53,8 @@ template File.join(deploy_dir, "mesos-slave-env.sh") do
   mode 0644
   owner "root"
   group "root"
+  notifies :reload,  "service[mesos-slave]", :delayed
+  notifies :restart, "service[mesos-slave]", :delayed
 end
 
 # configuration files for upstart scripts by build_from_source installation
@@ -136,12 +138,3 @@ if node[:mesos][:type] == 'mesosphere' then
   end
 end
 
-bash "reload upstart configuration" do
-  user 'root'
-  code 'initctl reload-configuration'
-end
-
-service "mesos-slave" do
-  provider Chef::Provider::Service::Upstart
-  action :restart
-end

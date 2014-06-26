@@ -84,6 +84,8 @@ template "/etc/init/mesos-master.conf" do
   mode 0644
   owner "root"
   group "root"
+  not_if { installed==true }
+  notifies :reload, "service[mesos-master]", :delayed
 end
 
 template "/etc/init/mesos-slave.conf" do
@@ -92,9 +94,18 @@ template "/etc/init/mesos-slave.conf" do
   mode 0644
   owner "root"
   group "root"
+  not_if { installed==true }
+  notifies :reload, "service[mesos-slave]", :delayed
 end
 
-bash "reload upstart configuration" do
-  user 'root'
-  code 'initctl reload-configuration'
+service "mesos-master" do
+  provider Chef::Provider::Service::Upstart
+  supports :restart => true, :reload => true
+  action :nothing
+end
+
+service "mesos-slave" do
+  provider Chef::Provider::Service::Upstart
+  supports :restart => true, :reload => true
+  action :nothing
 end
