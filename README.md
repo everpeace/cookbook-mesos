@@ -69,7 +69,8 @@ node[:mesos][:master] = {
   :port    => "5050",
   :log_dir => "/var/log/mesos",
   :zk      => "zk://localhost:2181/mesos",
-  :cluster => "MyCluster"
+  :cluster => "MyCluster",
+  :quorum  => "1"
 }
 ```
 
@@ -257,6 +258,28 @@ Please see below:
     <td>Array of String</td>
     <td>IP list of slaves used in <tt>mesos-[start|stop]-cluster</tt></td>
     <td>[ ]</td>
+  </tr>
+  <tr>
+    <td><tt>[:mesos][:master][:zk]</tt></td>
+    <td>String</td>
+    <td>[REQUIRED(0.19.0+)] ZooKeeper URL (used for leader election amongst masters). May be one of:<br/>                                             zk://host1:port1,host2:port2,.../path<br/>
+ zk://username:password@host1:port1,host2:port2,.../path<br />
+ file://path/to/file (where file contains one of the above)</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><tt>[:mesos][:master][:work_dir]</tt></td>
+    <td>String</td>
+    <td>[REQUIRED(0.19.0+)] Where to store the persistent information stored in the Registry.</td>
+    <td><tt>/tmp/mesos</tt></td>
+  </tr>
+  <tr>
+    <td><tt>[:mesos][:master][:quorum]</tt></td>
+    <td>String</td>
+    <td>[REQUIRED(0.19.0+)] The size of the quorum of replicas when using 'replicated_log' based
+                                           registry. It is imperative to set this value to be a majority of
+                                           masters i.e., quorum > (number of masters)/2.</td>
+    <td></td>
   </tr>
   <tr>
     <td><tt>[:mesos][:master][:&lt;option_name&gt;]</tt></td>
