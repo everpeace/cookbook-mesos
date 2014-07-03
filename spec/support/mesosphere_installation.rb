@@ -6,7 +6,7 @@ shared_examples_for 'an installation from mesosphere' do |opt|
   end
 
   it 'installs default-jre-headless' do
-    expect(chef_run).to install_apt_package 'default-jre-headless'
+    expect(chef_run).to install_package 'default-jre-headless'
   end
 
   it 'installs libcurl3' do
@@ -128,6 +128,18 @@ shared_examples_for 'an installation from mesosphere' do |opt|
     it 'notifies service[mesos-slave] to reload service configuration' do
       conf = chef_run.template('/etc/init/mesos-slave.conf')
       expect(conf).to notify('service[mesos-slave]').to(:reload).delayed
+    end
+  end
+
+  describe 'mesos-master service resource' do
+    it 'performs no action' do
+      expect(chef_run).to_not disable_service("mesos-master")
+    end
+  end
+
+  describe 'mesos-slave service resource' do
+    it 'performs no action' do
+      expect(chef_run).to_not disable_service("mesos-slave")
     end
   end
 end

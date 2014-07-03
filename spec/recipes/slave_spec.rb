@@ -6,22 +6,6 @@ describe 'mesos::slave' do
   include_context 'setup context'
 
   shared_examples_for 'a slave recipe' do
-    describe 'deploy env file' do
-      it 'creates it' do
-        expect(chef_run).to create_template '/usr/local/var/mesos/deploy/mesos-deploy-env.sh'
-      end
-
-      it 'contains SSH_OPTS variable' do
-        expect(chef_run).to render_file('/usr/local/var/mesos/deploy/mesos-deploy-env.sh')
-          .with_content(/^export SSH_OPTS="#{Regexp.escape('-o StrictHostKeyChecking=no -o ConnectTimeout=2')}"$/)
-      end
-
-      it 'contains DEPLOY_WITH_SUDO variable' do
-        expect(chef_run).to render_file('/usr/local/var/mesos/deploy/mesos-deploy-env.sh')
-          .with_content(/^export DEPLOY_WITH_SUDO="1"$/)
-      end
-    end
-
     describe 'slave env file' do
       it 'creates it' do
         expect(chef_run).to create_template '/usr/local/var/mesos/deploy/mesos-slave-env.sh'
@@ -108,3 +92,5 @@ describe 'mesos::slave' do
     it_behaves_like 'a slave recipe'
   end
 end
+
+at_exit { ChefSpec::Coverage.report! }

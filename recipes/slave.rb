@@ -6,25 +6,20 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-
+::Chef::Recipe.send(:include, Helpers::Mesos)
 if node[:mesos][:type] == 'source' then
-  prefix = node[:mesos][:prefix]
+  ::Chef::Recipe.send(:include, Helpers::Source)
 elsif node[:mesos][:type] == 'mesosphere' then
-  prefix = File.join("/usr", "local")
+  ::Chef::Recipe.send(:include, Helpers::Mesosphere)
   Chef::Log.info("node[:mesos][:prefix] is ignored. prefix will be set with /usr/local .")
 else
   Chef::Application.fatal!("node['mesos']['type'] should be 'source' or 'mesosphere'.")
 end
 
 deploy_dir = File.join(prefix, "var", "mesos", "deploy")
-installed = File.exists?(File.join(prefix, "sbin", "mesos-master"))
 
-if !installed then
-  if node[:mesos][:type] == 'source' then
-    include_recipe "mesos::build_from_source"
-  elsif node[:mesos][:type] == 'mesosphere'
-    include_recipe "mesos::mesosphere"
-  end
+if !(installed?) then
+  include_mesos_recipe
 end
 
 # for backword compatibility
@@ -41,13 +36,7 @@ if ! node[:mesos][:slave][:master] then
   Chef::Application.fatal!("node[:mesos][:slave][:master] is required to configure mesos-slave.")
 end
 
-template File.join(deploy_dir, "mesos-deploy-env.sh") do
-  source "mesos-deploy-env.sh.erb"
-  mode 0644
-  owner "root"
-  group "root"
-end
-
+# configuration files for mesos-daemon.sh provided by both source and mesosphere
 template File.join(deploy_dir, "mesos-slave-env.sh") do
   source "mesos-slave-env.sh.erb"
   mode 0644
@@ -57,27 +46,10 @@ template File.join(deploy_dir, "mesos-slave-env.sh") do
   notifies :restart, "service[mesos-slave]", :delayed
 end
 
-# configuration files for upstart scripts by build_from_source installation
-if node[:mesos][:type] == 'source' then
-  template "/etc/init/mesos-slave.conf" do
-    source "upstart.conf.for.buld_from_source.erb"
-    variables(:init_state => "start", :role => "slave")
-    mode 0644
-    owner "root"
-    group "root"
-  end
-end
+activate_slave_service_scripts
 
-# configuration files for upstart scripts by mesosphere package.
+# configuration files for service scripts(mesos-init-wrapper) by mesosphere package.
 if node[:mesos][:type] == 'mesosphere' then
-  template "/etc/init/mesos-slave.conf" do
-    source "upstart.conf.for.mesosphere.erb"
-    variables(:init_state => "start", :role => "slave")
-    mode 0644
-    owner "root"
-    group "root"
-  end
-
   template File.join("/etc", "mesos", "zk") do
     source "etc-mesos-zk.erb"
     mode 0644
@@ -137,4 +109,3 @@ if node[:mesos][:type] == 'mesosphere' then
     end
   end
 end
-

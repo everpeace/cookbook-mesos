@@ -66,6 +66,7 @@ describe 'mesos::master' do
       ChefSpec::Runner.new do |node|
         node.set[:mesos][:type] = 'mesosphere'
         node.set[:mesos][:master][:zk] = 'zk-string'
+        node.set[:mesos][:master][:quorum] = '1'
         node.set[:mesos][:mesosphere][:with_zookeeper] = true
         node.set[:mesos][:master_ips] = %w[10.0.0.1]
         node.set[:mesos][:slave_ips] = %w[11.0.0.1]
@@ -127,6 +128,7 @@ describe 'mesos::master' do
     describe 'configuration options in /etc/mesos-master' do
       it 'echos each key-value pair in node[:mesos][:master]' do
         expect(chef_run).to run_bash('echo /tmp/mesos > /etc/mesos-master/work_dir')
+        expect(chef_run).to run_bash('echo 1 > /etc/mesos-master/quorum')
         expect(chef_run).to run_bash('echo fake_value > /etc/mesos-master/fake_key')
       end
     end
@@ -136,6 +138,8 @@ describe 'mesos::master' do
     let :chef_run do
       ChefSpec::Runner.new do |node|
         node.set[:mesos][:type] = 'source'
+        node.set[:mesos][:master][:zk] = 'zk-string'
+        node.set[:mesos][:master][:quorum] = '1'
         node.set[:mesos][:mesosphere][:with_zookeeper] = true
         node.set[:mesos][:master_ips] = %w[10.0.0.1]
         node.set[:mesos][:slave_ips] = %w[11.0.0.1]
@@ -148,3 +152,5 @@ describe 'mesos::master' do
     it_behaves_like 'a master recipe'
   end
 end
+
+at_exit { ChefSpec::Coverage.report! }
