@@ -125,4 +125,17 @@ shared_examples_for 'an installation from source' do |opt|
       expect(conf).to notify('service[mesos-slave]').to(:reload).delayed
     end
   end
+
+  describe 'mesos-master service resource' do
+    it 'performs no action' do
+      expect(chef_run).to_not disable_service("mesos-master")
+    end
+  end
+
+  describe 'mesos-slave service resource' do
+    it 'performs no action' do
+      expect(chef_run).to_not disable_service("mesos-slave")
+    end
+  end
+
 end
