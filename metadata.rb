@@ -16,6 +16,7 @@ recipe           "mesos::docker-executor", "install mesos-docker executor"
 depends          'java'
 depends          'python'
 depends          'build-essential'
+depends          'maven'
 depends          'ulimit'
 suggests         'docker'
 

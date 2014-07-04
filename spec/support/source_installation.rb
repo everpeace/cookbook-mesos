@@ -13,6 +13,10 @@ shared_examples_for 'an installation from source' do |opt|
     expect(chef_run).to include_recipe 'python'
   end
 
+  it 'includes maven recipe' do
+    expect(chef_run).to include_recipe 'maven'
+  end
+
   it 'includes build_from_source recipe' do
     expect(chef_run).to include_recipe 'mesos::build_from_source'
   end

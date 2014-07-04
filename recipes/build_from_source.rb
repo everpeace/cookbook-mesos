@@ -18,6 +18,7 @@ end
 include_recipe "java"
 include_recipe "python"
 include_recipe "build-essential"
+include_recipe "maven"
 
 # The list is necessary and sufficient?
 ["unzip", "libtool", "libltdl-dev", "autoconf", "automake", "libcurl3", "libcurl3-gnutls", "libcurl4-openssl-dev", "python-dev", "libsasl2-dev"].each do |p|
