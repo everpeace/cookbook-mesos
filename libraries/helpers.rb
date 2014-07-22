@@ -72,8 +72,10 @@ module Helpers
       mesosphere_io_prefix = "http://downloads.mesosphere.io/master/#{platform}/#{platform_version}"
       if mesos_version < "0.19.0" then
         "#{mesosphere_io_prefix}/mesos_#{mesos_version}_amd64.deb"
-      else
+      elsif mesos_version == "0.19.0" then
         "#{mesosphere_io_prefix}/mesos_#{mesos_version}~#{platform}#{platform_version}%2B1_amd64.deb"
+      else
+        "#{mesosphere_io_prefix}/mesos_#{mesos_version}-1.0.#{platform}#{platform_version.sub('.','')}_amd64.deb"
       end
     end
 

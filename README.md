@@ -169,7 +169,7 @@ Please see below:
     <td><tt>[:mesos][:version]</tt></td>
     <td>String</td>
     <td>Version(branch or tag name at http://github.com/apache/mesos).</td>
-    <td><tt>0.19.0</tt></td>
+    <td><tt>0.19.1</tt></td>
   </tr>
   <tr>
   <td><tt>[:mesos][:prefix]</tt></td>
@@ -204,7 +204,7 @@ Please see below:
     <td><tt>[:mesos][:version]</tt></td>
     <td>String</td>
     <td>Version.(see http://mesosphere.io/downloads/)</td>
-    <td><tt>0.19.0</tt></td>
+    <td><tt>0.19.1</tt></td>
   </tr>
   <tr>
     <td><tt>[:mesos][:mesosphere][:with_zookeeper]</tt></td>
@@ -262,7 +262,7 @@ Please see below:
   <tr>
     <td><tt>[:mesos][:master][:zk]</tt></td>
     <td>String</td>
-    <td>[REQUIRED(0.19.0+)] ZooKeeper URL (used for leader election amongst masters). May be one of:<br/>                                             zk://host1:port1,host2:port2,.../path<br/>
+    <td>[REQUIRED(0.19.1+)] ZooKeeper URL (used for leader election amongst masters). May be one of:<br/>                                             zk://host1:port1,host2:port2,.../path<br/>
  zk://username:password@host1:port1,host2:port2,.../path<br />
  file://path/to/file (where file contains one of the above)</td>
     <td></td>
@@ -270,13 +270,13 @@ Please see below:
   <tr>
     <td><tt>[:mesos][:master][:work_dir]</tt></td>
     <td>String</td>
-    <td>[REQUIRED(0.19.0+)] Where to store the persistent information stored in the Registry.</td>
+    <td>[REQUIRED(0.19.1+)] Where to store the persistent information stored in the Registry.</td>
     <td><tt>/tmp/mesos</tt></td>
   </tr>
   <tr>
     <td><tt>[:mesos][:master][:quorum]</tt></td>
     <td>String</td>
-    <td>[REQUIRED(0.19.0+)] The size of the quorum of replicas when using 'replicated_log' based
+    <td>[REQUIRED(0.19.1+)] The size of the quorum of replicas when using 'replicated_log' based
                                            registry. It is imperative to set this value to be a majority of
                                            masters i.e., quorum > (number of masters)/2.</td>
     <td></td>

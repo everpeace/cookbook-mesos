@@ -19,6 +19,7 @@ depends          'build-essential'
 depends          'maven'
 depends          'ulimit'
 suggests         'docker'
+suggests         'zookeeper'
 
 attribute           "mesos/type",
   :recipes       => ["mesos::build_from_source", "mesos::mesosphere", "mesos::master", "mesos::slave"],
@@ -31,7 +32,7 @@ attribute           "mesos/version",
   :recipes       => ["mesos::build_from_source", "mesos::mesosphere"],
   :display_name  => "Version to be installed.",
   :description   => "branch name or tag name at http://github.com/apache/mesos, or mesos's version name",
-  :default       => "0.19.0"
+  :default       => "0.19.1"
 
 attribute           "mesos/mesosphere/with_zookeeper",
   :recipes       => ["mesos::mesosphere"],
