@@ -16,7 +16,7 @@ RSpec.configure do |config|
   config.log_level = :fatal
 
   config.before(:suite) do
-    ChefSpec::Coverage.filters << File.join(config.cookbook_path, 'mesos')
+    ChefSpec::Coverage.start! 
   end
 end
 
