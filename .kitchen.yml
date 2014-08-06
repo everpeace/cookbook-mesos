@@ -1,27 +1,18 @@
 ---
 driver:
-  name: vagrant
-  customize:
-    memory: 2048
-    cpus: 2
-    ioapic: 'on'
+  name: docker
+  binary: docker
+  socket: <%= ENV.fetch('DOCKER_HOST', 'unix:///var/run/docker.sock') %>
 
 provisioner:
   name: chef_solo
 
 platforms:
-  - name: ubuntu-13.04
-    run_list:
-      - recipe[apt]
-    attributes:
-      java:
-        jdk_version: 7
   - name: ubuntu-14.04
     run_list:
       - recipe[apt]
     driver_config:
-      box: opscode-ubuntu-14.04
-      box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-14.04_chef-provisionerless.box
+      image: "ubuntu:14.04"
 
 suites:
   - name: mesosphere_master
@@ -45,24 +36,34 @@ suites:
     attributes:
       mesos:
         type: mesosphere
+        mesosphere:
+          with_zookeeper: true
+        master:
+          zk: 'zk://localhost:2181/mesos'
+          quorum: 1
         slave:
           master: 'zk://localhost:2181/mesos'
         # these keys below are only for master configurations.
         master_ips: ['10.0.0.1', '10.0.0.2', '10.0.0.3']
         slave_ips:  ['11.0.0.1', '11.0.0.2', '11.0.0.3']
-        mesosphere:
-          with_zookeeper: true
   - name: source_master
+    driver_config:
+      # zookeeper is only for asserting mesos-master healthy startup.
+      provision_command: "apt-get update && apt-get install -y zookeeper zookeeperd zookeeper-bin"
     run_list:
       - recipe[mesos::master]
     attributes:
       mesos:
         type: source
         master:
+          zk: 'zk://localhost:2181/mesos'
           quorum: 1
         master_ips: ['10.0.0.1', '10.0.0.2', '10.0.0.3']
         slave_ips:  ['11.0.0.1', '11.0.0.2', '11.0.0.3']
   - name: source_slave
+    driver_config:
+      # zookeeper is only for asserting mesos-master healthy startup.
+      provision_command: "apt-get update && apt-get install -y zookeeper zookeeperd zookeeper-bin"
     run_list:
       # master recipe is only for asserting mesos-slave healthy startup.
       - recipe[mesos::master]
@@ -71,9 +72,10 @@ suites:
       mesos:
         type: source
         master:
-          ip: 127.0.0.1
+          zk: 'zk://localhost:2181/mesos'
+          quorum: 1
         slave:
-          master: 127.0.0.1:5050
+          master: 'zk://localhost:2181/mesos'
         # these keys below are only for master configurations.
         master_ips: ['10.0.0.1', '10.0.0.2', '10.0.0.3']
         slave_ips:  ['11.0.0.1', '11.0.0.2', '11.0.0.3']
