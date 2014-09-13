@@ -18,9 +18,7 @@ end
 
 deploy_dir = File.join(prefix, "var", "mesos", "deploy")
 
-if !(installed?) then
-  include_mesos_recipe
-end
+include_mesos_recipe
 
 # for backword compatibility
 if node[:mesos][:cluster_name] then
