@@ -207,6 +207,12 @@ Please see below:
     <td><tt>0.19.1</tt></td>
   </tr>
   <tr>
+    <td><tt>[:mesos][:mesosphere][:build_version]</tt></td>
+    <td>String</td>
+    <td>build version of mesosphere package.</td>
+    <td><tt>1.0.ubuntu1404</tt></td>
+  </tr>
+  <tr>
     <td><tt>[:mesos][:mesosphere][:with_zookeeper]</tt></td>
     <td>String</td>
     <td>flag for installing zookeeper package</td>

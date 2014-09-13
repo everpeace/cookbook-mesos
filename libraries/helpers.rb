@@ -34,15 +34,13 @@ module Helpers
 
 
   module Mesosphere extend Helpers::Mesos
+    Chef::Resource::Bash.send(:include, Helpers::Mesos)
+    Chef::Resource::Bash.send(:include, Helpers::Mesosphere)
     Chef::Resource::Package.send(:include, Helpers::Mesos)
-    Chef::Resource::RemoteFile.send(:include, Helpers::Mesos)
-    Chef::Resource::Service.send(:include, Helpers::Mesos)
-    Chef::Resource::DpkgPackage.send(:include, Helpers::Mesos)
-    Chef::Resource::Template.send(:include, Helpers::Mesos)
     Chef::Resource::Package.send(:include, Helpers::Mesosphere)
-    Chef::Resource::RemoteFile.send(:include, Helpers::Mesosphere)
+    Chef::Resource::Service.send(:include, Helpers::Mesos)
     Chef::Resource::Service.send(:include, Helpers::Mesosphere)
-    Chef::Resource::DpkgPackage.send(:include, Helpers::Mesosphere)
+    Chef::Resource::Template.send(:include, Helpers::Mesos)
     Chef::Resource::Template.send(:include, Helpers::Mesosphere)
 
     unless (const_defined?(:MESOSPHERE_INFO))
@@ -52,9 +50,6 @@ module Helpers
         },
         'zookeeper_packages' => {
           'ubuntu' => ['zookeeper', 'zookeeperd', 'zookeeper-bin']
-        },
-        'dependency_packages' => {
-          'ubuntu' => ['unzip', 'libcurl3', 'default-jre-headless']
         }
       }
     end
@@ -63,33 +58,21 @@ module Helpers
       '/usr/local'
     end
 
+    def build_version
+      if node[:mesos][:mesosphere][:build_version]
+        return node[:mesos][:mesosphere][:build_version]
+      else
+        return "1.0.#{platform}#{platform_version.sub('.','')}"
+      end
+    end
+
     def installed?
       cmd = "#{MESOSPHERE_INFO['prefix'][platform]}/mesos-master --version |cut -f 2 -d ' '"
       File.exist?("#{MESOSPHERE_INFO['prefix'][platform]}/mesos-master") && (`#{cmd}`.chop == mesos_version)
     end
 
-    def download_url
-      mesosphere_io_prefix = "http://downloads.mesosphere.io/master/#{platform}/#{platform_version}"
-      if mesos_version < "0.19.0" then
-        "#{mesosphere_io_prefix}/mesos_#{mesos_version}_amd64.deb"
-      elsif mesos_version == "0.19.0" then
-        "#{mesosphere_io_prefix}/mesos_#{mesos_version}~#{platform}#{platform_version}%2B1_amd64.deb"
-      else
-        "#{mesosphere_io_prefix}/mesos_#{mesos_version}-1.0.#{platform}#{platform_version.sub('.','')}_amd64.deb"
-      end
-    end
-
     def include_mesos_recipe
       include_recipe "mesos::mesosphere"
-    end
-
-    def install_dependencies
-      MESOSPHERE_INFO['dependency_packages'][platform].each do |pkg|
-        package pkg do
-          action :install
-          not_if { (installed?) == true }
-        end
-      end
     end
 
     def install_zookeeper
@@ -110,16 +93,26 @@ module Helpers
     def install_mesos
       case platform
       when 'ubuntu'
-        remote_file "#{Chef::Config[:file_cache_path]}/mesos_#{mesos_version}.deb" do
-          source download_url
-          mode   0644
+        bash "add an apt's trusted key for mesosphere" do
+          code <<-EOH
+            apt-key adv --keyserver keyserver.ubuntu.com --recv E56151BF
+          EOH
+          action :run
           not_if { (installed?) == true }
-          notifies :install, "dpkg_package[mesos]"
         end
 
-        dpkg_package "mesos" do
-          source "#{Chef::Config[:file_cache_path]}/mesos_#{mesos_version}.deb"
+        bash "add mesosphere repository" do
+          code <<-EOH
+            DISTRO=$(lsb_release -is | tr '[:upper:]' '[:lower:]')
+            CODENAME=$(lsb_release -cs)
+            echo "deb http://repos.mesosphere.io/${DISTRO} ${CODENAME} main" | sudo tee /etc/apt/sources.list.d/mesosphere.list
+            sudo apt-get -y update
+          EOH
+        end
+
+        package "mesos" do
           action :install
+          version "#{mesos_version}-#{build_version}"
           not_if { (installed?) == true }
         end
       end

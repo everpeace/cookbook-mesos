@@ -10,9 +10,12 @@
 ::Chef::Recipe.send(:include, Helpers::Source)
 Chef::Resource::Bash.send(:include, Helpers::Mesos)
 Chef::Resource::Bash.send(:include, Helpers::Source)
+Chef::Resource::RemoteFile.send(:include, Helpers::Mesos)
 Chef::Resource::RemoteFile.send(:include, Helpers::Source)
+Chef::Resource::Template.send(:include, Helpers::Mesos)
 Chef::Resource::Template.send(:include, Helpers::Source)
 Chef::Resource::Service.send(:include, Helpers::Mesos)
+Chef::Resource::Service.send(:include, Helpers::Source)
 
 if (installed?) then
   Chef::Log.info("Mesos is already installed!! Instllation will be skipped.")
