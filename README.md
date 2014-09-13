@@ -4,16 +4,11 @@ Install Mesos (<http://mesos.apache.org/>) and configure mesos master and slave.
 This cookbook also supports installation by both bulding from source and with [Mesosphere](http://mesosphere.io) package.
 You can switch installation type using the `node[:mesos][:type]` attribute (`source` or `mesosphere`).
 
-[BETA] This cookbook also contains some mesos scheduler framework or executors:
-
-* `mesos::docker-exectuor` (see [example](https://github.com/everpeace/cookbook-mesos/blob/master/example/mesosphere/Vagrantfile) for how to use)
-* `mesos::marathon-framework` (planned)
-
 ## Platform
 
 Currently only supports `ubuntu`.
 
-If you would use `cgroups` isolator, version 13.04 is highly recommended.
+If you would use `cgroups` isolator or `docker` containerizer, version 14.04 is highly recommended. Note that `docker` containerizer is only supported by Mesos 0.20.0+.
 
 ## Installation Type
 
@@ -36,7 +31,7 @@ Install mesos (download zip from [github](https://github.com/apache/mesos), conf
 ### mesos::mesosphere
 
 Install mesos using Mesosphere's mesos package.
-You can also install zookeeper package by `node[:mesos][:mesosphere][:with_zookeeper]` if required because Mesosphere's mesos package doesn't include zookeeper.
+You can also install zookeeper package by `node[:mesos][:mesosphere][:with_zookeeper]` if required because Mesosphere's mesos package doesn't include zookeeper.  You can also specify mesosphere package's build version (see below for details).
 
 ### mesos::master
 
@@ -107,6 +102,7 @@ If you have a configuration as shown below:
 node[:mesos][:slave] = {
   :master    => "zk://localhost:2181/mesos",
   :log_dir   => "/var/log/mesos",
+  :containerizers => "docker,mesos",
   :isolation => "cgroups/cpu,cgroups/mem",
   :work_dir  => "/var/run/work"
 }
@@ -115,7 +111,7 @@ node[:mesos][:slave] = {
 Then `mesos-slave` will be invoked with command line options like this:
 
 ```
-mesos-slave --master=zk://localhost:2181/mesos --log_dir=/var/log/mesos --isolation=cgroups/cpu,cgroups/mem --work_dir=/var/run/work
+mesos-slave --master=zk://localhost:2181/mesos --log_dir=/var/log/mesos --containerizers=docker,mesos --isolation=cgroups/cpu,cgroups/mem --work_dir=/var/run/work
 ```
 
 See [here](http://mesos.apache.org/documentation/latest/configuration/) for available options or the output of `mesos-slave --help`.
@@ -209,7 +205,7 @@ Please see below:
   <tr>
     <td><tt>[:mesos][:mesosphere][:build_version]</tt></td>
     <td>String</td>
-    <td>build version of mesosphere package.</td>
+    <td>build version of mesosphere package.  mesosphere's package version consists of 2 parts, `<mesos_version>-<build_version>`, for example `0.20.0-1.0.ubuntu1404`</td>
     <td><tt>1.0.ubuntu1404</tt></td>
   </tr>
   <tr>
