@@ -49,14 +49,6 @@ Vagrant.configure("2") do |config|
     chef.add_recipe "mesos::master"
     chef.add_recipe "mesos::slave"
 
-    # mesos-docker executor
-    # The docker cookbook doesn't install aufs or lxc when using the "package" install method.
-    # So, let's force the package installation
-    chef.add_recipe "docker::aufs"
-    chef.add_recipe "docker::lxc"
-    chef.add_recipe "docker"     # workaround : include_recipe in docker-executor recipe doesn't work
-    chef.add_recipe "mesos::docker-executor"
-
     # You may also specify custom JSON attributes:
     chef.json = {
       :mesos => {

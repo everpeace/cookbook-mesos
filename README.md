@@ -120,7 +120,7 @@ mesos-slave --master=zk://localhost:2181/mesos --log_dir=/var/log/mesos --isolat
 
 See [here](http://mesos.apache.org/documentation/latest/configuration/) for available options or the output of `mesos-slave --help`.
 
-### [BETA] mesos::docker-executor
+### [Deprecated] mesos::docker-executor
 
 Install [mesos-docker executor](https://github.com/mesosphere/mesos-docker).
 Currently only Mesos 0.14.0 is supported.
