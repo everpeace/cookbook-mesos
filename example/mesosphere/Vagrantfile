@@ -45,6 +45,10 @@ Vagrant.configure("2") do |config|
   config.vm.provision :chef_solo do |chef|
     # chef.log_level = :debug
     chef.add_recipe "apt"
+    chef.add_recipe "docker::aufs"
+    chef.add_recipe "docker::lxc"
+    chef.add_recipe "docker"
+
     chef.add_recipe "mesos"
     chef.add_recipe "mesos::master"
     chef.add_recipe "mesos::slave"
@@ -66,7 +70,9 @@ Vagrant.configure("2") do |config|
         # command line options for mesos-slave
         :slave =>{
           :master => "zk://localhost:2181/mesos",
-          :isolation => "process",  # mesos currently doesn't support cgroups isolation while using docker (see https://github.com/mesosphere/mesos-docker/issues/5)
+          :containerizers => "docker,mesos",
+          :isolation => "cgroups/cpu,cgroups/mem",
+          :executor_registration_timeout => "5mins",
           :log_dir => "/var/log/mesos",
           :work_dir => "/var/run/work"
         },
@@ -77,14 +83,15 @@ Vagrant.configure("2") do |config|
     }
   end
 
-# marathon install script
-#  script = <<SCRIPT
-#  wget https://github.com/mesosphere/marathon/archive/marathon-0.2.1.zip
-#  unzip marathon-0.2.1.zip
-#  cd marathon-marathon-0.2.1
-#  mvn package
-#  ./bin/start --master zk://localhost:2181/mesos  --zk_hosts localhost:2181 &
-# SCRIPT
-#  config.vm.provision "shell", inline: script
+  # installing marathon
+  config.vm.provision "shell", :inline => <<SCRIPT
+    DISTRO=$(lsb_release -is | tr '[:upper:]' '[:lower:]')
+    CODENAME=$(lsb_release -cs)
+    echo "deb http://repos.mesosphere.io/${DISTRO} ${CODENAME}-testing main" |   tee /etc/apt/sources.list.d/mesosphere.list
+    apt-get -y update
+    # Install or upgrade Marathon package
+    sudo apt-get -y install marathon
+    restart marathon
+SCRIPT
 
 end

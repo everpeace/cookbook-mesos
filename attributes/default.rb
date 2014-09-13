@@ -3,7 +3,7 @@ default[:mesos] = {
   :mesosphere => {
     :with_zookeeper => false
   },
-  :version => "0.19.1",
+  :version => "0.20.0",
   :prefix  => "/usr/local",
   :home => "/opt",
   :build   => {
