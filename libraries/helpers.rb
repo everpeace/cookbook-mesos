@@ -98,7 +98,6 @@ module Helpers
             apt-key adv --keyserver keyserver.ubuntu.com --recv E56151BF
           EOH
           action :run
-          not_if { (installed?) == true }
         end
 
         bash "add mesosphere repository" do
@@ -108,12 +107,12 @@ module Helpers
             echo "deb http://repos.mesosphere.io/${DISTRO} ${CODENAME} main" | sudo tee /etc/apt/sources.list.d/mesosphere.list
             sudo apt-get -y update
           EOH
+          action :run
         end
 
         package "mesos" do
           action :install
           version "#{mesos_version}-#{build_version}"
-          not_if { (installed?) == true }
         end
       end
     end
@@ -128,7 +127,6 @@ module Helpers
           mode 0644
           owner "root"
           group "root"
-          not_if { (installed?) == true }
           notifies :reload, "service[mesos-master]", :delayed
         end
 
@@ -138,7 +136,6 @@ module Helpers
           mode 0644
           owner "root"
           group "root"
-          not_if { (installed?) == true }
           notifies :reload, "service[mesos-slave]", :delayed
         end
       end

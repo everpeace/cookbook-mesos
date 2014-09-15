@@ -15,16 +15,16 @@ if !platform_supported? then
   Chef::Application.fatal!("#{platform} is not supported on #{cookbook_name} cookbook")
 end
 
-if installed? then
+if !(installed?) then
+  if node['mesos']['mesosphere']['with_zookeeper'] then
+    install_zookeeper
+  end
+
+  install_mesos
+  deploy_service_scripts
+else
   Chef::Log.info("Mesos is already installed!! Instllation will be skipped.")
 end
-
-if node['mesos']['mesosphere']['with_zookeeper'] then
-  install_zookeeper
-end
-
-install_mesos
-deploy_service_scripts
 
 service "mesos-master" do
   provider service_provider
