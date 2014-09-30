@@ -6,6 +6,8 @@ Vagrant.configure("2") do |config|
   config.vm.box = "Official Ubuntu 14.04 daily Cloud Image amd64 (Development release,  No Guest Additions)"
   config.vm.box_url = "https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box"
 
+ # config.vm.box = "chef/centos-6.5"
+
   # enable plugins
   config.berkshelf.enabled = true
   config.omnibus.chef_version = :latest
@@ -45,7 +47,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision :chef_solo do |chef|
     # chef.log_level = :debug
     chef.add_recipe "apt"
-    chef.add_recipe "docker::aufs"
+    chef.add_recipe "docker::aufs" # this fails on centos-6.5
     chef.add_recipe "docker::lxc"
     chef.add_recipe "docker"
 
@@ -84,14 +86,14 @@ Vagrant.configure("2") do |config|
   end
 
   # installing marathon
-  config.vm.provision "shell", :inline => <<SCRIPT
-    DISTRO=$(lsb_release -is | tr '[:upper:]' '[:lower:]')
-    CODENAME=$(lsb_release -cs)
-    echo "deb http://repos.mesosphere.io/${DISTRO} ${CODENAME}-testing main" |   tee /etc/apt/sources.list.d/mesosphere.list
-    apt-get -y update
-    # Install or upgrade Marathon package
-    sudo apt-get -y install marathon
-    restart marathon
-SCRIPT
+#   config.vm.provision "shell", :inline => <<SCRIPT
+#     DISTRO=$(lsb_release -is | tr '[:upper:]' '[:lower:]')
+#     CODENAME=$(lsb_release -cs)
+#     echo "deb http://repos.mesosphere.io/${DISTRO} ${CODENAME}-testing main" |   tee /etc/apt/sources.list.d/mesosphere.list
+#     apt-get -y update
+#     # Install or upgrade Marathon package
+#     sudo apt-get -y install marathon
+#     restart marathon
+# SCRIPT
 
 end

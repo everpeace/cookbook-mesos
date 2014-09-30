@@ -6,7 +6,7 @@ You can switch installation type using the `node[:mesos][:type]` attribute (`sou
 
 ## Platform
 
-Currently only supports `ubuntu`.
+Currently only supports `ubuntu` and `centos`.  But `centos` support is  experimental.
 
 If you would use `cgroups` isolator or `docker` containerizer, version 14.04 is highly recommended. Note that `docker` containerizer is only supported by Mesos 0.20.0+.
 

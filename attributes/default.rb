@@ -24,3 +24,10 @@ default[:mesos] = {
   :ssh_opts => "-o StrictHostKeyChecking=no -o ConnectTimeout=2",
   :deploy_with_sudo => "1"
 }
+
+default[:mesos][:slave][:cgroups_hierarchy] = value_for_platform(
+  "centos" => {
+    "default" => "/cgroup"
+  },
+  "default" => nil
+)

@@ -2,7 +2,7 @@ module Helpers
   module Mesos
     unless (const_defined?(:MESOS_INFO))
       MESOS_INFO = {
-        'platforms' => ['ubuntu']
+        'platforms' => ['ubuntu', 'centos']
       }
     end
 
@@ -24,7 +24,7 @@ module Helpers
 
     def service_provider
       case platform
-      when 'ubuntu'
+      when 'ubuntu', 'centos'
         Chef::Provider::Service::Upstart
       end
     end
@@ -46,10 +46,12 @@ module Helpers
     unless (const_defined?(:MESOSPHERE_INFO))
       MESOSPHERE_INFO = {
         'prefix' => {
-          'ubuntu' => '/usr/local/sbin'
+          'ubuntu' => '/usr/local/sbin',
+          'centos' => '/usr/local/sbin'
         },
         'zookeeper_packages' => {
-          'ubuntu' => ['zookeeper', 'zookeeperd', 'zookeeper-bin']
+          'ubuntu' => ['zookeeper', 'zookeeperd', 'zookeeper-bin'],
+          'centos' => ['java-1.7.0-openjdk', 'zookeeper', 'zookeeper-server']
         }
       }
     end
@@ -62,7 +64,12 @@ module Helpers
       if node[:mesos][:mesosphere][:build_version]
         return node[:mesos][:mesosphere][:build_version]
       else
-        return "1.0.#{platform}#{platform_version.sub('.','')}"
+        case platform
+        when 'ubuntu'
+          return "-1.0.#{platform}#{platform_version.sub('.','')}"
+        when 'centos'
+          return "-1.0.#{platform}#{platform_version.sub('.','')}".sub('65','64')
+        end
       end
     end
 
@@ -76,15 +83,43 @@ module Helpers
     end
 
     def install_zookeeper
+      # some preparation, if required.
+      case platform
+      when 'centos'
+        bash "add CDH repository to gain access to Zookeeper packages." do
+          code <<-EOH
+            rpm -Uvh http://archive.cloudera.com/cdh4/one-click-install/redhat/6/x86_64/cloudera-cdh-4-0.x86_64.rpm
+            yum install -y -q curl
+            curl -sSfL http://archive.cloudera.com/cdh4/redhat/6/x86_64/cdh/RPM-GPG-KEY-cloudera --output /tmp/cdh.key
+            rpm --import /tmp/cdh.key
+          EOH
+          action :run
+        end
+      end
+
+      # package installation
       MESOSPHERE_INFO['zookeeper_packages'][platform].each do |zk|
         package zk do
           action :install
         end
       end
+
+      # service restart
       case platform
       when 'ubuntu'
           service "zookeeper" do
             provider Chef::Provider::Service::Upstart
+            action :restart
+          end
+      when 'centos'
+          bash "zookeeper-sever init, if it's the first time." do
+            code <<-EOH
+              service zookeeper-server init || true
+            EOH
+            action :run
+          end
+          service "zookeeper-server" do
+            provider Chef::Provider::Service::Init::Redhat
             action :restart
           end
       end
@@ -112,14 +147,25 @@ module Helpers
 
         package "mesos" do
           action :install
-          version "#{mesos_version}-#{build_version}"
+          version "#{mesos_version}#{build_version}"
+        end
+      when 'centos'
+        bash "add mesosphere repository" do
+          code <<-EOH
+            rpm -Uvh http://repos.mesosphere.io/el/6/noarch/RPMS/mesosphere-el-repo-6-2.noarch.rpm || true
+          EOH
+          action :run
+        end
+        package "mesos" do
+          action :install
+          version "#{mesos_version}#{build_version}"
         end
       end
     end
 
     def deploy_service_scripts
       case platform
-      when 'ubuntu'
+      when 'ubuntu', 'centos'
         # configuration files for upstart scripts by build_from_source installation
         template "/etc/init/mesos-master.conf" do
           source "upstart.conf.for.mesosphere.erb"
@@ -143,7 +189,7 @@ module Helpers
 
     def activate_master_service_scripts
       case platform
-      when 'ubuntu'
+      when 'ubuntu', 'centos'
         template "/etc/init/mesos-master.conf" do
           source "upstart.conf.for.mesosphere.erb"
           variables(:init_state => "start", :role => "master")
@@ -156,7 +202,7 @@ module Helpers
 
     def activate_slave_service_scripts
       case platform
-      when 'ubuntu'
+      when 'ubuntu', 'centos'
         template "/etc/init/mesos-slave.conf" do
           source "upstart.conf.for.mesosphere.erb"
           variables(:init_state => "start", :role => "slave")
@@ -176,10 +222,12 @@ module Helpers
       SOURCE_INFO = {
         'dependency_packages' => {
           # The list is necessary and sufficient?
-          'ubuntu' => ["unzip", "libtool", "libltdl-dev", "autoconf", "automake", "libcurl3", "libcurl3-gnutls", "libcurl4-openssl-dev", "python-dev", "libsasl2-dev"]
+          'ubuntu' => ["unzip", "libtool", "libltdl-dev", "autoconf", "automake", "libcurl3", "libcurl3-gnutls", "libcurl4-openssl-dev", "python-dev", "libsasl2-dev"],
+          'centos' => ["python-devel", "java-1.7.0-openjdk-devel", "zlib-devel", "libcurl-devel", "openssl-devel", "cyrus-sasl-devel", "cyrus-sasl-md5"]
         },
         'dependency_recipes' => {
-          'ubuntu' => ["java", "python", "build-essential", "maven"]
+          'ubuntu' => ["java", "python", "build-essential", "maven"],
+          'centos' => ["java", "python", "build-essential", "maven"]
         }
       }
     end
@@ -217,7 +265,7 @@ module Helpers
 
     def activate_master_service_scripts
       case platform
-      when 'ubuntu'
+      when 'ubuntu', 'centos'
         template "/etc/init/mesos-master.conf" do
           source "upstart.conf.for.buld_from_source.erb"
           variables(:init_state => "start", :role => "master")
@@ -230,7 +278,7 @@ module Helpers
 
     def activate_slave_service_scripts
       case platform
-      when 'ubuntu'
+      when 'ubuntu', 'centos'
         template "/etc/init/mesos-slave.conf" do
           source "upstart.conf.for.buld_from_source.erb"
           variables(:init_state => "start", :role => "slave")
