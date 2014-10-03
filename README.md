@@ -1,5 +1,5 @@
-# Mesos Cookbook [![Build Status](https://travis-ci.org/everpeace/cookbook-mesos.png?branch=master)](https://travis-ci.org/everpeace/cookbook-mesos)
-[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/everpeace/cookbook-mesos?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+# Mesos Cookbook [![Build Status](https://travis-ci.org/everpeace/cookbook-mesos.png?branch=master)](https://travis-ci.org/everpeace/cookbook-mesos)  [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/everpeace/cookbook-mesos?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 
 Install Mesos (<http://mesos.apache.org/>) and configure mesos master and slave.
 This cookbook also supports installation by both bulding from source and with [Mesosphere](http://mesosphere.io) package.
