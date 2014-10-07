@@ -125,11 +125,13 @@ if node[:mesos][:type] == 'mesosphere' then
     node[:mesos][:master].each do |key, val|
       if ! ['zk', 'log_dir', 'port'].include?(key) then
         _code = "echo #{val} > /etc/mesos-master/#{key}"
-        bash _code do
-          code _code
-          user "root"
-          group "root"
-          action :run
+        if val != nil
+          bash _code do
+            code _code
+            user "root"
+            group "root"
+            action :run
+          end
         end
       end
     end

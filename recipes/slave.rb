@@ -97,11 +97,13 @@ if node[:mesos][:type] == 'mesosphere' then
     node[:mesos][:slave].each do |key, val|
       if ! ['master_url', 'master', 'isolation', 'log_dir'].include?(key) then
         _code = "echo #{val} > /etc/mesos-slave/#{key}"
-        bash _code do
-          code _code
-          user "root"
-          group "root"
-          action :run
+        if val != nil
+          bash _code do
+            code _code
+            user "root"
+            group "root"
+            action :run
+          end
         end
       end
     end
