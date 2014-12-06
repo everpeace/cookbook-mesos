@@ -6,6 +6,10 @@ describe 'mesos::slave' do
   include_context 'setup context'
 
   shared_examples_for 'a slave recipe' do
+    it 'creates deploy dir' do
+      expect(chef_run).to create_directory '/usr/local/var/mesos/deploy'
+    end
+
     describe 'slave env file' do
       it 'creates it' do
         expect(chef_run).to create_template '/usr/local/var/mesos/deploy/mesos-slave-env.sh'

@@ -18,6 +18,14 @@ end
 
 deploy_dir = File.join(prefix, "var", "mesos", "deploy")
 
+directory deploy_dir do
+  owner 'root'
+  group 'root'
+  mode '0644'
+  action :create
+  recursive true
+end
+
 include_mesos_recipe
 
 # for backword compatibility

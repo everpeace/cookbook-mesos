@@ -6,6 +6,10 @@ describe 'mesos::master' do
   include_context 'setup context'
 
   shared_examples_for 'a master recipe' do
+    it 'creates deploy dir' do
+      expect(chef_run).to create_directory '/usr/local/var/mesos/deploy'
+    end
+
     describe 'masters file' do
       it 'creates it in deploy directory' do
         expect(chef_run).to create_template '/usr/local/var/mesos/deploy/masters'
