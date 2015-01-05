@@ -152,7 +152,7 @@ module Helpers
       when 'centos'
         repo_url = value_for_platform(
           'centos' => {
-            '6' => 'http://repos.mesosphere.io/el/6/noarch/RPMS/mesosphere-el-repo-6-2.noarch.rpm',
+            '~> 6.0' => 'http://repos.mesosphere.io/el/6/noarch/RPMS/mesosphere-el-repo-6-2.noarch.rpm',
             '7.0.1406' => 'http://repos.mesosphere.io/el/7/noarch/RPMS/mesosphere-el-repo-7-1.noarch.rpm'
           },
         )
