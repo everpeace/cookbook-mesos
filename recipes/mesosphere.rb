@@ -23,7 +23,7 @@ if !(installed?) then
   install_mesos
   deploy_service_scripts
 else
-  Chef::Log.info("Mesos is already installed!! Instllation will be skipped.")
+  Chef::Log.info("Mesos is already installed!! Installation will be skipped.")
 end
 
 service "mesos-master" do
