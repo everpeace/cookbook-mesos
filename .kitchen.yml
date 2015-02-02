@@ -48,6 +48,9 @@ suites:
         type: mesosphere
         slave:
           master: 'zk://localhost:2181/mesos'
+        master:
+          zk: 'zk://localhost:2181/mesos'
+          quorum: 1
         # these keys below are only for master configurations.
         master_ips: ['10.0.0.1', '10.0.0.2', '10.0.0.3']
         slave_ips:  ['11.0.0.1', '11.0.0.2', '11.0.0.3']
@@ -72,7 +75,9 @@ suites:
       mesos:
         type: source
         master:
+          zk: 'zk://localhost:2181/mesos'
           ip: 127.0.0.1
+          quorum: 1
         slave:
           master: 127.0.0.1:5050
         # these keys below are only for master configurations.
