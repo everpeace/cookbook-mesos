@@ -54,7 +54,7 @@ describe 'mesos::slave' do
       end
 
       it 'contains ISOLATION variable' do
-        expect(slave_file.content).to match /^ISOLATION=cgroups$/
+        expect(slave_file.content).to match /^ISOLATION=cgroups\/cpu,cgroups\/mem$/
       end
     end
 
