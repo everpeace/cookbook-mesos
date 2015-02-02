@@ -62,10 +62,6 @@ describe 'mesos::master' do
       it 'creates it' do
         expect(file('/etc/mesos-master')).to be_a_directory
       end
-
-      it 'is empty' do
-        expect(Dir.glob('/etc/mesos-master/*')).to be_empty
-      end
     end
   end
 end
