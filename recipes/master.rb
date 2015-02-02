@@ -131,15 +131,32 @@ if node[:mesos][:type] == 'mesosphere' then
 
   if node[:mesos][:master] then
     node[:mesos][:master].each do |key, val|
-      if ! ['zk', 'log_dir', 'port'].include?(key) then
-        _code = "echo #{val} > /etc/mesos-master/#{key}"
-        if val != nil
-          bash _code do
-            code _code
-            user "root"
-            group "root"
-            action :run
+      next if %w(zk
+                 log_dir
+                 port).include?(key)
+      next if val.nil?
+      if val.respond_to?(:to_path_hash)
+        val.to_path_hash.each do |path_h|
+          attr_path = File.join('', 'etc', 'mesos-master', key, path_h[:path])
+          directory File.dirname(attr_path) do
+            owner 'root'
+            group 'root'
+            mode 0755
           end
+
+          file attr_path do
+            content "#{path_h[:content]}\n"
+            mode 0644
+            user 'root'
+            group 'root'
+          end
+        end
+      else
+        file File.join('', 'etc', 'mesos-master', key) do
+          content "#{val}\n"
+          mode 0644
+          user 'root'
+          group 'root'
         end
       end
     end

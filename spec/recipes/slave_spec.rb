@@ -34,6 +34,7 @@ describe 'mesos::slave' do
         node.set[:mesos][:slave][:master] = 'test-master'
         node.set[:mesos][:mesosphere][:with_zookeeper] = true
         node.set[:mesos][:slave][:slave_key] = 'slave_value'
+        node.set[:mesos][:slave][:attributes][:rackid] = 'us-east-1b'
       end.converge(described_recipe)
     end
 
@@ -75,9 +76,13 @@ describe 'mesos::slave' do
     end
 
     describe 'configuration options in /etc/mesos-slave' do
-      it 'echos each key-value pair in node[:mesos][:slave]' do
-        expect(chef_run).to run_bash('echo /tmp/mesos > /etc/mesos-slave/work_dir')
-        expect(chef_run).to run_bash('echo slave_value > /etc/mesos-slave/slave_key')
+      it 'sets content to each key-value pair in node[:mesos][:slave]' do
+        expect(chef_run).to render_file('/etc/mesos-slave/work_dir')
+          .with_content(%r{^/tmp/mesos$})
+        expect(chef_run).to render_file('/etc/mesos-slave/slave_key')
+          .with_content(/^slave_value$/)
+        expect(chef_run).to render_file('/etc/mesos-slave/attributes/rackid')
+          .with_content(/^us-east-1b$/)
       end
     end
   end
@@ -89,6 +94,7 @@ describe 'mesos::slave' do
         node.set[:mesos][:slave][:master] = 'test-master'
         node.set[:mesos][:slave][:slave_key] = 'slave_value'
         node.set[:mesos][:build][:skip_test] = false
+        node.set[:mesos][:slave][:attributes][:rackid] = 'us-east-1b'
       end.converge(described_recipe)
     end
 

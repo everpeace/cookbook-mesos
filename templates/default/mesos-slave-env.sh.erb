@@ -10,7 +10,13 @@
 
 <% if node[:mesos][:slave] %>
   <% node[:mesos][:slave].each do |key, val| %>
+    <% if val.respond_to?(:to_path_hash) -%>
+      <% val.to_path_hash('_').each do |path_h| -%>
+export MESOS_<%= key %>_<%= path_h[:path] %>=<%= path_h[:content] %>
+      <% end -%>
+    <% else -%>
 export MESOS_<%= key %>=<%= val %>
+    <% end -%>
   <% end %>
 <% end %>
 

@@ -39,6 +39,24 @@ shared_examples_for 'a configuration of a slave node' do
     it 'contains isolation variable' do
       expect(slave_env_file.content).to match /^export MESOS_isolation=cgroups$/
     end
+
+    it 'contains rackid variable' do
+      expect(slave_env_file.content).to match(/^export MESOS_attributes_rackid=us-east-1b$/)
+    end
+  end
+
+  describe 'rack id file' do
+    let :rack_id_file do
+      file '/etc/mesos-slave/attributes/rackid'
+    end
+
+    it 'creates it' do
+      expect(rack_id_file).to be_a_file
+    end
+
+    it 'contains a rack id' do
+      expect(rack_id_file.content).to match(/^us-east-1b$/)
+    end
   end
 
   describe service('mesos-slave') do

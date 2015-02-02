@@ -130,10 +130,13 @@ describe 'mesos::master' do
     end
 
     describe 'configuration options in /etc/mesos-master' do
-      it 'echos each key-value pair in node[:mesos][:master]' do
-        expect(chef_run).to run_bash('echo /tmp/mesos > /etc/mesos-master/work_dir')
-        expect(chef_run).to run_bash('echo 1 > /etc/mesos-master/quorum')
-        expect(chef_run).to run_bash('echo fake_value > /etc/mesos-master/fake_key')
+      it 'sets content to each key-value pair in node[:mesos][:master]' do
+        expect(chef_run).to render_file('/etc/mesos-master/work_dir')
+          .with_content(%r{^/tmp/mesos$})
+        expect(chef_run).to render_file('/etc/mesos-master/quorum')
+          .with_content(/^1$/)
+        expect(chef_run).to render_file('/etc/mesos-master/fake_key')
+          .with_content(/^fake_value$/)
       end
     end
   end
