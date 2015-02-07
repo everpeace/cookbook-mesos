@@ -37,7 +37,7 @@ shared_examples_for 'a configuration of a slave node' do
     end
 
     it 'contains isolation variable' do
-      expect(slave_env_file.content).to match /^export MESOS_isolation=cgroups$/
+      expect(slave_env_file.content).to match /^export MESOS_isolation=cgroups\/cpu,cgroups\/mem$/
     end
 
     it 'contains rackid variable' do
