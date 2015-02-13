@@ -2,10 +2,7 @@
 # Cookbook Name:: mesos
 # Recipe:: install
 #
-# Copyright 2013, Shingo Omura
-#
-# All rights reserved - Do Not Redistribute
-#
+
 ::Chef::Recipe.send(:include, Helpers::Mesos)
 ::Chef::Recipe.send(:include, Helpers::Source)
 Chef::Resource::Bash.send(:include, Helpers::Mesos)

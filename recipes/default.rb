@@ -2,10 +2,6 @@
 # Cookbook Name:: mesos
 # Recipe:: default
 #
-# Copyright 2013, Shingo Omura
-#
-# All rights reserved - Do Not Redistribute
-#
 
 if node['mesos']['type'] == 'source' then
   include_recipe "mesos::build_from_source"

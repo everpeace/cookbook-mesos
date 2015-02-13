@@ -2,10 +2,6 @@
 # Cookbook Name:: mesos
 # Recipe:: docker-executor
 #
-# Copyright 2013, Shingo Omura
-#
-# All rights reserved - Do Not Redistribute
-#
 
 version = node[:mesos][:version]
 platform_version = node['platform_version']

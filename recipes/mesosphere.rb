@@ -2,10 +2,7 @@
 # Cookbook Name:: mesos
 # Recipe:: mesosphere
 #
-# Copyright 2013, Shingo Omura
-#
-# All rights reserved - Do Not Redistribute
-#
+
 ::Chef::Recipe.send(:include, Helpers::Mesos)
 ::Chef::Recipe.send(:include, Helpers::Mesosphere)
 Chef::Resource::Service.send(:include, Helpers::Mesos)
