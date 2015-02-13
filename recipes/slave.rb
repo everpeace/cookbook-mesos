@@ -3,11 +3,11 @@
 # Recipe:: slave
 #
 
-::Chef::Recipe.send(:include, Helpers::Mesos)
+::Chef::Recipe.send(:include, ::Helpers::Mesos)
 if node[:mesos][:type] == 'source' then
-  ::Chef::Recipe.send(:include, Helpers::Source)
+  ::Chef::Recipe.send(:include, ::Helpers::Source)
 elsif node[:mesos][:type] == 'mesosphere' then
-  ::Chef::Recipe.send(:include, Helpers::Mesosphere)
+  ::Chef::Recipe.send(:include, ::Helpers::Mesosphere)
   Chef::Log.info("node[:mesos][:prefix] is ignored. prefix will be set with /usr/local .")
 else
   Chef::Application.fatal!("node['mesos']['type'] should be 'source' or 'mesosphere'.")

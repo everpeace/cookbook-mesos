@@ -34,14 +34,14 @@ module Helpers
 
 
   module Mesosphere extend Helpers::Mesos
-    Chef::Resource::Bash.send(:include, Helpers::Mesos)
-    Chef::Resource::Bash.send(:include, Helpers::Mesosphere)
-    Chef::Resource::Package.send(:include, Helpers::Mesos)
-    Chef::Resource::Package.send(:include, Helpers::Mesosphere)
-    Chef::Resource::Service.send(:include, Helpers::Mesos)
-    Chef::Resource::Service.send(:include, Helpers::Mesosphere)
-    Chef::Resource::Template.send(:include, Helpers::Mesos)
-    Chef::Resource::Template.send(:include, Helpers::Mesosphere)
+    Chef::Resource::Bash.send(:include, ::Helpers::Mesos)
+    Chef::Resource::Bash.send(:include, ::Helpers::Mesosphere)
+    Chef::Resource::Package.send(:include, ::Helpers::Mesos)
+    Chef::Resource::Package.send(:include, ::Helpers::Mesosphere)
+    Chef::Resource::Service.send(:include, ::Helpers::Mesos)
+    Chef::Resource::Service.send(:include, ::Helpers::Mesosphere)
+    Chef::Resource::Template.send(:include, ::Helpers::Mesos)
+    Chef::Resource::Template.send(:include, ::Helpers::Mesosphere)
 
     unless (const_defined?(:MESOSPHERE_INFO))
       MESOSPHERE_INFO = {

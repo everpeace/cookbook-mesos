@@ -3,9 +3,9 @@
 # Recipe:: mesosphere
 #
 
-::Chef::Recipe.send(:include, Helpers::Mesos)
-::Chef::Recipe.send(:include, Helpers::Mesosphere)
-Chef::Resource::Service.send(:include, Helpers::Mesos)
+::Chef::Recipe.send(:include, ::Helpers::Mesos)
+::Chef::Recipe.send(:include, ::Helpers::Mesosphere)
+Chef::Resource::Service.send(:include, ::Helpers::Mesos)
 
 # TODO(everpeace) platform_version validation
 if !platform_supported? then
