@@ -3,16 +3,16 @@
 # Recipe:: install
 #
 
-::Chef::Recipe.send(:include, Helpers::Mesos)
-::Chef::Recipe.send(:include, Helpers::Source)
-Chef::Resource::Bash.send(:include, Helpers::Mesos)
-Chef::Resource::Bash.send(:include, Helpers::Source)
-Chef::Resource::RemoteFile.send(:include, Helpers::Mesos)
-Chef::Resource::RemoteFile.send(:include, Helpers::Source)
-Chef::Resource::Template.send(:include, Helpers::Mesos)
-Chef::Resource::Template.send(:include, Helpers::Source)
-Chef::Resource::Service.send(:include, Helpers::Mesos)
-Chef::Resource::Service.send(:include, Helpers::Source)
+::Chef::Recipe.send(:include, ::Helpers::Mesos)
+::Chef::Recipe.send(:include, ::Helpers::Source)
+Chef::Resource::Bash.send(:include, ::Helpers::Mesos)
+Chef::Resource::Bash.send(:include, ::Helpers::Source)
+Chef::Resource::RemoteFile.send(:include, ::Helpers::Mesos)
+Chef::Resource::RemoteFile.send(:include, ::Helpers::Source)
+Chef::Resource::Template.send(:include, ::Helpers::Mesos)
+Chef::Resource::Template.send(:include, ::Helpers::Source)
+Chef::Resource::Service.send(:include, ::Helpers::Mesos)
+Chef::Resource::Service.send(:include, ::Helpers::Source)
 
 if !(installed?) then
   include_dependency_recipes
