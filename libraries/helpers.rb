@@ -7,7 +7,7 @@ module Helpers
     end
 
     def platform_supported?
-      MESOS_INFO['platforms'].include?(node['platform'])
+      MESOS_INFO['platforms'].include? platform
     end
 
     def mesos_version
