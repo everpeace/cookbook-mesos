@@ -30,9 +30,6 @@ module Helpers
     end
   end
 
-
-
-
   module Mesosphere extend Helpers::Mesos
     Chef::Resource::Bash.send(:include, ::Helpers::Mesos)
     Chef::Resource::Bash.send(:include, ::Helpers::Mesosphere)
