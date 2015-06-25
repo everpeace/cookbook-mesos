@@ -28,7 +28,7 @@ describe 'mesos::master' do
 
       it 'contains configured slave IPs' do
         expect(chef_run).to render_file('/usr/local/var/mesos/deploy/slaves')
-          .with_content(/^#{Regexp.escape('11.0.0.1')}$/)
+          .with_content(/^#{Regexp.escape('10.0.0.4')}$/)
       end
     end
 
@@ -73,7 +73,7 @@ describe 'mesos::master' do
         node.set[:mesos][:master][:quorum] = '1'
         node.set[:mesos][:mesosphere][:with_zookeeper] = true
         node.set[:mesos][:master_ips] = %w[10.0.0.1]
-        node.set[:mesos][:slave_ips] = %w[11.0.0.1]
+        node.set[:mesos][:slave_ips] = %w[10.0.0.4]
         node.set[:mesos][:master][:fake_key] = 'fake_value'
       end.converge(described_recipe)
     end
@@ -149,7 +149,7 @@ describe 'mesos::master' do
         node.set[:mesos][:master][:quorum] = '1'
         node.set[:mesos][:mesosphere][:with_zookeeper] = true
         node.set[:mesos][:master_ips] = %w[10.0.0.1]
-        node.set[:mesos][:slave_ips] = %w[11.0.0.1]
+        node.set[:mesos][:slave_ips] = %w[10.0.0.4]
         node.set[:mesos][:master][:fake_key] = 'fake_value'
         node.set[:mesos][:build][:skip_test] = false
       end.converge(described_recipe)

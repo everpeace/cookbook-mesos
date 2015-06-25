@@ -36,8 +36,15 @@ suites:
         master:
           zk: 'zk://localhost:2181/mesos'
           quorum: 1
-        master_ips: ['10.0.0.1', '10.0.0.2', '10.0.0.3']
-        slave_ips:  ['11.0.0.1', '11.0.0.2', '11.0.0.3']
+        master_ips:
+          - 10.0.0.1
+          - 10.0.0.2
+          - 10.0.0.3
+        slave_ips:
+          - 10.0.0.4
+          - 10.0.0.5
+          - 10.0.0.6
+
   - name: mesosphere_slave
     run_list:
       # master recipe is only for asserting mesos-slave healthy startup.
@@ -54,10 +61,17 @@ suites:
           zk: 'zk://localhost:2181/mesos'
           quorum: 1
         # these keys below are only for master configurations.
-        master_ips: ['10.0.0.1', '10.0.0.2', '10.0.0.3']
-        slave_ips:  ['11.0.0.1', '11.0.0.2', '11.0.0.3']
+        master_ips:
+          - 10.0.0.1
+          - 10.0.0.2
+          - 10.0.0.3
+        slave_ips:
+          - 10.0.0.4
+          - 10.0.0.5
+          - 10.0.0.6
         mesosphere:
           with_zookeeper: true
+
   - name: source_master
     run_list:
       - recipe[mesos::master]
@@ -67,8 +81,15 @@ suites:
         master:
           zk: 'zk://localhost:2181/mesos'
           quorum: 1
-        master_ips: ['10.0.0.1', '10.0.0.2', '10.0.0.3']
-        slave_ips:  ['11.0.0.1', '11.0.0.2', '11.0.0.3']
+        master_ips:
+          - 10.0.0.1
+          - 10.0.0.2
+          - 10.0.0.3
+        slave_ips:
+          - 10.0.0.4
+          - 10.0.0.5
+          - 10.0.0.6
+
   - name: source_slave
     run_list:
       # master recipe is only for asserting mesos-slave healthy startup.
@@ -84,5 +105,11 @@ suites:
         slave:
           master: 127.0.0.1:5050
         # these keys below are only for master configurations.
-        master_ips: ['10.0.0.1', '10.0.0.2', '10.0.0.3']
-        slave_ips:  ['11.0.0.1', '11.0.0.2', '11.0.0.3']
+        master_ips:
+          - 10.0.0.1
+          - 10.0.0.2
+          - 10.0.0.3
+        slave_ips:
+          - 10.0.0.4
+          - 10.0.0.5
+          - 10.0.0.6

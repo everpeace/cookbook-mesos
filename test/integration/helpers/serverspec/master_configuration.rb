@@ -27,9 +27,9 @@ shared_examples_for 'a configuration of a master node' do
     end
 
     it 'contains a newline separated list of configured master IPs' do
-      expect(slaves_file.content).to match /^#{Regexp.escape('11.0.0.1')}$/
-      expect(slaves_file.content).to match /^#{Regexp.escape('11.0.0.2')}$/
-      expect(slaves_file.content).to match /^#{Regexp.escape('11.0.0.3')}$/
+      expect(slaves_file.content).to match /^#{Regexp.escape('10.0.0.4')}$/
+      expect(slaves_file.content).to match /^#{Regexp.escape('10.0.0.5')}$/
+      expect(slaves_file.content).to match /^#{Regexp.escape('10.0.0.6')}$/
     end
   end
 
