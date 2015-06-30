@@ -23,14 +23,12 @@ else
   Chef::Log.info("Mesos is already installed!! Installation will be skipped.")
 end
 
-service "mesos-master" do
-  provider service_provider
-  supports :restart => true, :reload => true
-  action :nothing
 end
 
-service "mesos-slave" do
-  provider service_provider
-  supports :restart => true, :reload => true
-  action :nothing
+%w(master slave).each do |role|
+  service "mesos-#{role}" do
+    provider Chef::Provider::Service::Upstart
+    supports :restart => true, :reload => true
+    action :nothing
+  end
 end

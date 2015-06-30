@@ -21,13 +21,6 @@ module Helpers
     def platform_version
       node['platform_version']
     end
-
-    def service_provider
-      case platform
-      when 'ubuntu', 'centos'
-        Chef::Provider::Service::Upstart
-      end
-    end
   end
 
   module Mesosphere extend Helpers::Mesos
