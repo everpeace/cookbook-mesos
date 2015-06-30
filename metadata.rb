@@ -11,7 +11,7 @@ supports         'centos', '>= 6.0'
 
 recipe           "mesos::default", "install mesos."
 recipe           "mesos::mesosphere", "install mesos from mesosphere package."
-recipe           "mesos::build_from_source", "install mesos from source(default recipe)."
+recipe           "mesos::source", "install mesos from source(default recipe)."
 recipe           "mesos::master",  "configure the machine as master."
 recipe           "mesos::slave",   "configure the machine as slave."
 recipe           "mesos::docker-executor", "install mesos-docker executor"
@@ -25,14 +25,14 @@ suggests         'docker'
 suggests         'zookeeper'
 
 attribute           "mesos/type",
-  :recipes       => ["mesos::build_from_source", "mesos::mesosphere", "mesos::master", "mesos::slave"],
+  :recipes       => ["mesos::source", "mesos::mesosphere", "mesos::master", "mesos::slave"],
   :display_name  => "installation type",
   :description   => "Value should be 'source' | 'mesosphere'.",
   :description   => "instlal type",
   :default       => "source"
 
 attribute           "mesos/version",
-  :recipes       => ["mesos::build_from_source", "mesos::mesosphere"],
+  :recipes       => ["mesos::source", "mesos::mesosphere"],
   :display_name  => "Version to be installed.",
   :description   => "branch name or tag name at http://github.com/apache/mesos, or mesos's version name",
   :default       => "0.20.1"
@@ -44,19 +44,19 @@ attribute           "mesos/mesosphere/with_zookeeper",
   :default       => "false"
 
 attribute           "mesos/prefix",
-  :recipes       => ["mesos::build_from_source", "mesos::master", "mesos::slave"],
+  :recipes       => ["mesos::source", "mesos::master", "mesos::slave"],
   :display_name  => "Prefix value to be passed to configure script",
   :description   => "prefix value to be passed to configure script",
   :default       => "/usr/local"
 
 attribute           "mesos/home",
-  :recipes       => ["mesos::build_from_source"],
+  :recipes       => ["mesos::source"],
   :display_name  => "mesos home directory",
   :description   => "directory which mesos sources are extracted to.",
   :default       => "/opt"
 
 attribute           "mesos/build/skip_test",
-  :recipes       => ["mesos::build_from_source"],
+  :recipes       => ["mesos::source"],
   :display_name  => "Flag whether test will be performed.",
   :description   => "if true, test will be skipped.",
   :default       => "true"

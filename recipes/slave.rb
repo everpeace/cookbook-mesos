@@ -9,9 +9,8 @@ if node[:mesos][:type] == 'source' then
 elsif node[:mesos][:type] == 'mesosphere' then
   ::Chef::Recipe.send(:include, ::Helpers::Mesosphere)
   Chef::Log.info("node[:mesos][:prefix] is ignored. prefix will be set with /usr/local .")
-else
-  Chef::Application.fatal!("node['mesos']['type'] should be 'source' or 'mesosphere'.")
 end
+include_recipe "mesos::default"
 
 deploy_dir = File.join(prefix, "var", "mesos", "deploy")
 
@@ -22,8 +21,6 @@ directory deploy_dir do
   action :create
   recursive true
 end
-
-include_mesos_recipe
 
 # for backword compatibility
 if node[:mesos][:slave][:master_url] then

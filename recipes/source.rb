@@ -61,7 +61,7 @@ if !(installed?) then
     action :run
   end
 
-  # configuration files for upstart scripts by build_from_source installation
+  # configuration files for upstart scripts by source installation
   template "/etc/init/mesos-master.conf" do
     source "upstart.conf.for.buld_from_source.erb"
     variables(:init_state => "stop", :role => "master")

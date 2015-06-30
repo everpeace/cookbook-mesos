@@ -75,10 +75,6 @@ module Helpers
       File.exist?("#{MESOSPHERE_INFO['prefix'][platform]}/mesos-master") && (`#{cmd}`.chop == mesos_version)
     end
 
-    def include_mesos_recipe
-      include_recipe "mesos::mesosphere"
-    end
-
     def install_zookeeper
       # some preparation, if required.
       case platform
@@ -247,10 +243,6 @@ module Helpers
 
     def download_url
       "https://github.com/apache/mesos/archive/#{mesos_version}.zip"
-    end
-
-    def include_mesos_recipe
-      include_recipe "mesos::build_from_source"
     end
 
     def include_dependency_recipes

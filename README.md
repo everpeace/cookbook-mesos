@@ -22,7 +22,7 @@ Currently this cookbook defaults to build mesos from source, i.e.
 
 ### mesos::default
 
-Install mesos using `build_from_source` recipe or `mesosphere` recipe, depending
+Install mesos using `source` recipe or `mesosphere` recipe, depending
 on what the `node[:mesos][:type]` attribute is set to (`source` or `mesosphere`).
 
 ### mesos::build\_from\_source
