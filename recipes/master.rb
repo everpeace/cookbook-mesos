@@ -120,36 +120,22 @@ if node[:mesos][:type] == 'mesosphere' then
     action :run
   end
 
-  if node[:mesos][:master] then
-    node[:mesos][:master].each do |key, val|
-      next if %w(zk
-                 log_dir
-                 port).include?(key)
-      next if val.nil?
-      if val.respond_to?(:to_path_hash)
-        val.to_path_hash.each do |path_h|
-          attr_path = "/etc/mesos-master/#{key}"
+  node[:mesos][:master].each do |key, val|
+    next if %w(zk log_dir port).include? key
+    next if val.nil?
+    if val.respond_to? :to_path_hash
+      val.to_path_hash.each do |path_h|
+        attr_path = "/etc/mesos-master/#{key}"
 
-          directory attr_path do
-            owner 'root'
-            group 'root'
-            mode 0755
-          end
+        directory attr_path
 
-          file "#{attr_path}/#{path_h[:path]}" do
-            content "#{path_h[:content]}\n"
-            mode 0644
-            user 'root'
-            group 'root'
-          end
+        file "#{attr_path}/#{path_h[:path]}" do
+          content "#{path_h[:content]}\n"
         end
-      else
-        file "/etc/mesos-master/#{key}" do
-          content "#{val}\n"
-          mode 0644
-          user 'root'
-          group 'root'
-        end
+      end
+    else
+      file "/etc/mesos-master/#{key}" do
+        content "#{val}\n"
       end
     end
   end
