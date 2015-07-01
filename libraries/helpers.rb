@@ -1,11 +1,5 @@
 module Helpers
   module Mesos
-    unless (const_defined?(:MESOS_INFO))
-      MESOS_INFO = {
-        'platforms' => ['ubuntu', 'centos']
-      }
-    end
-
     def mesos_version
       node[:mesos][:version]
     end
