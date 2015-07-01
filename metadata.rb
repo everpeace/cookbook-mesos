@@ -21,6 +21,9 @@ depends          'python'
 depends          'build-essential'
 depends          'maven'
 depends          'ulimit'
+depends          'apt'
+depends          'yum'
+
 suggests         'docker'
 suggests         'zookeeper'
 

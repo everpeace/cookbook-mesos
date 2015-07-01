@@ -13,5 +13,12 @@ unless %w(source mesosphere)
   Chef::Application.fatal!("node['mesos']['type'] should be 'source' or 'mesosphere'.")
 end
 
+case node["platform"]
+when "centos"
+  include_recipe "yum"
+when "ubuntu"
+  include_recipe "apt"
+end
+
 include_recipe "java"
 include_recipe "mesos::#{node[:mesos][:type]}"
