@@ -32,7 +32,7 @@ Install mesos (download zip from [github](https://github.com/apache/mesos), conf
 ### mesos::mesosphere
 
 Install mesos using Mesosphere's mesos package.
-You can also install zookeeper package by `node[:mesos][:mesosphere][:with_zookeeper]` if required because Mesosphere's mesos package doesn't include zookeeper.  You can also specify mesosphere package's build version (see below for details).
+You can also install zookeeper package by `node[:mesos][:mesosphere][:with_zookeeper]` if required because Mesosphere's mesos package doesn't include zookeeper.
 
 ### mesos::master
 
@@ -202,12 +202,6 @@ Please see below:
     <td>String</td>
     <td>Version.(see http://mesosphere.io/downloads/)</td>
     <td><tt>0.20.1</tt></td>
-  </tr>
-  <tr>
-    <td><tt>[:mesos][:mesosphere][:build_version]</tt></td>
-    <td>String</td>
-    <td>build version of mesosphere package.  mesosphere's package version consists of 2 parts, `<mesos_version>-<build_version>`, for example `0.20.0-1.0.ubuntu1404`</td>
-    <td><tt>1.0.ubuntu1404</tt></td>
   </tr>
   <tr>
     <td><tt>[:mesos][:mesosphere][:with_zookeeper]</tt></td>
