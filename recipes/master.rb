@@ -77,7 +77,7 @@ if node[:mesos][:type] == 'mesosphere' then
     recursive true
   end
 
-  bash "rm -rf /etc/mesos-master/*"
+  execute "rm -rf /etc/mesos-master/*"
 
   node[:mesos][:master].each do |key, val|
     next if %w(zk log_dir port).include? key
