@@ -68,49 +68,6 @@ module Helpers
       File.exist?("#{MESOSPHERE_INFO['prefix'][platform]}/mesos-master") && (`#{cmd}`.chop == mesos_version)
     end
 
-    def install_zookeeper
-      # some preparation, if required.
-      case platform
-      when 'centos'
-        bash "add CDH repository to gain access to Zookeeper packages." do
-          code <<-EOH
-            rpm -Uvh http://archive.cloudera.com/cdh4/one-click-install/redhat/6/x86_64/cloudera-cdh-4-0.x86_64.rpm
-            yum install -y -q curl
-            curl -sSfL http://archive.cloudera.com/cdh4/redhat/6/x86_64/cdh/RPM-GPG-KEY-cloudera --output /tmp/cdh.key
-            rpm --import /tmp/cdh.key
-          EOH
-          action :run
-        end
-      end
-
-      # package installation
-      MESOSPHERE_INFO['zookeeper_packages'][platform].each do |zk|
-        package zk do
-          action :install
-        end
-      end
-
-      # service restart
-      case platform
-      when 'ubuntu'
-          service "zookeeper" do
-            provider Chef::Provider::Service::Upstart
-            action :restart
-          end
-      when 'centos'
-          bash "zookeeper-sever init, if it's the first time." do
-            code <<-EOH
-              service zookeeper-server init || true
-            EOH
-            action :run
-          end
-          service "zookeeper-server" do
-            provider Chef::Provider::Service::Init::Redhat
-            action :restart
-          end
-      end
-    end
-
     def install_mesos
       case platform
       when 'ubuntu'

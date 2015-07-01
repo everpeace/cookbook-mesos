@@ -7,12 +7,9 @@
 ::Chef::Recipe.send(:include, ::Helpers::Mesosphere)
 Chef::Resource::Service.send(:include, ::Helpers::Mesos)
 
+include_recipe 'mesos::zookeeper' if node[:mesos][:mesosphere][:with_zookeeper]
 
 if !(installed?) then
-  if node['mesos']['mesosphere']['with_zookeeper'] then
-    install_zookeeper
-  end
-
   install_mesos
   deploy_service_scripts
 else
