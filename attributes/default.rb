@@ -25,6 +25,8 @@ default[:mesos] = {
   :deploy_with_sudo => "1"
 }
 
+default[:mesos][:deploy_dir] = "#{node[:mesos][:prefix]}/var/mesos/deploy"
+
 default[:mesos][:slave][:cgroups_hierarchy] = value_for_platform(
   "centos" => {
     "default" => "/cgroup"

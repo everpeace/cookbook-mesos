@@ -12,7 +12,7 @@ elsif node[:mesos][:type] == 'mesosphere' then
 end
 include_recipe "mesos::default"
 
-deploy_dir = File.join(prefix, "var", "mesos", "deploy")
+deploy_dir = node[:mesos][:deploy_dir]
 
 directory deploy_dir do
   owner 'root'
@@ -37,7 +37,7 @@ if ! node[:mesos][:slave][:master] then
 end
 
 # configuration files for mesos-daemon.sh provided by both source and mesosphere
-template File.join(deploy_dir, "mesos-slave-env.sh") do
+template "#{deploy_dir}/mesos-slave-env.sh" do
   source "mesos-slave-env.sh.erb"
   mode 0644
   owner "root"
@@ -50,7 +50,7 @@ activate_slave_service_scripts
 
 # configuration files for service scripts(mesos-init-wrapper) by mesosphere package.
 if node[:mesos][:type] == 'mesosphere' then
-  template File.join("/etc", "mesos", "zk") do
+  template "/etc/mesos/zk" do
     source "etc-mesos-zk.erb"
     mode 0644
     owner "root"
@@ -60,7 +60,7 @@ if node[:mesos][:type] == 'mesosphere' then
     })
   end
 
-  template File.join("/etc", "default", "mesos") do
+  template "/etc/default/mesos" do
     source "etc-default-mesos.erb"
     mode 0644
     owner "root"
@@ -70,7 +70,7 @@ if node[:mesos][:type] == 'mesosphere' then
     })
   end
 
-  template File.join("/etc", "default", "mesos-slave") do
+  template "/etc/default/mesos-slave" do
     source "etc-default-mesos-slave.erb"
     mode 0644
     owner "root"
@@ -80,7 +80,7 @@ if node[:mesos][:type] == 'mesosphere' then
     })
   end
 
-  directory File.join("/etc", "mesos-slave") do
+  directory "/etc/mesos-slave" do
     action :create
     recursive true
     mode 0755
@@ -104,14 +104,15 @@ if node[:mesos][:type] == 'mesosphere' then
       next if val.nil?
       if val.respond_to?(:to_path_hash)
         val.to_path_hash.each do |path_h|
-          attr_path = File.join('', 'etc', 'mesos-slave', key, path_h[:path])
-          directory File.dirname(attr_path) do
+          attr_path = "/etc/mesos-slave/#{key}"
+
+          directory "#{attr_path}" do
             owner 'root'
             group 'root'
             mode 0755
           end
 
-          file attr_path do
+          file "#{attr_path}/#{path_h[:path]}" do
             content "#{path_h[:content]}\n"
             mode 0644
             user 'root'
@@ -119,7 +120,7 @@ if node[:mesos][:type] == 'mesosphere' then
           end
         end
       else
-        file File.join('', 'etc', 'mesos-slave', key) do
+        file "/etc/mesos-slave/#{key}" do
           content "#{val}\n"
           mode 0644
           user 'root'

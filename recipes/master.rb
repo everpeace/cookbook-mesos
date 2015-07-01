@@ -12,7 +12,7 @@ elsif node[:mesos][:type] == 'mesosphere' then
 end
 include_recipe "mesos::default"
 
-deploy_dir = File.join(prefix, "var", "mesos", "deploy")
+deploy_dir = node[:mesos][:deploy_dir]
 
 directory deploy_dir do
   owner 'root'
@@ -40,22 +40,23 @@ if (! node[:mesos][:master][:quorum]) then
   Chef::Application.fatal!("node[:mesos][:master][:quorum] is required to configure mesos-master.")
 end
 
-# configuration files for mesos-[start|stop]-cluster.sh provided by both source and mesosphere
-template File.join(deploy_dir, "masters") do
+# configuration files for mesos-[start|stop]-cluster.sh provided
+# by both source and mesosphere
+template "#{deploy_dir}/masters" do
   source "masters.erb"
   mode 0644
   owner "root"
   group "root"
 end
 
-template File.join(deploy_dir, "slaves") do
+template "#{deploy_dir}/slaves" do
   source "slaves.erb"
   mode 0644
   owner "root"
   group "root"
 end
 
-template File.join(deploy_dir, "mesos-deploy-env.sh") do
+template "#{deploy_dir}/mesos-deploy-env.sh" do
   source "mesos-deploy-env.sh.erb"
   mode 0644
   owner "root"
@@ -63,7 +64,7 @@ template File.join(deploy_dir, "mesos-deploy-env.sh") do
 end
 
 # configuration files for mesos-daemon.sh provided by both source and mesosphere
-template File.join(prefix, "var", "mesos", "deploy", "mesos-master-env.sh") do
+template "#{deploy_dir}/mesos-master-env.sh" do
   source "mesos-master-env.sh.erb"
   mode 0644
   owner "root"
@@ -78,7 +79,7 @@ activate_master_service_scripts
 if node[:mesos][:type] == 'mesosphere' then
   # these template resources don't notify service resource because
   # changes of configuration can be detected in mesos-master-env.sh
-  template File.join("/etc", "mesos", "zk") do
+  template "/etc/mesos/zk" do
     source "etc-mesos-zk.erb"
     mode 0644
     owner "root"
@@ -88,7 +89,7 @@ if node[:mesos][:type] == 'mesosphere' then
     })
   end
 
-  template File.join("/etc", "default", "mesos") do
+  template "/etc/default/mesos" do
     source "etc-default-mesos.erb"
     mode 0644
     owner "root"
@@ -98,7 +99,7 @@ if node[:mesos][:type] == 'mesosphere' then
     })
   end
 
-  template File.join("/etc", "default", "mesos-master") do
+  template "/etc/default/mesos-master" do
     source "etc-default-mesos-master.erb"
     mode 0644
     owner "root"
@@ -108,7 +109,7 @@ if node[:mesos][:type] == 'mesosphere' then
     })
   end
 
-  directory File.join("/etc", "mesos-master") do
+  directory "/etc/mesos-master" do
     action :create
     recursive true
     mode 0755
@@ -131,14 +132,15 @@ if node[:mesos][:type] == 'mesosphere' then
       next if val.nil?
       if val.respond_to?(:to_path_hash)
         val.to_path_hash.each do |path_h|
-          attr_path = File.join('', 'etc', 'mesos-master', key, path_h[:path])
-          directory File.dirname(attr_path) do
+          attr_path = "/etc/mesos-master/#{key}"
+
+          directory attr_path do
             owner 'root'
             group 'root'
             mode 0755
           end
 
-          file attr_path do
+          file "#{attr_path}/#{path_h[:path]}" do
             content "#{path_h[:content]}\n"
             mode 0644
             user 'root'
@@ -146,7 +148,7 @@ if node[:mesos][:type] == 'mesosphere' then
           end
         end
       else
-        file File.join('', 'etc', 'mesos-master', key) do
+        file "/etc/mesos-master/#{key}" do
           content "#{val}\n"
           mode 0644
           user 'root'

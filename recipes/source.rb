@@ -33,7 +33,7 @@ if !(installed?) then
   end
 
   bash "building mesos from source" do
-    cwd   File.join("#{node[:mesos][:home]}", "mesos")
+    cwd   "#{node[:mesos][:home]}/mesos"
     code  <<-EOH
       ./bootstrap
       ./bootstrap
@@ -46,14 +46,14 @@ if !(installed?) then
   end
 
   bash "testing mesos" do
-    cwd    File.join("#{node[:mesos][:home]}", "mesos", "build")
+    cwd    "#{node[:mesos][:home]}/mesos/build"
     code   "make check"
     action :run
     only_if { node[:mesos][:build][:skip_test]==false }
   end
 
   bash "install mesos to #{prefix}" do
-    cwd    File.join("#{node[:mesos][:home]}", "mesos", "build")
+    cwd    "#{node[:mesos][:home]}/mesos/build"
     code   <<-EOH
       make install
       ldconfig
