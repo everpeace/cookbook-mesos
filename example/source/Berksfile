@@ -1,7 +1,4 @@
 source 'https://supermarket.chef.io'
 
-cookbook 'apt'
-cookbook 'ark', github: "opscode-cookbooks/ark"
-cookbook 'maven', github: "opscode-cookbooks/maven"
 cookbook "mesos", path: "../../"
 
