@@ -65,6 +65,7 @@ suites:
       mesos:
         type: source
         master:
+          zk: 'zk://localhost:2181/mesos'
           quorum: 1
         master_ips: ['10.0.0.1', '10.0.0.2', '10.0.0.3']
         slave_ips:  ['11.0.0.1', '11.0.0.2', '11.0.0.3']
