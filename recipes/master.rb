@@ -25,13 +25,13 @@ end
 
 include_mesos_recipe
 
-# for backword compatibility
+# for backwards compatibility
 if node[:mesos][:cluster_name] then
   if !node[:mesos][:master][:cluster] then
-    Chef::Log.info("node[:mesos][:cluster_name] is obsolute. use node[:mesos][:master][:cluster] instead.")
+    Chef::Log.info 'node[:mesos][:cluster_name] is obsolete. use node[:mesos][:master][:cluster] instead.'
     node.default[:mesos][:master][:cluster] = node[:mesos][:cluster_name]
   else
-    Chef::Log.info("node[:mesos][:cluster_name] is obsolute. node[:mesos][:cluster_name] will be ignored because you have node[:mesos][:master][:cluster].")
+    Chef::Log.info 'node[:mesos][:cluster_name] is obsolete. node[:mesos][:cluster_name] will be ignored because you have node[:mesos][:master][:cluster].'
   end
 end
 

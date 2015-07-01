@@ -28,10 +28,10 @@ include_mesos_recipe
 # for backword compatibility
 if node[:mesos][:slave][:master_url] then
   if !node[:mesos][:slave][:master] then
-    Chef::Log.info("node[:mesos][:slave][:master_url] is obsolute. use node[:mesos][:slave][:master] instead.")
+    Chef::Log.info 'node[:mesos][:slave][:master_url] is obsolete. use node[:mesos][:slave][:master] instead.'
     node.default[:mesos][:slave][:master] = node[:mesos][:slave][:master_url]
   else
-    Chef::Log.info("node[:mesos][:slave][:master_url] is obsolute. node[:mesos][:slave][:master_url] will be ignored because you have node[:mesos][:slave][:master].")
+    Chef::Log.info 'node[:mesos][:slave][:master_url] is obsolete. node[:mesos][:slave][:master_url] will be ignored because you have node[:mesos][:slave][:master].'
   end
 end
 
