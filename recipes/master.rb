@@ -77,6 +77,7 @@ if node[:mesos][:type] == 'mesosphere' then
     recursive true
   end
 
+  # TODO Refactor this to be idempotent, or have a guard - jeffbyrnes
   execute "rm -rf /etc/mesos-master/*"
 
   node[:mesos][:master].each do |key, val|
