@@ -136,32 +136,6 @@ module Helpers
         end
       end
     end
-
-    def activate_master_service_scripts
-      case platform
-      when 'ubuntu', 'centos'
-        template "/etc/init/mesos-master.conf" do
-          source "upstart.conf.for.mesosphere.erb"
-          variables(:init_state => "start", :role => "master")
-          mode 0644
-          owner "root"
-          group "root"
-        end
-      end
-    end
-
-    def activate_slave_service_scripts
-      case platform
-      when 'ubuntu', 'centos'
-        template "/etc/init/mesos-slave.conf" do
-          source "upstart.conf.for.mesosphere.erb"
-          variables(:init_state => "start", :role => "slave")
-          mode 0644
-          owner "root"
-          group "root"
-        end
-      end
-    end
   end #of Module Mesosphere
 
 
@@ -205,32 +179,6 @@ module Helpers
       SOURCE_INFO['dependency_packages'][platform].each do |p|
         package p do
           action :install
-        end
-      end
-    end
-
-    def activate_master_service_scripts
-      case platform
-      when 'ubuntu', 'centos'
-        template "/etc/init/mesos-master.conf" do
-          source "upstart.conf.for.buld_from_source.erb"
-          variables(:init_state => "start", :role => "master")
-          mode 0644
-          owner "root"
-          group "root"
-        end
-      end
-    end
-
-    def activate_slave_service_scripts
-      case platform
-      when 'ubuntu', 'centos'
-        template "/etc/init/mesos-slave.conf" do
-          source "upstart.conf.for.buld_from_source.erb"
-          variables(:init_state => "start", :role => "slave")
-          mode 0644
-          owner "root"
-          group "root"
         end
       end
     end

@@ -3,13 +3,6 @@
 # Recipe:: slave
 #
 
-::Chef::Recipe.send(:include, ::Helpers::Mesos)
-if node[:mesos][:type] == 'source' then
-  ::Chef::Recipe.send(:include, ::Helpers::Source)
-elsif node[:mesos][:type] == 'mesosphere' then
-  ::Chef::Recipe.send(:include, ::Helpers::Mesosphere)
-  Chef::Log.info("node[:mesos][:prefix] is ignored. prefix will be set with /usr/local .")
-end
 include_recipe "mesos::default"
 
 deploy_dir = node[:mesos][:deploy_dir]
@@ -46,7 +39,10 @@ template "#{deploy_dir}/mesos-slave-env.sh" do
   notifies :restart, "service[mesos-slave]", :delayed
 end
 
-activate_slave_service_scripts
+template "/etc/init/mesos-slave.conf" do
+  source "upstart.conf.for.#{node[:mesos][:type]}.erb"
+  variables :init_state => "start", :role => "slave"
+end
 
 # configuration files for service scripts(mesos-init-wrapper) by mesosphere package.
 if node[:mesos][:type] == 'mesosphere' then
