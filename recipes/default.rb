@@ -12,4 +12,6 @@ end
 unless %w(source mesosphere)
   Chef::Application.fatal!("node['mesos']['type'] should be 'source' or 'mesosphere'.")
 end
+
+include_recipe "java"
 include_recipe "mesos::#{node[:mesos][:type]}"

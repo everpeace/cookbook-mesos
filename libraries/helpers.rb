@@ -41,7 +41,7 @@ module Helpers
         },
         'zookeeper_packages' => {
           'ubuntu' => ['zookeeper', 'zookeeperd', 'zookeeper-bin'],
-          'centos' => ['java-1.7.0-openjdk', 'zookeeper', 'zookeeper-server']
+          'centos' => ['zookeeper', 'zookeeper-server']
         }
       }
     end
@@ -216,11 +216,11 @@ module Helpers
         'dependency_packages' => {
           # The list is necessary and sufficient?
           'ubuntu' => ["unzip", "libtool", "libltdl-dev", "autoconf", "automake", "libcurl3", "libcurl3-gnutls", "libcurl4-openssl-dev", "python-dev", "libsasl2-dev"],
-          'centos' => ["python-devel", "java-1.7.0-openjdk-devel", "zlib-devel", "libcurl-devel", "openssl-devel", "cyrus-sasl-devel", "cyrus-sasl-md5"]
+          'centos' => ["python-devel", "zlib-devel", "libcurl-devel", "openssl-devel", "cyrus-sasl-devel", "cyrus-sasl-md5"]
         },
         'dependency_recipes' => {
-          'ubuntu' => ["java", "python", "build-essential", "maven"],
-          'centos' => ["java", "python", "build-essential", "maven"]
+          'ubuntu' => ["python", "build-essential", "maven"],
+          'centos' => ["python", "build-essential", "maven"]
         }
       }
     end
