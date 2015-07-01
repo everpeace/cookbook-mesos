@@ -8,10 +8,6 @@ include_recipe "mesos::default"
 deploy_dir = node[:mesos][:deploy_dir]
 
 directory deploy_dir do
-  owner 'root'
-  group 'root'
-  mode '0644'
-  action :create
   recursive true
 end
 
@@ -35,35 +31,16 @@ end
 
 # configuration files for mesos-[start|stop]-cluster.sh provided
 # by both source and mesosphere
-template "#{deploy_dir}/masters" do
-  source "masters.erb"
-  mode 0644
-  owner "root"
-  group "root"
-end
+template "#{deploy_dir}/masters"
 
-template "#{deploy_dir}/slaves" do
-  source "slaves.erb"
-  mode 0644
-  owner "root"
-  group "root"
-end
+template "#{deploy_dir}/slaves"
 
-template "#{deploy_dir}/mesos-deploy-env.sh" do
-  source "mesos-deploy-env.sh.erb"
-  mode 0644
-  owner "root"
-  group "root"
-end
+template "#{deploy_dir}/mesos-deploy-env.sh"
 
 # configuration files for mesos-daemon.sh provided by both source and mesosphere
 template "#{deploy_dir}/mesos-master-env.sh" do
-  source "mesos-master-env.sh.erb"
-  mode 0644
-  owner "root"
-  group "root"
-  notifies :reload,  "service[mesos-master]", :delayed
-  notifies :restart, "service[mesos-master]", :delayed
+  notifies :reload,  "service[mesos-master]"
+  notifies :restart, "service[mesos-master]"
 end
 
 template "/etc/init/mesos-master.conf" do
@@ -77,48 +54,30 @@ if node[:mesos][:type] == 'mesosphere' then
   # changes of configuration can be detected in mesos-master-env.sh
   template "/etc/mesos/zk" do
     source "etc-mesos-zk.erb"
-    mode 0644
-    owner "root"
-    group "root"
-    variables({
+    variables(
       :zk => node[:mesos][:master][:zk]
-    })
+    )
   end
 
   template "/etc/default/mesos" do
     source "etc-default-mesos.erb"
-    mode 0644
-    owner "root"
-    group "root"
-    variables({
+    variables(
       :log_dir => node[:mesos][:master][:log_dir]
-    })
+    )
   end
 
   template "/etc/default/mesos-master" do
     source "etc-default-mesos-master.erb"
-    mode 0644
-    owner "root"
-    group "root"
-    variables({
+    variables(
       :port => node[:mesos][:master][:port]
-    })
+    )
   end
 
   directory "/etc/mesos-master" do
-    action :create
     recursive true
-    mode 0755
-    owner "root"
-    group "root"
   end
 
-  bash "cleanup /etc/mesos-master/" do
-    code "rm -rf /etc/mesos-master/*"
-    user "root"
-    group "root"
-    action :run
-  end
+  bash "rm -rf /etc/mesos-master/*"
 
   node[:mesos][:master].each do |key, val|
     next if %w(zk log_dir port).include? key

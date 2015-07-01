@@ -8,10 +8,6 @@ include_recipe "mesos::default"
 deploy_dir = node[:mesos][:deploy_dir]
 
 directory deploy_dir do
-  owner 'root'
-  group 'root'
-  mode '0644'
-  action :create
   recursive true
 end
 
@@ -32,9 +28,6 @@ end
 # configuration files for mesos-daemon.sh provided by both source and mesosphere
 template "#{deploy_dir}/mesos-slave-env.sh" do
   source "mesos-slave-env.sh.erb"
-  mode 0644
-  owner "root"
-  group "root"
   notifies :reload,  "service[mesos-slave]", :delayed
   notifies :restart, "service[mesos-slave]", :delayed
 end
