@@ -126,7 +126,7 @@ describe 'mesos::master' do
     end
 
     it 'runs a cleanup of /etc/mesos-master/*' do
-      expect(chef_run).to run_bash('cleanup /etc/mesos-master/')
+      expect(chef_run).to run_execute('rm -rf /etc/mesos-master/*')
     end
 
     describe 'configuration options in /etc/mesos-master' do
