@@ -10,13 +10,13 @@ RSpec.configure do |config|
   config.platform = 'ubuntu'
 
   # Default platform version
-  config.version = '12.04'
+  config.version = '14.04'
 
   # Omit warnings from output
   config.log_level = :fatal
 
   config.before(:suite) do
-    ChefSpec::Coverage.start! 
+    ChefSpec::Coverage.start!
   end
 end
 
