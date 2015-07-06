@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe 'mesos::default' do
   let :chef_run do
-    ChefSpec::Runner.new do |node|
+    ChefSpec::ServerRunner.new do |node|
       node.set[:mesos][:type] = :bork
     end
   end

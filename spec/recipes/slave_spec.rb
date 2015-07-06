@@ -29,7 +29,7 @@ describe 'mesos::slave' do
 
   context 'when installed from mesosphere' do
     let :chef_run do
-      ChefSpec::Runner.new do |node|
+      ChefSpec::ServerRunner.new do |node|
         node.set[:mesos][:type] = 'mesosphere'
         node.set[:mesos][:slave][:master] = 'test-master'
         node.set[:mesos][:mesosphere][:with_zookeeper] = true
@@ -89,7 +89,7 @@ describe 'mesos::slave' do
 
   context 'when installed from source' do
     let :chef_run do
-      ChefSpec::Runner.new do |node|
+      ChefSpec::ServerRunner.new do |node|
         node.set[:mesos][:type] = 'source'
         node.set[:mesos][:slave][:master] = 'test-master'
         node.set[:mesos][:slave][:slave_key] = 'slave_value'

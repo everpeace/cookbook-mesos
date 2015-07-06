@@ -67,7 +67,7 @@ describe 'mesos::master' do
 
   context 'when installed from mesosphere' do
     let :chef_run do
-      ChefSpec::Runner.new do |node|
+      ChefSpec::ServerRunner.new do |node|
         node.set[:mesos][:type] = 'mesosphere'
         node.set[:mesos][:master][:zk] = 'zk-string'
         node.set[:mesos][:master][:quorum] = '1'
@@ -143,7 +143,7 @@ describe 'mesos::master' do
 
   context 'when installed from source' do
     let :chef_run do
-      ChefSpec::Runner.new do |node|
+      ChefSpec::ServerRunner.new do |node|
         node.set[:mesos][:type] = 'source'
         node.set[:mesos][:master][:zk] = 'zk-string'
         node.set[:mesos][:master][:quorum] = '1'
