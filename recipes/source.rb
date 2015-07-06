@@ -32,6 +32,7 @@ when "ubuntu"
     libcurl3-gnutls
     libcurl4-openssl-dev
     libsasl2-dev
+    python-boto
   )
 end
 
