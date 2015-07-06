@@ -10,7 +10,7 @@ describe 'mesos::default' do
   end
 
   before do
-    Chef::Application.stub(:fatal!)
+    allow(Chef::Application).to receive(:fatal!)
   end
 
   context 'when type is neither `source` or `mesosphere`' do
