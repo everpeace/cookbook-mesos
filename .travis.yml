@@ -1,10 +1,7 @@
 language: ruby
-script: ./travis-test.sh
+bundler_args: --deployment --jobs=3 --retry=3
+cache: bundler
 rvm:
-  - 1.9.3
-  - 2.0.0
-  - 2.1.0
-  - ruby-head
-matrix:
-  allow_failures:
-    - rvm: ruby-head
+  - 2.1
+script:
+  - bundle exec rake spec
