@@ -22,7 +22,7 @@ shared_examples_for 'an installation from source' do |opt|
   end
 
   describe 'package dependencies' do
-    %w[unzip libtool libltdl-dev autoconf automake libcurl3 libcurl3-gnutls libcurl4-openssl-dev python-dev libsasl2-dev].each do |pkg_name|
+    %w(unzip libtool libltdl-dev autoconf automake libcurl3 libcurl3-gnutls libcurl4-openssl-dev libsasl2-dev).each do |pkg_name|
       it "installs #{pkg_name}" do
         expect(chef_run).to install_package pkg_name
       end
