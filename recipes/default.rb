@@ -9,7 +9,7 @@ unless %w(ubuntu centos).include? node["platform"]
 end
 
 # Fail early if an unsupported install type is specified
-unless %w(source mesosphere)
+unless %w(source mesosphere).include? node[:mesos][:type]
   Chef::Application.fatal!("node['mesos']['type'] should be 'source' or 'mesosphere'.")
 end
 
