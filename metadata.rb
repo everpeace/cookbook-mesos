@@ -78,7 +78,7 @@ attribute           "mesos/deploy_with_sudo",
 attribute           "mesos/cluster_name",
   :recipes       => ["mesos::master"],
   :display_name  => "cluster name",
-  :description   => "[OBSOLUTE] Human readable name for the cluster, displayed at webui"
+  :description   => "[OBSOLETE] Human readable name for the cluster, displayed at webui"
 
 attribute           "mesos/master_ips",
   :recipes       => ["mesos::master"],
@@ -94,4 +94,4 @@ attribute           "mesos/slave/master_url",
   :required      => "required",
   :recipes       => ["mesos::slave"],
   :display_name  => "master url",
-  :description   => "[OBSOLUTE] Use mesos/slave/master.  mesos master url. this should  be host:port for non-ZooKeeper based masters, otherwise a zk:// or file://."
+  :description   => "[OBSOLETE] Use mesos/slave/master.  mesos master url. this should  be host:port for non-ZooKeeper based masters, otherwise a zk:// or file://."
