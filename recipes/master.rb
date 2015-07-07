@@ -22,11 +22,11 @@ if node[:mesos][:cluster_name] then
 end
 
 if (! node[:mesos][:master][:zk]) then
-  Chef::Application.fatal!("node[:mesos][:master][:zk] is required to configure mesos-master.")
+  fail 'node[:mesos][:master][:zk] is required to configure mesos-master.'
 end
 
 if (! node[:mesos][:master][:quorum]) then
-  Chef::Application.fatal!("node[:mesos][:master][:quorum] is required to configure mesos-master.")
+  fail 'node[:mesos][:master][:quorum] is required to configure mesos-master.'
 end
 
 # configuration files for mesos-[start|stop]-cluster.sh provided

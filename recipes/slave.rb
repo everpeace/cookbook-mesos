@@ -22,7 +22,7 @@ if node[:mesos][:slave][:master_url] then
 end
 
 if ! node[:mesos][:slave][:master] then
-  Chef::Application.fatal!("node[:mesos][:slave][:master] is required to configure mesos-slave.")
+  fail 'node[:mesos][:slave][:master] is required to configure mesos-slave.'
 end
 
 # configuration files for mesos-daemon.sh provided by both source and mesosphere

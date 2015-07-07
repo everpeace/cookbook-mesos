@@ -5,12 +5,12 @@
 
 # Avoid running on unsupported systems
 unless %w(ubuntu centos).include? node["platform"]
-  Chef::Application.fatal! "#{node['platform']} is not supported on #{cookbook_name} cookbook"
+  fail "#{node['platform']} is not supported on #{cookbook_name} cookbook"
 end
 
 # Fail early if an unsupported install type is specified
 unless %w(source mesosphere).include? node[:mesos][:type]
-  Chef::Application.fatal!("node['mesos']['type'] should be 'source' or 'mesosphere'.")
+  fail "node['mesos']['type'] should be 'source' or 'mesosphere'."
 end
 
 case node["platform"]
