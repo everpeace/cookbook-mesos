@@ -2,6 +2,7 @@
 
 require 'chefspec'
 require 'chefspec/berkshelf'
+ChefSpec::Coverage.start!
 
 require 'chef/application'
 
@@ -14,10 +15,6 @@ RSpec.configure do |config|
 
   # Omit warnings from output
   config.log_level = :fatal
-
-  config.before(:suite) do
-    ChefSpec::Coverage.start!
-  end
 end
 
 require 'support/source_installation'
