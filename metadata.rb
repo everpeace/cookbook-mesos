@@ -31,7 +31,6 @@ attribute           "mesos/type",
   :recipes       => ["mesos::source", "mesos::mesosphere", "mesos::master", "mesos::slave"],
   :display_name  => "installation type",
   :description   => "Value should be 'source' | 'mesosphere'.",
-  :description   => "instlal type",
   :default       => "source"
 
 attribute           "mesos/version",
