@@ -32,24 +32,3 @@ when 'ubuntu'
     version "#{node[:mesos][:version]}-1.0.#{node['platform']}#{node['platform_version'].sub '.', ''}"
   end
 end
-
-# configuration files for upstart scripts by source installation
-template "/etc/init/mesos-master.conf" do
-  source "upstart.conf.for.mesosphere.erb"
-  variables :init_state => "stop", :role => "master"
-  notifies :reload, "service[mesos-master]"
-end
-
-template "/etc/init/mesos-slave.conf" do
-  source "upstart.conf.for.mesosphere.erb"
-  variables :init_state => "stop", :role => "slave"
-  notifies :reload, "service[mesos-slave]"
-end
-
-%w(master slave).each do |role|
-  service "mesos-#{role}" do
-    provider Chef::Provider::Service::Upstart
-    supports :restart => true, :reload => true
-    action :nothing
-  end
-end

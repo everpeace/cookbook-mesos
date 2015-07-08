@@ -5,6 +5,12 @@
 
 include_recipe "mesos::default"
 
+service "mesos-master" do
+  provider Chef::Provider::Service::Upstart
+  supports :restart => true, :reload => true
+  action :nothing
+end
+
 deploy_dir = node[:mesos][:deploy_dir]
 
 directory deploy_dir do
@@ -46,6 +52,7 @@ end
 template "/etc/init/mesos-master.conf" do
   source "upstart.conf.for.#{node[:mesos][:type]}.erb"
   variables :init_state => "start", :role => "master"
+  notifies :reload, "service[mesos-master]"
 end
 
 # configuration files for service scripts(mesos-init-wrapper) by mesosphere package.

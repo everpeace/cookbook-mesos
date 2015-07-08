@@ -71,17 +71,3 @@ unless File.exist?("#{prefix}/mesos-master") && (`#{cmd}`.chop == mesos_version)
     command 'make install && ldconfig'
   end
 end
-
-%w(master slave).each do |role|
-  template "/etc/init/mesos-#{role}.conf" do
-    source "upstart.conf.for.#{node[:mesos][:type]}.erb"
-    variables :init_state => "stop", :role => role
-    notifies :reload, "service[mesos-#{role}]"
-  end
-
-  service "mesos-#{role}" do
-    provider Chef::Provider::Service::Upstart
-    supports :restart => true, :reload => true
-    action :nothing
-  end
-end
