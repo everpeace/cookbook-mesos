@@ -159,5 +159,3 @@ describe 'mesos::master' do
     it_behaves_like 'a master recipe'
   end
 end
-
-at_exit { ChefSpec::Coverage.report! }

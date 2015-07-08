@@ -102,5 +102,3 @@ describe 'mesos::slave' do
     it_behaves_like 'a slave recipe'
   end
 end
-
-at_exit { ChefSpec::Coverage.report! }
