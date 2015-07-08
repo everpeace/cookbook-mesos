@@ -19,19 +19,19 @@ end
 
 # for backwards compatibility
 if node[:mesos][:cluster_name]
-  if !node[:mesos][:master][:cluster]
+  if node[:mesos][:master][:cluster]
+    Chef::Log.info 'node[:mesos][:cluster_name] is obsolete. node[:mesos][:cluster_name] will be ignored because you have node[:mesos][:master][:cluster].'
+  else
     Chef::Log.info 'node[:mesos][:cluster_name] is obsolete. use node[:mesos][:master][:cluster] instead.'
     node.default[:mesos][:master][:cluster] = node[:mesos][:cluster_name]
-  else
-    Chef::Log.info 'node[:mesos][:cluster_name] is obsolete. node[:mesos][:cluster_name] will be ignored because you have node[:mesos][:master][:cluster].'
   end
 end
 
-if (! node[:mesos][:master][:zk])
+unless node[:mesos][:master][:zk]
   fail 'node[:mesos][:master][:zk] is required to configure mesos-master.'
 end
 
-if (! node[:mesos][:master][:quorum])
+unless node[:mesos][:master][:quorum]
   fail 'node[:mesos][:master][:quorum] is required to configure mesos-master.'
 end
 

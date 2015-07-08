@@ -19,15 +19,15 @@ end
 
 # for backword compatibility
 if node[:mesos][:slave][:master_url]
-  if !node[:mesos][:slave][:master]
+  if node[:mesos][:slave][:master]
+    Chef::Log.info 'node[:mesos][:slave][:master_url] is obsolete. node[:mesos][:slave][:master_url] will be ignored because you have node[:mesos][:slave][:master].'
+  else
     Chef::Log.info 'node[:mesos][:slave][:master_url] is obsolete. use node[:mesos][:slave][:master] instead.'
     node.default[:mesos][:slave][:master] = node[:mesos][:slave][:master_url]
-  else
-    Chef::Log.info 'node[:mesos][:slave][:master_url] is obsolete. node[:mesos][:slave][:master_url] will be ignored because you have node[:mesos][:slave][:master].'
   end
 end
 
-if ! node[:mesos][:slave][:master]
+unless node[:mesos][:slave][:master]
   fail 'node[:mesos][:slave][:master] is required to configure mesos-slave.'
 end
 
