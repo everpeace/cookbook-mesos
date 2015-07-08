@@ -7,7 +7,7 @@ version = node[:mesos][:version]
 platform_version = node['platform_version']
 
 # tricks for "0.19.0" only.
-if version == "0.19.0" then
+if version == "0.19.0"
   version = "0.19.0_rc2"
 end
 

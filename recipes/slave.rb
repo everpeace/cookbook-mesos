@@ -18,8 +18,8 @@ directory deploy_dir do
 end
 
 # for backword compatibility
-if node[:mesos][:slave][:master_url] then
-  if !node[:mesos][:slave][:master] then
+if node[:mesos][:slave][:master_url]
+  if !node[:mesos][:slave][:master]
     Chef::Log.info 'node[:mesos][:slave][:master_url] is obsolete. use node[:mesos][:slave][:master] instead.'
     node.default[:mesos][:slave][:master] = node[:mesos][:slave][:master_url]
   else
@@ -27,7 +27,7 @@ if node[:mesos][:slave][:master_url] then
   end
 end
 
-if ! node[:mesos][:slave][:master] then
+if ! node[:mesos][:slave][:master]
   fail 'node[:mesos][:slave][:master] is required to configure mesos-slave.'
 end
 
@@ -45,7 +45,7 @@ template "/etc/init/mesos-slave.conf" do
 end
 
 # configuration files for service scripts(mesos-init-wrapper) by mesosphere package.
-if node[:mesos][:type] == 'mesosphere' then
+if node[:mesos][:type] == 'mesosphere'
   template "/etc/mesos/zk" do
     source "etc-mesos-zk.erb"
     mode 0644
@@ -91,7 +91,7 @@ if node[:mesos][:type] == 'mesosphere' then
     action :run
   end
 
-  if node[:mesos][:slave] then
+  if node[:mesos][:slave]
     node[:mesos][:slave].each do |key, val|
       next if %w(master_url
                  master

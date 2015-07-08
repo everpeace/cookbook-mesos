@@ -18,8 +18,8 @@ directory deploy_dir do
 end
 
 # for backwards compatibility
-if node[:mesos][:cluster_name] then
-  if !node[:mesos][:master][:cluster] then
+if node[:mesos][:cluster_name]
+  if !node[:mesos][:master][:cluster]
     Chef::Log.info 'node[:mesos][:cluster_name] is obsolete. use node[:mesos][:master][:cluster] instead.'
     node.default[:mesos][:master][:cluster] = node[:mesos][:cluster_name]
   else
@@ -27,11 +27,11 @@ if node[:mesos][:cluster_name] then
   end
 end
 
-if (! node[:mesos][:master][:zk]) then
+if (! node[:mesos][:master][:zk])
   fail 'node[:mesos][:master][:zk] is required to configure mesos-master.'
 end
 
-if (! node[:mesos][:master][:quorum]) then
+if (! node[:mesos][:master][:quorum])
   fail 'node[:mesos][:master][:quorum] is required to configure mesos-master.'
 end
 
@@ -56,7 +56,7 @@ template "/etc/init/mesos-master.conf" do
 end
 
 # configuration files for service scripts(mesos-init-wrapper) by mesosphere package.
-if node[:mesos][:type] == 'mesosphere' then
+if node[:mesos][:type] == 'mesosphere'
   # these template resources don't notify service resource because
   # changes of configuration can be detected in mesos-master-env.sh
   template "/etc/mesos/zk" do
