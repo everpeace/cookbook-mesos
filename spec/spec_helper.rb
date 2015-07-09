@@ -18,4 +18,3 @@ RSpec.configure do |config|
 end
 
 require 'support/source_installation'
-require 'support/setup_context'
