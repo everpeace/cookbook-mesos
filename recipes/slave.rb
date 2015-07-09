@@ -48,80 +48,42 @@ end
 if node[:mesos][:type] == 'mesosphere'
   template "/etc/mesos/zk" do
     source "etc-mesos-zk.erb"
-    mode 0644
-    owner "root"
-    group "root"
-    variables({
-      :zk => node[:mesos][:slave][:master]
-    })
+    variables zk: node[:mesos][:slave][:master]
   end
 
   template "/etc/default/mesos" do
     source "etc-default-mesos.erb"
-    mode 0644
-    owner "root"
-    group "root"
-    variables({
-      :log_dir => node[:mesos][:slave][:log_dir]
-    })
+    variables log_dir: node[:mesos][:slave][:log_dir]
   end
 
   template "/etc/default/mesos-slave" do
     source "etc-default-mesos-slave.erb"
-    mode 0644
-    owner "root"
-    group "root"
-    variables({
-      :isolation => node[:mesos][:slave][:isolation]
-    })
+    variables isolation: node[:mesos][:slave][:isolation]
   end
 
   directory "/etc/mesos-slave" do
-    action :create
     recursive true
-    mode 0755
-    owner "root"
-    group "root"
   end
 
-  bash "cleanup /etc/mesos-slave/" do
-    code "rm -rf /etc/mesos-slave/*"
-    user "root"
-    group "root"
-    action :run
-  end
+  # TODO Refactor this or add a guard to provide idempotency - jeffbyrnes
+  execute 'rm -rf /etc/mesos-slave/*'
 
-  if node[:mesos][:slave]
-    node[:mesos][:slave].each do |key, val|
-      next if %w(master_url
-                 master
-                 isolation
-                 log_dir).include?(key)
-      next if val.nil?
-      if val.respond_to?(:to_path_hash)
-        val.to_path_hash.each do |path_h|
-          attr_path = "/etc/mesos-slave/#{key}"
+  node[:mesos][:slave].each do |key, val|
+    next if %w(master_url master isolation log_dir).include?(key)
+    next if val.nil?
+    if val.respond_to? :to_path_hash
+      val.to_path_hash.each do |path_h|
+        attr_path = "/etc/mesos-slave/#{key}"
 
-          directory "#{attr_path}" do
-            owner 'root'
-            group 'root'
-            mode 0755
-          end
+        directory "#{attr_path}"
 
-          file "#{attr_path}/#{path_h[:path]}" do
-            content "#{path_h[:content]}\n"
-            mode 0644
-            user 'root'
-            group 'root'
-          end
+        file "#{attr_path}/#{path_h[:path]}" do
+          content "#{path_h[:content]}\n"
         end
-      else
-        file "/etc/mesos-slave/#{key}" do
-          content "#{val}\n"
-          mode 0644
-          user 'root'
-          group 'root'
-        end
+      end
+    else
+      file "/etc/mesos-slave/#{key}" do
+        content "#{val}\n"
       end
     end
   end

@@ -71,8 +71,8 @@ describe 'mesos::slave' do
       expect(chef_run).to create_directory '/etc/mesos-slave'
     end
 
-    it 'run a bash cleanup script' do
-      expect(chef_run).to run_bash('cleanup /etc/mesos-slave/')
+    it 'removes the contents of the slave dir' do
+      expect(chef_run).to run_execute 'rm -rf /etc/mesos-slave/*'
     end
 
     describe 'configuration options in /etc/mesos-slave' do
