@@ -1,3 +1,8 @@
+#
+# Cookbook Name:: mesos
+# Spec:: mesosphere
+#
+
 require 'spec_helper'
 
 describe 'mesos::mesosphere' do
