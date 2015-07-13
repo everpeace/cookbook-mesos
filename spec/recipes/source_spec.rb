@@ -44,7 +44,6 @@ describe 'mesos::source' do
       unzip
       libtool
       libltdl-dev
-      autoconf
       automake
       libcurl3
       libcurl3-gnutls
