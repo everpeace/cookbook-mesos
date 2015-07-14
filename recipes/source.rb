@@ -13,25 +13,38 @@ end
 
 case node["platform"]
 when "centos"
+  repo_url = value_for_platform(
+    'centos' => {
+      'default' => 'http://opensource.wandisco.com/centos/6/svn-1.8/RPMS/$basearch/',
+      '~> 7.0' => 'http://opensource.wandisco.com/centos/7/svn-1.9/RPMS/$basearch/'
+    }
+  )
+
+  yum_repository 'WANdiscoSVN' do
+    description 'WANdiscoSVN Repo'
+    baseurl repo_url
+    gpgkey 'http://opensource.wandisco.com/RPM-GPG-KEY-WANdisco'
+  end
+
   pkgs = %w(
-    python-devel
     zlib-devel
     libcurl-devel
     openssl-devel
     cyrus-sasl-devel
     cyrus-sasl-md5
+    apr-devel
+    subversion-devel
+    apr-util-devel
   )
 when "ubuntu"
   pkgs = %w(
     unzip
     libtool
-    libltdl-dev
-    automake
-    libcurl3
-    libcurl3-gnutls
-    libcurl4-openssl-dev
-    libsasl2-dev
     python-boto
+    libcurl4-nss-dev
+    libsasl2-dev
+    libapr1-dev
+    libsvn-dev
   )
 end
 

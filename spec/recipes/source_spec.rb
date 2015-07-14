@@ -12,12 +12,14 @@ describe 'mesos::source' do
     end
 
     pkgs = %w(
-      python-devel
       zlib-devel
       libcurl-devel
       openssl-devel
       cyrus-sasl-devel
       cyrus-sasl-md5
+      apr-devel
+      subversion-devel
+      apr-util-devel
     )
 
     pkgs.each do |pkg|
@@ -43,13 +45,11 @@ describe 'mesos::source' do
     pkgs = %w(
       unzip
       libtool
-      libltdl-dev
-      automake
-      libcurl3
-      libcurl3-gnutls
-      libcurl4-openssl-dev
-      libsasl2-dev
       python-boto
+      libcurl4-nss-dev
+      libsasl2-dev
+      libapr1-dev
+      libsvn-dev
     )
 
     pkgs.each do |pkg|
@@ -59,14 +59,14 @@ describe 'mesos::source' do
     end
 
     it 'downloads Mesos zip' do
-      expect(chef_run).to create_remote_file "#{Chef::Config[:file_cache_path]}/mesos-0.20.1.zip"
+      expect(chef_run).to create_remote_file "#{Chef::Config[:file_cache_path]}/mesos-0.22.1.zip"
     end
 
     it 'extracts Mesos to home location' do
       expect(chef_run).to run_execute('extract mesos to /opt').with(
         cwd: '/opt',
-        command: "unzip -o #{Chef::Config[:file_cache_path]}/mesos-0.20.1.zip -d ./" \
-                 ' && mv mesos-0.20.1 mesos'
+        command: "unzip -o #{Chef::Config[:file_cache_path]}/mesos-0.22.1.zip -d ./" \
+                 ' && mv mesos-0.22.1 mesos'
       )
     end
 

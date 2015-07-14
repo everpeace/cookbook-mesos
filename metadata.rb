@@ -37,7 +37,7 @@ attribute           "mesos/version",
   :recipes       => ["mesos::source", "mesos::mesosphere"],
   :display_name  => "Version to be installed.",
   :description   => "branch name or tag name at http://github.com/apache/mesos, or mesos's version name",
-  :default       => "0.20.1"
+  :default       => "0.22.1"
 
 attribute           "mesos/mesosphere/with_zookeeper",
   :recipes       => ["mesos::mesosphere"],

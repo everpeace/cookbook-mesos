@@ -19,7 +19,7 @@ describe 'mesos::mesosphere' do
     end
 
     it 'installs the default version of the mesos yum package' do
-      expect(chef_run).to install_yum_package 'mesos >= 0.20.1'
+      expect(chef_run).to install_yum_package 'mesos >= 0.22.1'
     end
   end
 
@@ -62,7 +62,7 @@ describe 'mesos::mesosphere' do
 
     it 'installs the default version of the mesos package' do
       expect(chef_run).to install_package('mesos').with(
-        version: '0.20.1-1.0.ubuntu1404'
+        version: '0.22.1-1.0.ubuntu1404'
       )
     end
   end
