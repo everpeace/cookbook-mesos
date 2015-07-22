@@ -11,9 +11,9 @@ shared_examples_for 'a master node' do
     end
 
     it 'contains a newline separated list of configured master IPs' do
-      expect(masters_file.content).to match /^#{Regexp.escape('10.0.0.1')}$/
-      expect(masters_file.content).to match /^#{Regexp.escape('10.0.0.2')}$/
-      expect(masters_file.content).to match /^#{Regexp.escape('10.0.0.3')}$/
+      expect(masters_file.content).to match(/^10.0.0.1$/)
+      expect(masters_file.content).to match(/^10.0.0.2$/)
+      expect(masters_file.content).to match(/^10.0.0.3$/)
     end
   end
 
@@ -27,9 +27,9 @@ shared_examples_for 'a master node' do
     end
 
     it 'contains a newline separated list of configured master IPs' do
-      expect(slaves_file.content).to match /^#{Regexp.escape('10.0.0.4')}$/
-      expect(slaves_file.content).to match /^#{Regexp.escape('10.0.0.5')}$/
-      expect(slaves_file.content).to match /^#{Regexp.escape('10.0.0.6')}$/
+      expect(slaves_file.content).to match(/^10.0.0.4$/)
+      expect(slaves_file.content).to match(/^10.0.0.5$/)
+      expect(slaves_file.content).to match(/^10.0.0.6$/)
     end
   end
 
@@ -43,11 +43,11 @@ shared_examples_for 'a master node' do
     end
 
     it 'contains SSH_OPTS variable' do
-      expect(deploy_env_file.content).to match /^export SSH_OPTS="#{Regexp.escape('-o StrictHostKeyChecking=no -o ConnectTimeout=2')}"$/
+      expect(deploy_env_file.content).to match(/^export SSH_OPTS="-o StrictHostKeyChecking=no -o ConnectTimeout=2"$/)
     end
 
     it 'contains DEPLOY_WITH_SUDO variable' do
-      expect(deploy_env_file.content).to match /^export DEPLOY_WITH_SUDO="1"$/
+      expect(deploy_env_file.content).to match(/^export DEPLOY_WITH_SUDO="1"$/)
     end
   end
 
@@ -61,11 +61,11 @@ shared_examples_for 'a master node' do
     end
 
     it 'contains log_dir variable' do
-      expect(master_env_file.content).to match /^export MESOS_log_dir=\/var\/log\/mesos$/
+      expect(master_env_file.content).to match %r{^export MESOS_log_dir=/var/log/mesos$}
     end
 
     it 'contains port variable' do
-      expect(master_env_file.content).to match /^export MESOS_port=5050$/
+      expect(master_env_file.content).to match(/^export MESOS_port=5050$/)
     end
   end
 

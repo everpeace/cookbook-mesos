@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'mesos::slave' do
-  it_behaves_like 'an installation from mesosphere', {:with_zookeeper => true}
+  it_behaves_like 'an installation from mesosphere', with_zookeeper: true
 
   it_behaves_like 'a slave node'
 
@@ -18,7 +18,7 @@ describe 'mesos::slave' do
       end
 
       it 'contains configured master' do
-        expect(zk_file.content).to match /^zk:\/\/localhost:2181\/mesos$/
+        expect(zk_file.content).to match %r{^zk://localhost:2181/mesos$}
       end
     end
 
@@ -32,11 +32,11 @@ describe 'mesos::slave' do
       end
 
       it 'contains LOGS variable' do
-        expect(mesos_file.content).to match /^LOGS=\/var\/log\/mesos$/
+        expect(mesos_file.content).to match %r{^LOGS=/var/log/mesos$}
       end
 
       it 'contains ULIMIT variable' do
-        expect(mesos_file.content).to match /^ULIMIT="-n 8192"$/
+        expect(mesos_file.content).to match(/^ULIMIT="-n 8192"$/)
       end
     end
 
@@ -50,11 +50,11 @@ describe 'mesos::slave' do
       end
 
       it 'contains MASTER variable' do
-        expect(slave_file.content).to match /^MASTER=`cat \/etc\/mesos\/zk`$/
+        expect(slave_file.content).to match %r{^MASTER=`cat /etc/mesos/zk`$}
       end
 
       it 'contains ISOLATION variable' do
-        expect(slave_file.content).to match /^ISOLATION=cgroups\/cpu,cgroups\/mem$/
+        expect(slave_file.content).to match %r{^ISOLATION=cgroups/cpu,cgroups/mem$}
       end
     end
 
@@ -73,7 +73,7 @@ describe 'mesos::slave' do
         end
 
         it 'contains the configured working directory' do
-          expect(work_dir_file.content).to match /^\/tmp\/mesos$/
+          expect(work_dir_file.content).to match %r{^/tmp/mesos$}
         end
       end
     end

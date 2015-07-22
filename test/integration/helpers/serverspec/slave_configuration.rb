@@ -11,11 +11,11 @@ shared_examples_for 'a slave node' do
     end
 
     it 'contains SSH_OPTS variable' do
-      expect(deploy_env_file.content).to match /^export SSH_OPTS="#{Regexp.escape('-o StrictHostKeyChecking=no -o ConnectTimeout=2')}"$/
+      expect(deploy_env_file.content).to match(/^export SSH_OPTS="-o StrictHostKeyChecking=no -o ConnectTimeout=2"$/)
     end
 
     it 'contains DEPLOY_WITH_SUDO variable' do
-      expect(deploy_env_file.content).to match /^export DEPLOY_WITH_SUDO="1"$/
+      expect(deploy_env_file.content).to match(/^export DEPLOY_WITH_SUDO="1"$/)
     end
   end
 
@@ -29,15 +29,15 @@ shared_examples_for 'a slave node' do
     end
 
     it 'contains log_dir variable' do
-      expect(slave_env_file.content).to match /^export MESOS_log_dir=\/var\/log\/mesos$/
+      expect(slave_env_file.content).to match %r{^export MESOS_log_dir=/var/log/mesos$}
     end
 
     it 'contains work_dir variable' do
-      expect(slave_env_file.content).to match /^export MESOS_work_dir=\/tmp\/mesos$/
+      expect(slave_env_file.content).to match %r{^export MESOS_work_dir=/tmp/mesos$}
     end
 
     it 'contains isolation variable' do
-      expect(slave_env_file.content).to match /^export MESOS_isolation=cgroups\/cpu,cgroups\/mem$/
+      expect(slave_env_file.content).to match %r{^export MESOS_isolation=cgroups/cpu,cgroups/mem$}
     end
 
     it 'contains rackid variable' do
