@@ -54,9 +54,10 @@ end
 
 mesos_version = node[:mesos][:version]
 prefix = node[:mesos][:prefix]
-cmd = "#{prefix}/mesos-master --version |cut -f 2 -d ' '"
+bin = "#{prefix}/sbin/mesos-master"
+cmd = "#{bin} --version |cut -f 2 -d ' '"
 
-unless File.exist?("#{prefix}/mesos-master") && (`#{cmd}`.chop == mesos_version)
+unless File.exist?(bin) && (`#{cmd}`.chop == mesos_version)
   remote_file "#{Chef::Config[:file_cache_path]}/mesos-#{mesos_version}.zip" do
     source "https://github.com/apache/mesos/archive/#{mesos_version}.zip"
   end
