@@ -7,6 +7,15 @@ describe 'mesos::slave' do
 
   it_behaves_like 'a slave node'
 
+  context 'slave upstart script' do
+    describe file '/etc/init/mesos-slave.conf' do
+      describe '#content' do
+        subject { super().content }
+        it { is_expected.to include 'exec /usr/bin/mesos-init-wrapper slave' }
+      end
+    end
+  end
+
   context 'configuration files in /etc' do
     describe 'zk configuration file' do
       let :zk_file do
@@ -74,6 +83,20 @@ describe 'mesos::slave' do
 
         it 'contains the configured working directory' do
           expect(work_dir_file.content).to match %r{^/tmp/mesos$}
+        end
+      end
+
+      describe 'rack id file' do
+        let :rack_id_file do
+          file '/etc/mesos-slave/attributes/rackid'
+        end
+
+        it 'exists' do
+          expect(rack_id_file).to be_a_file
+        end
+
+        it 'contains a rack id' do
+          expect(rack_id_file.content).to match(/^us-east-1b$/)
         end
       end
     end

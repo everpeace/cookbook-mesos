@@ -128,30 +128,4 @@ shared_examples_for 'an installation from source' do
       end
     end
   end
-
-  context 'each upstart script in /etc/init' do
-    let :conf_files do
-      Dir.glob(File.join('/etc/init', 'mesos-*.conf'))
-    end
-
-    let :expected_confs do
-      ['mesos-master.conf','mesos-slave.conf'].map { |conf| "/etc/init/#{conf}" }
-    end
-
-    it 'exists' do
-      expected_confs.each { |conf| expect(conf_files).to include(conf) }
-    end
-
-    it 'is owned by root' do
-      expected_confs.each { |conf| expect(file(conf)).to be_owned_by('root') }
-    end
-
-    it 'is managed by root group' do
-      expected_confs.each { |conf| expect(file(conf)).to be_grouped_into('root') }
-    end
-
-    it 'has expected file permissions' do
-      expected_confs.each { |conf| expect(file(conf)).to be_mode('644') }
-    end
-  end
 end

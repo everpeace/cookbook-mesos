@@ -45,17 +45,9 @@ shared_examples_for 'a slave node' do
     end
   end
 
-  describe 'rack id file' do
-    let :rack_id_file do
-      file '/etc/mesos-slave/attributes/rackid'
-    end
-
-    it 'exists' do
-      expect(rack_id_file).to be_a_file
-    end
-
-    it 'contains a rack id' do
-      expect(rack_id_file.content).to match(/^us-east-1b$/)
+  context 'slave upstart script' do
+    describe file '/etc/init/mesos-slave.conf' do
+      it { is_expected.to be_file }
     end
   end
 

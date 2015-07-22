@@ -7,6 +7,15 @@ describe 'mesos::master' do
 
   it_behaves_like 'a master node'
 
+  context 'master upstart script' do
+    describe file '/etc/init/mesos-master.conf' do
+      describe '#content' do
+        subject { super().content }
+        it { is_expected.to include 'exec /usr/bin/mesos-init-wrapper master' }
+      end
+    end
+  end
+
   context 'configuration files in /etc' do
     describe 'zk configuration file' do
       let :zk_file do
