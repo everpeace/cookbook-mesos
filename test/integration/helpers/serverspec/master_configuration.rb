@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-shared_examples_for 'a configuration of a master node' do
+shared_examples_for 'a master node' do
   describe 'masters file' do
     let :masters_file do
       file '/usr/local/var/mesos/deploy/masters'

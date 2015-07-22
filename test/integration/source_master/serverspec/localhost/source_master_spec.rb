@@ -5,5 +5,5 @@ require 'spec_helper'
 describe 'mesos::master' do
   it_behaves_like 'an installation from source'
 
-  it_behaves_like 'a configuration of a master node'
+  it_behaves_like 'a master node'
 end

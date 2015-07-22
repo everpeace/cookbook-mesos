@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-shared_examples_for 'a configuration of a slave node' do
+shared_examples_for 'a slave node' do
   describe 'deploy env template' do
     let :deploy_env_file do
       file('/usr/local/var/mesos/deploy/mesos-deploy-env.sh')
@@ -24,7 +24,7 @@ shared_examples_for 'a configuration of a slave node' do
       file('/usr/local/var/mesos/deploy/mesos-slave-env.sh')
     end
 
-    it 'creates it in deploy directory' do
+    it 'exists in deploy directory' do
       expect(slave_env_file).to be_a_file
     end
 
@@ -50,7 +50,7 @@ shared_examples_for 'a configuration of a slave node' do
       file '/etc/mesos-slave/attributes/rackid'
     end
 
-    it 'creates it' do
+    it 'exists' do
       expect(rack_id_file).to be_a_file
     end
 

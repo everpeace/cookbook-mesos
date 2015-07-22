@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'mesos::master' do
   it_behaves_like 'an installation from mesosphere', {:with_zookeeper => true}
 
-  it_behaves_like 'a configuration of a master node'
+  it_behaves_like 'a master node'
 
   context 'configuration files in /etc' do
     describe 'zk configuration file' do
