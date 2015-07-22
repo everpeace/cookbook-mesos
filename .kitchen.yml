@@ -93,6 +93,8 @@ suites:
           ip: 127.0.0.1
           quorum: 1
         slave:
+          attributes:
+            rackid: us-east-1b
           master: 127.0.0.1:5050
         # these keys below are only for master configurations.
         master_ips:
