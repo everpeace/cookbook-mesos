@@ -76,7 +76,7 @@ shared_examples_for 'a master node' do
   end
 
   describe service('mesos-master') do
-    it { should be_enabled }
+    it { should be_enabled } if %w(ubuntu debian).include? os[:family]
     it { should be_running }
   end
 end
